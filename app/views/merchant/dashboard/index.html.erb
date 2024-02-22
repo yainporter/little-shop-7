@@ -1,1 +1,3 @@
 <h1><%= @merchant.name %>'s Dashboard</h1>
+<%= link_to "#{@merchant.name}'s Items", merchant_items_index_path, data: { turbo_method: :get } %>
+<%= link_to "#{@merchant.name}'s Invoices", merchant_invoices_index_path, data: { turbo_method: :get } %>
