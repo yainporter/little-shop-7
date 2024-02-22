@@ -19,4 +19,8 @@ Rails.application.routes.draw do
     #invoices
       resources :invoices, only: [:index]
   end
+
+  resources :merchants, only: [:show] do
+    resources :dashboard, only: [:index], controller: "merchant/dashboard"
+  end
 end
