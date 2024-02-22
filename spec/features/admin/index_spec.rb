@@ -89,4 +89,64 @@ RSpec.describe "Admin Dashboard", type: :feature do
       end
     end
   end
+
+  describe "Incomplete Invoices" do
+    it "displays section header" do
+      expect(page).to have_content("Incomplete Invoices")
+    end
+
+    it "lists invoices by id with unshipped items" do
+      merchant_1 = create(:merchant)
+      items = create_list(:item, 5, merchant: merchant_1)
+
+      invoice_6 = create(:invoice, customer: @customer_5)
+      invoice_7 = create(:invoice, customer: @customer_5)
+      invoice_8 = create(:invoice, customer: @customer_5)
+      invoice_9 = create(:invoice, customer: @customer_5)
+
+      invoice_items_1 = create(:invoice_item, invoice: invoice_6)
+      invoice_items_2 = create(:invoice_item, invoice: invoice_7)
+      invoice_items_3 = create(:invoice_item, status: 1, invoice: invoice_8)
+      invoice_items_4 = create(:invoice_item, status: 2, invoice: invoice_9)
+          #invoice_item enum status: {"pending" => 0, "packaged" => 1, "shipped" => 2}
+      visit "/admin"
+
+      within "#invoice-#{invoice_6.id}" do
+        expect(page).to have_content("Invoice ##{invoice_6.id}")
+      end
+
+      within "#invoice-#{invoice_7.id}" do
+        expect(page).to have_content("Invoice ##{invoice_7.id}")
+      end
+
+      within "#invoice-#{invoice_8.id}" do
+        expect(page).to have_content("Invoice ##{invoice_8.id}")
+      end
+    end
+
+    it "invoice id links to that invoice's admin show page" do
+      merchant_1 = create(:merchant)
+      items = create_list(:item, 5, merchant: merchant_1)
+
+      invoice_6 = create(:invoice, customer: @customer_5)
+      invoice_7 = create(:invoice, customer: @customer_5)
+      invoice_8 = create(:invoice, customer: @customer_5)
+      invoice_9 = create(:invoice, customer: @customer_5)
+
+      invoice_items_1 = create(:invoice_item, invoice: invoice_6)
+      invoice_items_2 = create(:invoice_item, invoice: invoice_7)
+      invoice_items_3 = create(:invoice_item, status: 1, invoice: invoice_8)
+      invoice_items_4 = create(:invoice_item, status: 2, invoice: invoice_9)
+
+      visit "/admin"
+
+      expect(page).to have_link("Invoice ##{invoice_6.id}")
+      expect(page).to have_link("Invoice ##{invoice_7.id}")
+      expect(page).to have_link("Invoice ##{invoice_8.id}")
+      expect(page).to_not have_link("Invoice ##{invoice_9.id}")
+
+      click_link "Invoice ##{@invoice_6.id}"
+      expect(current_path).to eq("/admin/invoices/#{invoice_6.id}")
+    end
+  end
 end
