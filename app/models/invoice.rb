@@ -9,11 +9,6 @@ class Invoice < ApplicationRecord
   enum status: {"in progress" => 0, "completed" => 1, "cancelled" => 2}
 
   def self.incomplete_invoices
-    # self.invoice_items.status == "pending" || self.invoice_items.status == "packaged"
-    # where("invoice_items.status = 0 OR invoice_items.status = 1")
-    #   .joins(invoices: :invoice_items)
-    #   .group(:id)
-
     Invoice.find_by_sql(
       "SELECT invoices.*
       FROM invoices

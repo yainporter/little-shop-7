@@ -31,8 +31,13 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe "class methods" do
-    it "incomplete invoices" do
-      expect(Invoice.incomplete_invoices).to eq([@invoice_1, @invoice_2, @invoice_3])
-    end
+    describe "incomplete_invoices"
+      it "lists incomplete invoices" do
+        expect(Invoice.incomplete_invoices).to eq([@invoice_1, @invoice_2, @invoice_3])
+      end
+
+      it "lists incomplete invoices from oldest to newest" do
+        expect(Invoice.incomplete_invoices).to eq([@invoice_3, @invoice_2, @invoice_1])
+      end
   end
 end
