@@ -2,6 +2,12 @@ require "rails_helper"
 
 RSpec.describe "Admin Dashboard", type: :feature do
   before do
+    @customer_1 = Customer.create!(first_name: "Sad", last_name: "Ness")
+    @customer_2 = Customer.create!(first_name: "Sad", last_name: "Ness")
+    @customer_3 = Customer.create!(first_name: "Sad", last_name: "Ness")
+    @customer_4 = Customer.create!(first_name: "Sad", last_name: "Ness")
+    @customer_5 = Customer.create!(first_name: "Sad", last_name: "Ness")
+
     # As an Admin
     # When I visit the admin dashboard (/admin)
     visit "/admin"
@@ -35,28 +41,46 @@ RSpec.describe "Admin Dashboard", type: :feature do
 
   # 21. Admin Dashboard Statistics - Top Customers
   describe "Dashboard Stats - Top Customers" do 
-    before(:each) do
-      @customer_1 = Customer.create(:customer)
-      @customer_2 = Customer.create(:customer)
-      @customer_3 = Customer.create(:customer)
-      @customer_4 = Customer.create(:customer)
-      @customer_5 = Customer.create(:customer)
-    end
-    
-    it "displays the top 5 customers" do
-      # When I visit the admin dashboard (/admin)
+    # before(:each) do
+
+    #   # @invoice = Invoice.create!(customer: @customer_1)
+    #   # Transaction.create!(invoice: @invoice, result: "success")
+    # end
+
+    it "displays the top 5 customers" do      # When I visit the admin dashboard (/admin)
       # Then I see the names of the top 5 customers
       # who have conducted the largest number of successful transactions
       # And next to each customer name I see the number of successful transactions they have
+
       within "#customer-#{@customer_1.id}" do
-        expect(page).to have_content(@customer_1.name)  
+        expect(page).to have_content(@customer_1.first_name)  
+        expect(page).to have_content(@customer_1.last_name)  
         expect(page).to have_content(@customer_1.transaction_count)  
       end
-      # expect(page).to have_content(@customer_2.name)  
-      # expect(page).to have_content(@customer_3.name)  
-      # expect(page).to have_content(@customer_4.name)  
-      # expect(page).to have_content(@customer_5.name)  
-      # conducted 
+
+      within "#customer-#{@customer_2.id}" do
+        expect(page).to have_content(@customer_2.first_name)  
+        expect(page).to have_content(@customer_2.last_name)  
+        expect(page).to have_content(@customer_2.transaction_count)  
+      end
+
+      within "#customer-#{@customer_3.id}" do
+        expect(page).to have_content(@customer_3.first_name)  
+        expect(page).to have_content(@customer_3.last_name)  
+        expect(page).to have_content(@customer_3.transaction_count)  
+      end
+
+      within "#customer-#{@customer_4.id}" do
+        expect(page).to have_content(@customer_4.first_name)  
+        expect(page).to have_content(@customer_4.last_name)  
+        expect(page).to have_content(@customer_4.transaction_count)  
+      end
+
+      within "#customer-#{@customer_5.id}" do
+        expect(page).to have_content(@customer_5.first_name)  
+        expect(page).to have_content(@customer_5.last_name)  
+        expect(page).to have_content(@customer_5.transaction_count)  
+      end
     end
   end
 end

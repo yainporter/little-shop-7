@@ -8,7 +8,6 @@ class Customer < ApplicationRecord
       .group(:first_name, :last_name, :result)
       .order("count(transactions.result) DESC")
       .limit(5)
-      .pluck("customers.first_name, customers.last_name, count(transactions.result)")
-      require 'pry'; binding.pry
+      .pluck("customers.first_name, customers.last_name, count(transactions.result) AS transaction_count")
   end
 end

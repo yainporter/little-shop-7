@@ -12,9 +12,9 @@ RSpec.describe Customer, type: :model do
   end
 
   describe "class methods" do 
-    describe "self.top_costumers" do 
+    describe "self.top_customers" do 
       it "Takes the top 5 costumers with successful transactions" do 
-        expect(Customer.top_costumers).to eq([])  
+        expect(Customer.top_customers).to eq([])  
       end 
     end 
   end 
