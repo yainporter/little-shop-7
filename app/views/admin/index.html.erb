@@ -7,6 +7,6 @@
 <h3>Top 5 Customers</h3>
   customers.top_customers.each do |customer|
     <div id="customer-<%= customer.id %>">
-      <%= customer.name %> Successful Transactions: <%= customer.transaction_count%>
+      <%= customer.first_name %> <%= customer.last_name %>Successful Transactions: <%= customer.transaction_count%>
     </div>
   <% end %>
