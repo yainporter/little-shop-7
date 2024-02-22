@@ -12,4 +12,19 @@ RSpec.describe "Merchant Dashboard" do
       expect(page).to have_content("Barry's Dashboard")
     end
   end
+
+  describe "User Story 2 - Merchant Dashboard Links" do
+    it "has links to Merchant's items index and invoices index" do
+      expect(page).to have_link("Barry's Items")
+
+      click_link("Barry's Items")
+      expect(page.current_path).to eq("/merchants/#{@merchant_1.id}/items")
+
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+      expect(page).to have_link("Barry's Invoices")
+
+      click_link("Barry's Invoices")
+      expect(page.current_path).to eq("/merchants/#{@merchant_1.id}/invoices")
+    end
+  end
 end
