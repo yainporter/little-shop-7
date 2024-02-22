@@ -14,8 +14,8 @@
   </ol>
 
 <h3>Incomplete Invoices</h3>
-<% @invoices.incomplete.each do |invoice| %>
-  <div id="invoice-<%= invoice.id %>">
-    <p><%= link_to "Invoice ##{invoice.id}", admin_invoice_path %> </p>
-  </div>
-<% end %>
+  <% @invoices.incomplete_invoices.each do |invoice| %>
+    <div id="invoice-<%= invoice.id %>">
+      <p><%= link_to "Invoice ##{invoice.id}", "/admin/invoices/#{invoice.id}" %> </p>
+    </div>
+  <% end %>

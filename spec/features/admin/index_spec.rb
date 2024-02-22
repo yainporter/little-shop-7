@@ -26,7 +26,6 @@ RSpec.describe "Admin Dashboard", type: :feature do
   end
 
   describe "As an admin" do
-    
     # 19. Admin Dashboard
     it "displays an 'Admin' page header" do
       # Then I see a header indicating that I am on the admin dashboard
@@ -145,7 +144,7 @@ RSpec.describe "Admin Dashboard", type: :feature do
       expect(page).to have_link("Invoice ##{invoice_8.id}")
       expect(page).to_not have_link("Invoice ##{invoice_9.id}")
 
-      click_link "Invoice ##{@invoice_6.id}"
+      click_link "Invoice ##{invoice_6.id}"
       expect(current_path).to eq("/admin/invoices/#{invoice_6.id}")
     end
   end
