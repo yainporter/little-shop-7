@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   # root "articles#index"
 
     resources :admin, only: [:index]
+  #merch
+    get "/admin/merchants", to: "admin#index"
 end
