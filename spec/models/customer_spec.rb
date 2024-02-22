@@ -8,5 +8,17 @@ RSpec.describe Customer, type: :model do
 
   describe "relationships" do
     it {should have_many :invoices}
+    it {should have_many(:transactions).through(:invoices)}
   end
+
+  describe "class methods" do 
+    describe "self.top_costumers" do 
+      it "Takes the top 5 costumers with successful transactions" do 
+        expect(Customer.top_costumers).to eq([])  
+      end 
+    end 
+  end 
+
+  describe "instance methods" do 
+  end 
 end
