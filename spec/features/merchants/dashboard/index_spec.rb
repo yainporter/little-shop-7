@@ -4,12 +4,49 @@ RSpec.describe "Merchant Dashboard" do
   before do
     @merchant_1 = Merchant.create!(name: "Barry")
 
+    @customer_1 = Customer.create!(first_name: "Yain", last_name: "Porter")
+    @customer_2 = Customer.create!(first_name: "Joey", last_name: "R")
+    @customer_3 = Customer.create!(first_name: "Jess", last_name: "K")
+    @customer_4 = Customer.create!(first_name: "Lance", last_name: "B")
+    @customer_5 = Customer.create!(first_name: "Abdul", last_name: "R")
+
+    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 1)
+    @invoice_2 = Invoice.create!(customer_id: @customer_2.id, status: 1)
+    @invoice_3 = Invoice.create!(customer_id: @customer_3.id, status: 1)
+    @invoice_4 = Invoice.create!(customer_id: @customer_4.id, status: 1)
+    @invoice_5 = Invoice.create!(customer_id: @customer_5.id, status: 1)
+
+    create_list(:transaction, 20, invoice_id: @invoice_5.id)
+    create_list(:transaction, 15, invoice_id: @invoice_2.id)
+    create_list(:transaction, 10, invoice_id: @invoice_1.id)
+    create_list(:transaction, 7, invoice_id: @invoice_3.id)
+    create_list(:transaction, 5, invoice_id: @invoice_4.id)
+
     visit "/merchants/#{@merchant_1.id}/dashboard"
   end
 
   describe "User Story 1 - Merchant Dashboard" do
     it "displays merchant name" do
       expect(page).to have_content("Barry's Dashboard")
+    end
+  end
+
+  describe "User Story 3 - Top 5 Customers" do
+    it "displays names of the top five customers with successful transactions" do 
+      within "#top-five-customers" do
+        expect("Abdul").to appear_before("Joey")
+        expect("Joey").to appear_before("Yain")
+        expect("Yain").to appear_before("Jess")
+        expect("Jess").to appear_before("Lance")
+      end
+    end
+
+    it "displays the number of successful transactions next to each customer" do
+      expect(page).to have_content("Abdul R's Number of Successful Transactions: 20")
+      expect(page).to have_content("Joey R's Number of Successful Transactions: 15")
+      expect(page).to have_content("Yain Porter's Number of Successful Transactions: 10")
+      expect(page).to have_content("Jess K's Number of Successful Transactions: 7")
+      expect(page).to have_content("Lance B's Number of Successful Transactions: 5")
     end
   end
 end
