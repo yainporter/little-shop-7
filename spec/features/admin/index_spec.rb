@@ -32,4 +32,31 @@ RSpec.describe "Admin Dashboard", type: :feature do
       expect(current_path).to eq(admin_invoices_path)
     end
   end
+
+  # 21. Admin Dashboard Statistics - Top Customers
+  describe "Dashboard Stats - Top Customers" do 
+    before(:each) do
+      @customer_1 = Customer.create(:customer)
+      @customer_2 = Customer.create(:customer)
+      @customer_3 = Customer.create(:customer)
+      @customer_4 = Customer.create(:customer)
+      @customer_5 = Customer.create(:customer)
+    end
+    
+    it "displays the top 5 customers" do
+      # When I visit the admin dashboard (/admin)
+      # Then I see the names of the top 5 customers
+      # who have conducted the largest number of successful transactions
+      # And next to each customer name I see the number of successful transactions they have
+      within "#customer-#{@customer_1.id}" do
+        expect(page).to have_content(@customer_1.name)  
+        expect(page).to have_content(@customer_1.transaction_count)  
+      end
+      # expect(page).to have_content(@customer_2.name)  
+      # expect(page).to have_content(@customer_3.name)  
+      # expect(page).to have_content(@customer_4.name)  
+      # expect(page).to have_content(@customer_5.name)  
+      # conducted 
+    end
+  end
 end
