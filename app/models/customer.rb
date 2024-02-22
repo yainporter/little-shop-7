@@ -2,12 +2,18 @@ class Customer < ApplicationRecord
   has_many :invoices
   has_many :transactions, through: :invoices
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  
   def self.top_customers 
     where("transactions.result = 0")
       .joins(invoices: :transactions)
-      .group(:first_name, :last_name, :result)
+      .group(:first_name, :last_name, :id, :result)
       .order("count(transactions.result) DESC")
       .limit(5)
-      .pluck("customers.first_name, customers.last_name, count(transactions.result) AS transaction_count")
+  end
+
+  def transaction_count
+    transactions.count
   end
 end
