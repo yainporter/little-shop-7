@@ -14,7 +14,12 @@ class Invoice < ApplicationRecord
       FROM invoices
       JOIN invoice_items ON invoice_items.invoice_id = invoices.id
       WHERE invoice_items.status = 0 OR invoice_items.status = 1
-      GROUP BY invoices.id"
+      GROUP BY invoices.id
+      ORDER BY invoices.created_at"
     )
+  end
+
+  def format_date_created
+    self.created_at.strftime("%A, %B %d, %Y")
   end
 end
