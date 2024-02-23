@@ -235,7 +235,7 @@ RSpec.describe "Admin Dashboard", type: :feature do
         invoice_items_6 = create(:invoice_item, invoice: invoice_10)            # pending
 
         visit "/admin"
-        save_and_open_page
+        
         expect("Invoice ##{invoice_10.id} - Wednesday, February 17, 2010").to appear_before("Invoice ##{invoice_6.id} - Tuesday, September 13, 2011", only_text: true)
         expect("Invoice ##{invoice_6.id} - Tuesday, September 13, 2011").to appear_before("Invoice ##{invoice_7.id} - Thursday, July 18, 2019", only_text: true)
         expect("Invoice ##{invoice_7.id} - Thursday, July 18, 2019").to appear_before("Invoice ##{invoice_8.id} - Friday, June 23, 2023", only_text: true)
