@@ -15,9 +15,23 @@ RSpec.describe "Admin Dashboard", type: :feature do
     @invoice_5 = Invoice.create!(customer: @customer_5, status: 0)
 
     Transaction.create!(invoice: @invoice_1, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_1, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_1, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_1, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_1, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+
     Transaction.create!(invoice: @invoice_2, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_2, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+
     Transaction.create!(invoice: @invoice_3, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_3, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_3, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_3, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+
     Transaction.create!(invoice: @invoice_4, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+
+    Transaction.create!(invoice: @invoice_5, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+    Transaction.create!(invoice: @invoice_5, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
     Transaction.create!(invoice: @invoice_5, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
 
     visit "/admin"
@@ -78,10 +92,21 @@ RSpec.describe "Admin Dashboard", type: :feature do
       end
 
       it "lists top 5 customers from most successful transactions to least" do
-        expect(@customer_1).to appear_before(@customer_2)
-        expect(@customer_2).to appear_before(@customer_3)
-        expect(@customer_3).to appear_before(@customer_4)
-        expect(@customer_4).to appear_before(@customer_5)
+
+        expect("First Customer").to appear_before("Third Customer")
+        expect("Third Customer").to appear_before("Fifth Customer")
+        expect("Fifth Customer").to appear_before("Second Customer")
+        expect("Second Customer").to appear_before("Fourth Customer")
+
+        Transaction.create!(invoice: @invoice_4, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+        Transaction.create!(invoice: @invoice_4, result: "success", credit_card_number: 5, credit_card_expiration_date: 7)
+        
+        visit "/admin"
+        
+        expect("First Customer").to appear_before("Third Customer")
+        expect("Third Customer").to appear_before("Fourth Customer")
+        expect("Fourth Customer").to appear_before("Fifth Customer")
+        expect("Fifth Customer").to appear_before("Second Customer")
       end
     end
 
@@ -139,7 +164,6 @@ RSpec.describe "Admin Dashboard", type: :feature do
 
         visit "/admin"
 
-        within
         expect(page).to have_link("Invoice ##{invoice_6.id}")
         expect(page).to have_link("Invoice ##{invoice_7.id}")
         expect(page).to have_link("Invoice ##{invoice_8.id}")
@@ -188,6 +212,22 @@ RSpec.describe "Admin Dashboard", type: :feature do
       end
 
       it "Displays the order dates from oldest to newest" do
+        merchant_1 = create(:merchant)
+        items = create_list(:item, 5, merchant: merchant_1)
+
+        invoice_6 = create(:invoice, customer: @customer_5)
+        invoice_7 = create(:invoice, customer: @customer_5)
+        invoice_8 = create(:invoice, customer: @customer_5)
+        invoice_9 = create(:invoice, customer: @customer_5)
+
+        invoice_items_1 = create(:invoice_item, invoice: invoice_6)            # pending
+        invoice_items_2 = create(:invoice_item, invoice: invoice_7)            # pending
+        invoice_items_3 = create(:invoice_item, status: 1, invoice: invoice_8) # packaged
+        invoice_items_4 = create(:invoice_item, status: 2, invoice: invoice_8) # shipped
+        invoice_items_5 = create(:invoice_item, status: 2, invoice: invoice_9) # shipped
+
+        visit "/admin"
+
         expect(invoice_6).to appear_before(invoice_7)
         expect(invoice_7).to appear_before(invoice_8)
       end
