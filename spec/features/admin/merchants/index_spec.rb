@@ -8,7 +8,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       @merchant_3 = Merchant.create!(name: "Beans")
     end
 
-    describe "User Story 24. Admin Merchants Index" do 
+    describe "User Story 24 - Admin Merchants Index" do 
       it 'displays the names of all the merchants' do
         # When I visit the admin merchants index (/admin/merchants)
         visit admin_merchants_path
