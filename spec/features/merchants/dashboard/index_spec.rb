@@ -22,15 +22,19 @@ RSpec.describe "Merchant Dashboard" do
     create_list(:transaction, 7, invoice_id: @invoice_3.id)
     create_list(:transaction, 5, invoice_id: @invoice_4.id)
 
-    @item_1 = create(:item, merchant: @merchant_1)
+    @item_1 = create(:item, name: "book", merchant: @merchant_1)
+    @item_2 = create(:item, name: "belt", merchant: @merchant_1)
+    @item_3 = create(:item, name: "shoes", merchant: @merchant_1)
+    @item_4 = create(:item, name: "paint", merchant: @merchant_1)
 
-    create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_2.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_3.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_4.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_5.id, item_id: @item_1.id)
+    create(:invoice_item, status: 1, invoice_id: @invoice_1.id, item_id: @item_1.id) #packaged
+    create(:invoice_item, status: 1, invoice_id: @invoice_2.id, item_id: @item_2.id) #packaged
+    create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id) #packaged
+    create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id) #pending
+    create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id) #pending
 
-    visit "/merchants/#{@merchant_1.id}/dashboard"
+    # visit "/merchants/#{@merchant_1.id}/dashboard"
+    visit merchant_dashboard_index_path(@merchant_1.id)
   end
 
   describe "User Story 1 - Merchant Dashboard" do
@@ -44,13 +48,13 @@ RSpec.describe "Merchant Dashboard" do
       expect(page).to have_link("Barry's Items")
 
       click_link("Barry's Items")
-      expect(page.current_path).to eq("/merchants/#{@merchant_1.id}/items")
+      expect(page.current_path).to eq(merchant_items_path(@merchant_1))
 
       visit "/merchants/#{@merchant_1.id}/dashboard"
       expect(page).to have_link("Barry's Invoices")
 
       click_link("Barry's Invoices")
-      expect(page.current_path).to eq("/merchants/#{@merchant_1.id}/invoices")
+      expect(page.current_path).to eq(merchant_invoices_path(@merchant_1))
     end
   end
 
@@ -71,5 +75,45 @@ RSpec.describe "Merchant Dashboard" do
       expect(page).to have_content("Customer Name: Jess K Successful Transactions: 7")
       expect(page).to have_content("Customer Name: Lance B Successful Transactions: 5")
     end
+  end
+
+  describe "us-4 Merchant Dashboard Items Ready to Ship" do 
+    it "displays items that are ready to ship" do 
+      # Then I see a section for "Items Ready to Ship"
+      within '#items-ready-to-ship' do 
+        expect(page).to have_content("Items Ready to Ship:")
+      end
+      # In that section I see a list of the names of all of my items that
+      # have been ordered and have not yet been shipped,
+      # And next to each Item I see the id of the invoice that ordered my item
+      # And each invoice id is a link to my merchant's invoice show page
+      within "#item-#{@item_1.id}" do
+        expect(page).to have_content("book")
+        expect(page).to have_link("#{@invoice_1.id}")
+      end 
+
+      within "#item-#{@item_2.id}" do
+        expect(page).to have_content("belt")
+        expect(page).to have_link("#{@invoice_2.id}")
+      end
+
+      within "#item-#{@item_3.id}" do
+        expect(page).to have_content("shoes")
+        expect(page).to have_link("#{@invoice_3.id}")
+      end
+    end
+
+    it "takes user to merchants invoices show page" do 
+      click_on "#{@invoice_1.id}"
+      expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_1.id))
+
+      visit merchant_dashboard_index_path(@merchant_1.id)
+      click_on "#{@invoice_2.id}"
+      expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_2.id))
+
+      visit merchant_dashboard_index_path(@merchant_1.id)
+      click_on "#{@invoice_3.id}"
+      expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_3.id))
+    end 
   end
 end
