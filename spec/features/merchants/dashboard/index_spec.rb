@@ -10,9 +10,9 @@ RSpec.describe "Merchant Dashboard" do
     @lance = Customer.create!(first_name: "Lance", last_name: "B")
     @abdul = Customer.create!(first_name: "Abdul", last_name: "R")
 
-    @invoice_1 = Invoice.create!(customer_id: @yain.id, status: 1)
-    @invoice_2 = Invoice.create!(customer_id: @joey.id, status: 1)
-    @invoice_3 = Invoice.create!(customer_id: @jess.id, status: 1)
+    @invoice_1 = Invoice.create!(customer_id: @yain.id, status: 1, created_at: "2021-09-30")
+    @invoice_2 = Invoice.create!(customer_id: @joey.id, status: 1, created_at: "2019-10-12")
+    @invoice_3 = Invoice.create!(customer_id: @jess.id, status: 1, created_at: "2022-01-11")
     @invoice_4 = Invoice.create!(customer_id: @lance.id, status: 1)
     @invoice_5 = Invoice.create!(customer_id: @abdul.id, status: 1)
 
@@ -79,14 +79,9 @@ RSpec.describe "Merchant Dashboard" do
 
   describe "us-4 Merchant Dashboard Items Ready to Ship" do 
     it "displays items that are ready to ship" do 
-      # Then I see a section for "Items Ready to Ship"
       within '#items-ready-to-ship' do 
         expect(page).to have_content("Items Ready to Ship:")
       end
-      # In that section I see a list of the names of all of my items that
-      # have been ordered and have not yet been shipped,
-      # And next to each Item I see the id of the invoice that ordered my item
-      # And each invoice id is a link to my merchant's invoice show page
       within "#item-#{@item_1.id}" do
         expect(page).to have_content("book")
         expect(page).to have_link("#{@invoice_1.id}")
@@ -115,5 +110,24 @@ RSpec.describe "Merchant Dashboard" do
       click_on "#{@invoice_3.id}"
       expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_3.id))
     end 
+  end
+  
+  describe "5. Merchant Dashboard Invoices sorted by least recent" do 
+    it "displays the datw next to the item name" do 
+      save_and_open_page
+      within "#item-#{@item_1.id}" do
+        expect(page).to have_content("Item: book - Thursday, September 30, 2021 - #{@invoice_1.id}")
+      end 
+
+      within "#item-#{@item_2.id}" do
+        expect(page).to have_content("Item: belt - Saturday, October 12, 2019 - #{@invoice_2.id}")
+      end 
+
+      within "#item-#{@item_3.id}" do
+        expect(page).to have_content("Item: shoes - Tuesday, January 11, 2022 - #{@invoice_3.id}")
+      end 
+
+      expect(@item_2.format_date).to appear_before()
+    end
   end
 end

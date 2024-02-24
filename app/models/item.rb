@@ -6,4 +6,11 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true
   validates :unit_price, presence: true, numericality: true
+
+  def format_date
+    self.invoices.map do |invoice|
+      invoice.created_at.strftime("%A, %B %d, %Y")
+    end
+    .join(', ')
+  end
 end
