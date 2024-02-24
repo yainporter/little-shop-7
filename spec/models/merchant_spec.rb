@@ -38,13 +38,16 @@ RSpec.describe Merchant, type: :model do
     @transactions_6 = create(:transaction, invoice: @invoice_6)
 
     @item_1 = create(:item, merchant: @merchant_1)
+    @item_2 = create(:item, name: "belt", merchant: @merchant_1)
+    @item_3 = create(:item, name: "shoes", merchant: @merchant_1)
+    @item_4 = create(:item, name: "paint", merchant: @merchant_1)
 
-    create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_2.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_3.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_4.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_5.id, item_id: @item_1.id)
-    create(:invoice_item, invoice_id: @invoice_6.id, item_id: @item_1.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_1.id, item_id: @item_1.id)
+    create(:invoice_item, status: 1, invoice_id: @invoice_2.id, item_id: @item_2.id)
+    create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
   end
   
   describe "instance methods" do
@@ -55,6 +58,13 @@ RSpec.describe Merchant, type: :model do
         top_five_customers = @merchant_1.top_five_customers.map { |customer| Customer.find(customer.id) }
 
         expect(top_five_customers).to eq(customers)
+      end
+    end
+
+    describe "#items_ready_to_ship" do 
+      it "Only selects item that are packaged" do 
+        expect(@merchant_1.items_ready_to_ship).to eq([@item_2, @item_3]) 
+        expect(@merchant_1.items_ready_to_ship).not_to eq([@item_1, @item_4]) 
       end
     end
   end

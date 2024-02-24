@@ -15,4 +15,8 @@ class Merchant < ApplicationRecord
       .order("successful_transactions DESC")
       .limit(5)
   end
+
+  def items_ready_to_ship
+    self.items.joins(:invoice_items).where("invoice_items.status = 1").select("items.*, invoice_items.invoice_id")
+  end
 end

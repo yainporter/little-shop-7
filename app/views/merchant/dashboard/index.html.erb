@@ -1,6 +1,6 @@
 <h1><%= @merchant.name %>'s Dashboard</h1>
-<%= link_to "#{@merchant.name}'s Items", merchant_items_index_path, data: { turbo_method: :get } %>
-<%= link_to "#{@merchant.name}'s Invoices", merchant_invoices_index_path, data: { turbo_method: :get } %>
+<%= link_to "#{@merchant.name}'s Items", merchant_items_path, data: { turbo_method: :get } %>
+<%= link_to "#{@merchant.name}'s Invoices", merchant_invoices_path, data: { turbo_method: :get } %>
 
 <section id="top-five-customers">
   <% @merchant.top_five_customers.each do |customer|%>
@@ -8,6 +8,15 @@
       <ol>
         <h4>Customer Name: <%= customer.full_name %> Successful Transactions: <%= customer.successful_transactions%></h4>
       </ol>
+    </div>
+  <% end %>
+</section>
+
+<section id="items-ready-to-ship">
+  <h3>Items Ready to Ship:</h3>
+  <% @merchant.items_ready_to_ship.each do |item| %>
+    <div id="item-<%= item.id%>">
+      <p>Item: <%= item.name %> - <%= link_to "#{item.invoice_id}", merchant_invoice_path(@merchant, item.invoice_id) %>
     </div>
   <% end %>
 </section>
