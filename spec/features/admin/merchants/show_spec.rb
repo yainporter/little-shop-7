@@ -7,8 +7,8 @@ RSpec.describe "Admin Merchant Show", type: :feature do
     end
 
     describe "User Story 26 - Admin Merchant Update" do
-      it "Creates a link to edit merchant page" do
-        visit admin_merchant_path(@merchant_1) #/admin/merchants/#{@merchant_1}
+      it "Displays a link to edit merchant page" do
+        visit admin_merchant_path(@merchant_1) 
 
         expect(page).to have_link("Update Merchant")
         
