@@ -10,40 +10,47 @@ RSpec.describe Merchant, type: :model do
   end
 
   before(:each) do
-    @barry = Merchant.create!(name: "Barry")
-    @jane = Merchant.create!(name: "Jane")
+    @merchant_1 = create(:merchant)
 
-    @barrys_book = Item.create!(name: "Book", description: "Good book", unit_price: 1000, merchant_id: @barry.id)
-    @janes_book = Item.create!(name: "Book", description: "Good book", unit_price: 1000, merchant_id: @jane.id)
+    @customer_1 = create(:customer)
+    @customer_2 = create(:customer)
+    @customer_3 = create(:customer)
+    @customer_4 = create(:customer)
+    @customer_5 = create(:customer)
+    @customer_6 = create(:customer)
 
-    @yain = Customer.create!(first_name: "Yain", last_name: "Porter")
-    @joey = Customer.create!(first_name: "Joey", last_name: "R")
-    @jess = Customer.create!(first_name: "Jess", last_name: "K")
-    @lance = Customer.create!(first_name: "Lance", last_name: "B")
-    @abdul = Customer.create!(first_name: "Abdul", last_name: "R")
+    @invoice_1 = create(:invoice, customer: @customer_1)
+    @invoice_2 = create(:invoice, customer: @customer_2)
+    @invoice_3 = create(:invoice, customer: @customer_3)
+    @invoice_4 = create(:invoice, customer: @customer_4)
+    @invoice_5 = create(:invoice, customer: @customer_5)
+    @invoice_6 = create(:invoice, customer: @customer_6)
 
-    @invoice_1 = Invoice.create!(customer_id: @yain.id, status: 1)
-    @invoice_2 = Invoice.create!(customer_id: @joey.id, status: 1)
-    @invoice_3 = Invoice.create!(customer_id: @jess.id, status: 1)
-    @invoice_4 = Invoice.create!(customer_id: @lance.id, status: 1)
-    @invoice_5 = Invoice.create!(customer_id: @abdul.id, status: 1)
- 
-    InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @barrys_book.id, quantity: 1, unit_price: 1000, status: 2)
-    InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @janes_book.id, quantity: 1, unit_price: 1000, status: 2)
+    @transactions_1 = create(:transaction, invoice: @invoice_1)
+    @transactions_2 = create(:transaction, invoice: @invoice_2)
+    @transactions_3 = create(:transaction, invoice: @invoice_3)
+    @transactions_4 = create(:transaction, invoice: @invoice_4)
+    @transactions_5 = create(:transaction, invoice: @invoice_5)
+    @transactions_6 = create(:transaction, invoice: @invoice_6)
 
-    create_list(:transaction, 20, invoice_id: @invoice_5.id)
-    create_list(:transaction, 15, invoice_id: @invoice_2.id)
-    create_list(:transaction, 10, invoice_id: @invoice_1.id)
-    create_list(:transaction, 7, invoice_id: @invoice_3.id)
-    create_list(:transaction, 5, invoice_id: @invoice_4.id)
+    @item_1 = create(:item, merchant: @merchant_1)
+
+    create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_2.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_3.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_4.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_5.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_6.id, item_id: @item_1.id)
   end
-
+  
   describe "instance methods" do
     describe "#top_five_customers" do
       it "should return the top five customers with the most successful transactions" do
-        require 'pry'; binding.pry
-        expect(@barry.top_five_customers).to eq([@abdul, @joey, @yain, @jess, @lance])
-        expect(@jane.top_five_customers).to eq([@joey, @yain])
+        customers = [@customer_1, @customer_2, @customer_3, @customer_4, @customer_5]
+
+        top_five_customers = @merchant_1.top_five_customers.map { |customer| Customer.find(customer.id) }
+
+        expect(top_five_customers).to eq(customers)
       end
     end
   end

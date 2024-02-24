@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get "/merchants/:merchant_id/dashboard", to: "merchant/dashboard#index", as: :merchant_dashboard_index
   get "/merchants/:merchant_id/items", to: "merchant/items#index", as: :merchant_items_index
   get "/merchants/:merchant_id/invoices", to: "merchant/invoices#index", as: :merchant_invoices_index
-
+  # /merchants/:merchant_id/dashboard
 
   resources :admin, only: [:index]
 
