@@ -20,16 +20,3 @@ Rails.application.routes.draw do
     resources :dashboard, only: [:index], controller: "merchant/dashboard"
   end
 end
-
-#                   Prefix Verb  URI Pattern                                                                                       Controller#Action
-# merchant_dashboard_index GET   /merchants/:merchant_id/dashboard(.:format)                                                       merchant/dashboard#index
-#     merchant_items_index GET   /merchants/:merchant_id/items(.:format)                                                           merchant/items#index
-#  merchant_invoices_index GET   /merchants/:merchant_id/invoices(.:format)                                                        merchant/invoices#index
-#              admin_index GET   /admin(.:format)                                                                                  admin#index
-#          admin_merchants GET   /admin/merchants(.:format)                                                                        admin/merchants#index
-#      edit_admin_merchant GET   /admin/merchants/:id/edit(.:format)                                                               admin/merchants#edit
-#           admin_merchant GET   /admin/merchants/:id(.:format)                                                                    admin/merchants#show
-#                          PATCH /admin/merchants/:id(.:format)                                                                    admin/merchants#update
-#                          PUT   /admin/merchants/:id(.:format)                                                                    admin/merchants#update
-#           admin_invoices GET   /admin/invoices(.:format)                                                                         admin/invoices#index
-#            admin_invoice GET   /admin/invoices/:id(.:format)                                                                     admin/invoices#show
