@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "Admin Invoices Show", type: :feature do
   describe "As a admin" do
     before do
-      @customer_1 = Customer.create!(first_name: "Lance" last_name: "B")
-      @customer_2 = Customer.create!(first_name: "Jess" last_name: "K")
+      @customer_1 = Customer.create!(first_name: "Lance", last_name: "B")
+      @customer_2 = Customer.create!(first_name: "Jess", last_name: "K")
 
       @invoice_1 = @customer_1.invoices.create!(status: 1, created_at: "2011-09-13")
       @invoice_2 = @customer_2.invoices.create!(status: 2, created_at: "2022-03-08")
@@ -19,7 +19,7 @@ RSpec.describe "Admin Invoices Show", type: :feature do
         expect(page).to have_content("Tuesday, September 13, 2011")
         expect(page).to_not have_content(@invoice_2.id)
         expect(page).to_not have_content("Cancelled")
-        expect(page).to_not have_content("Tuesday, September 13, 2011")
+        expect(page).to_not have_content("Tuesday, March 08, 2022")
       end
 
       it "has customers first and last name" do
