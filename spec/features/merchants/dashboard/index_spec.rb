@@ -22,6 +22,14 @@ RSpec.describe "Merchant Dashboard" do
     create_list(:transaction, 7, invoice_id: @invoice_3.id)
     create_list(:transaction, 5, invoice_id: @invoice_4.id)
 
+    @item_1 = create(:item, merchant: @merchant_1)
+
+    create(:invoice_item, invoice_id: @invoice_1.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_2.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_3.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_4.id, item_id: @item_1.id)
+    create(:invoice_item, invoice_id: @invoice_5.id, item_id: @item_1.id)
+
     visit "/merchants/#{@merchant_1.id}/dashboard"
   end
 
@@ -57,11 +65,11 @@ RSpec.describe "Merchant Dashboard" do
     end
 
     it "displays the number of successful transactions next to each customer" do
-      expect(page).to have_content("Abdul R's Number of Successful Transactions: 20")
-      expect(page).to have_content("Joey R's Number of Successful Transactions: 15")
-      expect(page).to have_content("Yain Porter's Number of Successful Transactions: 10")
-      expect(page).to have_content("Jess K's Number of Successful Transactions: 7")
-      expect(page).to have_content("Lance B's Number of Successful Transactions: 5")
+      expect(page).to have_content("Customer Name: Abdul R Successful Transactions: 20")
+      expect(page).to have_content("Customer Name: Joey R Successful Transactions: 15")
+      expect(page).to have_content("Customer Name: Yain Porter Successful Transactions: 10")
+      expect(page).to have_content("Customer Name: Jess K Successful Transactions: 7")
+      expect(page).to have_content("Customer Name: Lance B Successful Transactions: 5")
     end
   end
 end
