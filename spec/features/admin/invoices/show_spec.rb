@@ -15,7 +15,7 @@ RSpec.describe "Admin Invoices Show", type: :feature do
         visit admin_invoice_path(@invoice_1)
 
         expect(page).to have_content(@invoice_1.id)
-        expect(page).to have_content("Completedfea")
+        expect(page).to have_content("Completed")
         expect(page).to have_content("Tuesday, September 13, 2011")
         expect(page).to_not have_content(@invoice_2.id)
         expect(page).to_not have_content("Cancelled")
