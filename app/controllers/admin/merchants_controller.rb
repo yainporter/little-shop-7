@@ -1,6 +1,11 @@
 class Admin::MerchantsController < ApplicationController
   def index
     @merchants = Merchant.all
+    if params[:merchant_status] == "disabled"
+      
+    else  
+
+    end
   end
 
   def show
