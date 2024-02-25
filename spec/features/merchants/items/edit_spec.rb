@@ -38,23 +38,33 @@ RSpec.describe "Merchant Item Edit" do
 
   describe "User Story 8 - Merchant Item Update" do
     it "has a form filled in with the existing attribute information" do
-      save_and_open_page
       expect(page).to have_field(placeholder: "#{@item_1.id}")
       expect(page).to have_field(placeholder: "#{@item_1.merchant_id}")
       expect(page).to have_field(placeholder: "good book")
       expect(page).to have_field(placeholder: "book")
-      expect(page).to have_field(placeholder: "1000")
-      expect(page).to have_content("Update")
+      expect(page).to have_field(placeholder: 1000)
+      expect(page).to have_button("Update")
     end
 
-    it "redirects to the Merchant Item Show page after being updated" do
-      fill_in :description, with "Stormlight Archive"
-      fill_in :name, with "The Way of Kings"
+    it "redirects to the Merchant Item Show page after being updated with updates" do
+      fill_in :description, with: "Stormlight Archive"
+      fill_in :name, with: "The Way of Kings"
+      fill_in :unit_price, with: 2500
 
       click_button
       expect(page.current_path).to eq(merchant_item_path(@merchant_1, @item_1))
       expect(page).to have_content("Congratulations! You've edited the item successfully!")
-      expect(page).to have_content("Stormlight")
+      expect(page).to have_content("Item: The Way of Kings")
+      expect(page).to have_content("Description: Stormlight Archive")
+      expect(page).to have_content("Current selling price: $25")
+    end
+
+    it "renders the edit page again if not all fields are filled in" do
+      fill_in :name, with: "The Way of Kings"
+
+      click_button
+
+      expect(page).to have_content("Couldn't fully update the item, please make sure ALL fields are filled out properly")
     end
   end
 end
