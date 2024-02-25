@@ -54,6 +54,12 @@ RSpec.describe Item, type: :model do
       it "returns the created_at date for a particular invoice of an item" do
         expect(@item_1.date_an_invoice_was_created(@invoice_1.id)).to eq("Thursday, September 30, 2021")
         expect(@item_2.date_an_invoice_was_created(@invoice_2.id)).to eq("Saturday, October 12, 2019")
+
+        item = create(:item)
+        item_2 = create(:item)
+
+        expect(item.date_an_invoice_was_created(@invoice_2.id)).to eq("No Invoice for this Item")
+        expect(item_2.date_an_invoice_was_created(@invoice_2.id)).to eq("No Invoice for this Item")
       end
     end
   end
