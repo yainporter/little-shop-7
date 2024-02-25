@@ -127,8 +127,8 @@ RSpec.describe "Merchant Dashboard" do
       end
       visit merchant_dashboard_index_path(@merchant_1.id)
 
-      expect(@item_2.date_invoice_created).to appear_before(@item_1.date_invoice_created)
-      expect(@item_1.date_invoice_created).to appear_before(@item_3.date_invoice_created)
+      expect(@item_2.date_an_invoice_was_created(@invoice_2.id)).to appear_before(@item_1.date_an_invoice_was_created(@invoice_1.id))
+      expect(@item_1.date_an_invoice_was_created(@invoice_1.id)).to appear_before(@item_3.date_an_invoice_was_created(@invoice_3.id))
     end
 
     # it "orders the list of items from oldest to newest" do
