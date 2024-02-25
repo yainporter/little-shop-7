@@ -1,3 +1,6 @@
 class Merchant::ItemsController < ApplicationController
-  def index; end
+  def index
+    @merchant = Merchant.find(params[:merchant_id])
+    @items = Item.all 
+  end
 end

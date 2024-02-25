@@ -36,6 +36,7 @@ RSpec.describe Merchant, type: :model do
     @transactions_4 = create(:transaction, invoice: @invoice_4)
     @transactions_5 = create(:transaction, invoice: @invoice_5)
     @transactions_6 = create(:transaction, invoice: @invoice_6)
+    # @transactions_7 = create(:transaction, invoice: @invoice_6)
 
     @item_1 = create(:item, merchant: @merchant_1)
     @item_2 = create(:item, name: "belt", merchant: @merchant_1)
@@ -47,6 +48,11 @@ RSpec.describe Merchant, type: :model do
     create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id)
     create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id)
     create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
+    create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
     create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
   end
   

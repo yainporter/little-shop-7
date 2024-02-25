@@ -52,7 +52,8 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
-  describe "instance methods" do
+  describe "instance_method" do
+    describe "#format_date_created"
     it "formats the created_at date" do
       expect(@invoice_1.format_date_created).to eq("Wednesday, December 09, 2015")
       expect(@invoice_2.format_date_created).to eq("Sunday, November 10, 2013")
