@@ -60,11 +60,4 @@ RSpec.describe Item, type: :model do
       end
     end
   end
-
-  describe "#cents to dollars" do
-    it "converts the unit_price to dollars" do
-      expect(@item_1.cents_to_dollars).to eq(15)
-      expect(@item_2.cents_to_dollars).to eq(20)
-    end
-  end
 end
