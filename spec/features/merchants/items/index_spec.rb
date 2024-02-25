@@ -75,7 +75,7 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
             expect(page).to have_button("Enable")
 
             click_button "Disable"
-            expect(page.current_path).to eq(merchant_items_path(@merchant_1.id))
+            expect(page.current_path).to eq(merchant_items_path(@merchant_1))
             expect(page).to have_content("Item Status: Disabled")
             expect(page).to have_no_content("Item Status: Enabled")
           end
@@ -91,7 +91,7 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
             expect(page).to have_button("Enable")
 
             click_button "Enable"
-            save_and_open_page
+            expect(page.current_path).to eq(merchant_items_path(@merchant_2))
             expect(page).to have_content("Item Status: Enabled")
           end
       end
