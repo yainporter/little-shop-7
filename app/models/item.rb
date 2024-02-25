@@ -7,10 +7,7 @@ class Item < ApplicationRecord
   validates :description, presence: true
   validates :unit_price, presence: true, numericality: true
 
-  def format_date
-    self.invoices.map do |invoice|
-      invoice.created_at.strftime("%A, %B %d, %Y")
-    end
-    .join(', ')
+  def date_invoice_created
+    invoices.exists? ? invoices.first.format_date_created : "No Invoice for this Item"
   end
 end

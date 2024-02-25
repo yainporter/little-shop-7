@@ -59,7 +59,7 @@ RSpec.describe "Merchant Dashboard" do
   end
 
   describe "User Story 3 - Top 5 Customers" do
-    it "displays names of the top five customers with successful transactions" do 
+    it "displays names of the top five customers with successful transactions" do
       within "#top-five-customers" do
         expect("Abdul").to appear_before("Joey")
         expect("Joey").to appear_before("Yain")
@@ -77,15 +77,15 @@ RSpec.describe "Merchant Dashboard" do
     end
   end
 
-  describe "us-4 Merchant Dashboard Items Ready to Ship" do 
-    it "displays items that are ready to ship" do 
-      within '#items-ready-to-ship' do 
+  describe "us-4 Merchant Dashboard Items Ready to Ship" do
+    it "displays items that are ready to ship" do
+      within '#items-ready-to-ship' do
         expect(page).to have_content("Items Ready to Ship:")
       end
       within "#item-#{@item_1.id}" do
         expect(page).to have_content("book")
         expect(page).to have_link("#{@invoice_1.id}")
-      end 
+      end
 
       within "#item-#{@item_2.id}" do
         expect(page).to have_content("belt")
@@ -98,7 +98,7 @@ RSpec.describe "Merchant Dashboard" do
       end
     end
 
-    it "takes user to merchants invoices show page" do 
+    it "takes user to merchants invoices show page" do
       click_on "#{@invoice_1.id}"
       expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_1.id))
 
@@ -109,25 +109,25 @@ RSpec.describe "Merchant Dashboard" do
       visit merchant_dashboard_index_path(@merchant_1.id)
       click_on "#{@invoice_3.id}"
       expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_3.id))
-    end 
+    end
   end
-  
-  describe "5. Merchant Dashboard Invoices sorted by least recent" do 
-    it "displays the datw next to the item name" do 
+
+  describe "5. Merchant Dashboard Invoices sorted by least recent" do
+    it "displays the date an invoice was created for an item" do
       save_and_open_page
       within "#item-#{@item_1.id}" do
         expect(page).to have_content("Item: book - Thursday, September 30, 2021 - #{@invoice_1.id}")
-      end 
+      end
 
       within "#item-#{@item_2.id}" do
         expect(page).to have_content("Item: belt - Saturday, October 12, 2019 - #{@invoice_2.id}")
-      end 
+      end
 
       within "#item-#{@item_3.id}" do
         expect(page).to have_content("Item: shoes - Tuesday, January 11, 2022 - #{@invoice_3.id}")
-      end 
+      end
 
-      expect(@item_2.format_date).to appear_before()
+      expect(@item_2.date_invoice_created).to appear_before()
     end
   end
 end
