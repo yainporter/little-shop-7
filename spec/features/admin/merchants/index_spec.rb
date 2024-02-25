@@ -51,16 +51,53 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
     end
 
     describe "User Story 27 - Admin Merchant enable/disable" do 
-      it "Displays enable/disable button next to each merchant" do
+      
+      it "Displays disable button next to each merchant" do
         visit admin_merchants_path
 
-        expect(page).to have_button("enable")
-        expect(page).to_not have_button("disable")
-
-        click_button "enable"
-
+        within "#disabled-merchants" do
+          expect(page).to have_button("Enable")
+          expect(page).to_not have_button("Disable")
+          expect(page).to have_content("Barry")
+        
+          click_button "Enable"
+        end
+        
         expect(current_path).to eq(admin_merchants_path)
-        expect(page).to have_content(@merchant_1.status)
+
+        within "#enabled-merchants" do
+          expect(page).to have_content("Barry")
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+        end
+
+        within "#disabled-merchants" do
+          expect(page).to_not have_content("Barry")
+        end
+      end
+
+      it "Displays enable button next to each merchant" do
+        visit admin_merchants_path
+
+        within "#enabled-merchants" do
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+          expect(page).to have_content("Barry")
+        
+          click_button "Disable"
+        end
+        
+        expect(current_path).to eq(admin_merchants_path)
+
+        within "#disabled-merchants" do
+          expect(page).to have_content("Barry")
+          expect(page).to have_button("Enable")
+          expect(page).to_not have_button("Disable")
+        end
+
+        within "#enabled-merchants" do
+          expect(page).to_not have_content("Barry")
+        end
       end 
     end
   end
