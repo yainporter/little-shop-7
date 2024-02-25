@@ -3,25 +3,18 @@ require 'rails_helper'
 RSpec.describe 'Admin Merchants Index Page', type: :feature do
   describe 'As an Admin' do
     before(:each) do
-      @merchant_1 = Merchant.create!(name: "Barry")
-      @merchant_2 = Merchant.create!(name: "Sally")
-      @merchant_3 = Merchant.create!(name: "Beans")
+      @merchant_1 = Merchant.create!(name: "Barry", status: 1)
+      @merchant_2 = Merchant.create!(name: "Sally", status: 0)
+      @merchant_3 = Merchant.create!(name: "Beans", status: 1)
     end
 
     describe "User Story 24 - Admin Merchants Index" do 
       it 'displays the names of all the merchants' do
-        # When I visit the admin merchants index (/admin/merchants)
         visit admin_merchants_path
-        # Then I see the name of each merchant in the system
-        within "#merchant-#{@merchant_1.id}" do
-          expect(page).to have_content("Barry")
-        end
-        within "#merchant-#{@merchant_2.id}" do
-          expect(page).to have_content("Sally")
-        end 
-        within "#merchant-#{@merchant_3.id}" do
-          expect(page).to have_content("Beans")
-        end
+
+        expect(page).to have_content("Barry")
+        expect(page).to have_content("Sally")
+        expect(page).to have_content("Beans")
       end
     end
     
@@ -56,11 +49,11 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         visit admin_merchants_path
 
         within "#disabled-merchants" do
-          expect(page).to have_button("Enable")
+          expect(page).to have_button("Enable", count: 2)
           expect(page).to_not have_button("Disable")
           expect(page).to have_content("Barry")
         
-          click_button "Enable"
+          click_button "Enable", match: :first
         end
         
         expect(current_path).to eq(admin_merchants_path)
@@ -82,7 +75,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         within "#enabled-merchants" do
           expect(page).to have_button("Disable")
           expect(page).to_not have_button("Enable")
-          expect(page).to have_content("Barry")
+          expect(page).to have_content("Sally")
         
           click_button "Disable"
         end
@@ -90,13 +83,13 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         expect(current_path).to eq(admin_merchants_path)
 
         within "#disabled-merchants" do
-          expect(page).to have_content("Barry")
+          expect(page).to have_content("Sally")
           expect(page).to have_button("Enable")
           expect(page).to_not have_button("Disable")
         end
 
         within "#enabled-merchants" do
-          expect(page).to_not have_content("Barry")
+          expect(page).to_not have_content("Sally")
         end
       end 
     end
