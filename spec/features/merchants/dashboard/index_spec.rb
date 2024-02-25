@@ -77,7 +77,7 @@ RSpec.describe "Merchant Dashboard" do
     end
   end
 
-  describe "us-4 Merchant Dashboard Items Ready to Ship" do
+  describe "User Story 4 - Merchant Dashboard Items Ready to Ship" do
     it "displays items that are ready to ship" do
       within '#items-ready-to-ship' do
         expect(page).to have_content("Items Ready to Ship:")
@@ -112,9 +112,8 @@ RSpec.describe "Merchant Dashboard" do
     end
   end
 
-  describe "5. Merchant Dashboard Invoices sorted by least recent" do
+  describe "User Story 5 - Merchant Dashboard Invoices sorted by least recent" do
     it "displays the date an invoice was created for an item" do
-      save_and_open_page
       within "#item-#{@item_1.id}" do
         expect(page).to have_content("book - Invoice ##{@invoice_1.id} - Thursday, September 30, 2021")
       end
@@ -126,6 +125,10 @@ RSpec.describe "Merchant Dashboard" do
       within "#item-#{@item_3.id}" do
         expect(page).to have_content("shoes - Invoice ##{@invoice_3.id} - Tuesday, January 11, 2022")
       end
+      visit merchant_dashboard_index_path(@merchant_1.id)
+
+      expect(@item_2.date_invoice_created).to appear_before(@item_1.date_invoice_created)
+      expect(@item_1.date_invoice_created).to appear_before(@item_3.date_invoice_created)
     end
 
     # it "orders the list of items from oldest to newest" do
