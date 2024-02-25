@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Admin Merchants New", type: :feature do
   describe "As an admin" do
     before do
-      visit new_admin_merchant
+      visit new_admin_merchant_path
     end
 
     it "Displays new merchant form" do
@@ -23,7 +23,7 @@ RSpec.describe "Admin Merchants New", type: :feature do
       click_on "Submit"
 
       expect(current_path).to eq(admin_merchants_path)
-
+   
       within "#disabled-merchants" do
         expect(page).to have_content("The Amazing Merchant")
       end

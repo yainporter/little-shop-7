@@ -100,7 +100,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
 
         click_on "New Merchant"
 
-        expect(current_path).to eq(new_admin_merchant)
+        expect(current_path).to eq(new_admin_merchant_path)
       end
     end
   end
