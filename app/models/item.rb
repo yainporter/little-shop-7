@@ -10,7 +10,4 @@ class Item < ApplicationRecord
   def date_an_invoice_was_created(invoice_id)
     invoices.exists? ? invoices.find(invoice_id).format_date_created : "No Invoice for this Item"
   end
-
-  private
-
 end
