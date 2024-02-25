@@ -43,5 +43,9 @@ RSpec.describe Customer, type: :model do
     it "lists successful transaction count" do
       expect(@customer_1.transaction_count).to eq(1)
     end
+
+    it "display customer's full name" do
+      expect(@customer_1.full_name).to eq("First Customer")
+    end
   end 
 end
