@@ -2,6 +2,7 @@ class Merchant::ItemsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @items = Item.all
+    @items = Item.all
   end
 
   def edit
@@ -18,5 +19,7 @@ class Merchant::ItemsController < ApplicationController
 
   def item_params
     params.require(:merchant).permit(:id, :name, :description, :unit_price, :merchant_id)
+  def show
+    @item = Item.find(params[:id])
   end
 end
