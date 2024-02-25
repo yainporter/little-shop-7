@@ -7,4 +7,8 @@ class InvoiceItem < ApplicationRecord
   validates :status, presence: true
   
   enum status: {"Pending" => 0, "Packaged" => 1, "Shipped" => 2}
+
+  def format_price_sold
+    (self.unit_price.to_f / 100).to_fs(:currency)
+  end
 end

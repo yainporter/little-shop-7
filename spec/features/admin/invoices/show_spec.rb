@@ -17,7 +17,7 @@ RSpec.describe "Admin Invoices Show", type: :feature do
 
       @invoice_item_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 1, unit_price: 2500, status: 0) # pending
       @invoice_item_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 2, unit_price: 1000, status: 1) # packaged
-      @invoice_item_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 3, unit_price: 100000, status: 2) # shipped
+      @invoice_item_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 3, unit_price: 5000, status: 2) # shipped
 
       # unit_price
         # price sold at -> invoice_items
@@ -49,21 +49,21 @@ RSpec.describe "Admin Invoices Show", type: :feature do
         within "#item-#{@item_1.id}" do
           expect(page).to have_content("shoes")   # item name
           expect(page).to have_content("1")       # quantity ordered
-          expect(page).to have_content("$15")     # sold at
+          expect(page).to have_content("$25.00")     # sold at
           expect(page).to have_content("Pending") # status
         end
 
         within "#item-#{@item_2.id}" do
           expect(page).to have_content("shoes")
           expect(page).to have_content("2")
-          expect(page).to have_content("$15")
+          expect(page).to have_content("$10.00")
           expect(page).to have_content("Pending")
         end
 
         within "#item-#{@item_3.id}" do
           expect(page).to have_content("shoes")
           expect(page).to have_content("3")
-          expect(page).to have_content("$15")
+          expect(page).to have_content("$50.00")
           expect(page).to have_content("Pending")
         end
       end
