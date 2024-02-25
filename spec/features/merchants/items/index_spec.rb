@@ -96,5 +96,46 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
           end
       end
     end
+
+    describe "User Story 10 - Merchant Items Grouped by Status" do
+      it "has two sections, and lists the Item in the appropriate section" do
+        save_and_open_page
+        expect(page).to have_content("Enabled Items")
+        expect(page).to have_content("Disabled Items")
+
+        within "#enabled-items" do
+          expect(page).to have_content("book")
+          expect(page).to have_content("belt")
+          expect(page).to have_content("shoes")
+          expect(page).to have_content("paint")
+        end
+
+        within "#disabled-items" do
+          expect(page).to have_no_content("book")
+          expect(page).to have_no_content("belt")
+          expect(page).to have_no_content("shoes")
+          expect(page).to have_no_content("paint")
+        end
+
+        @item_4.update!(status: 1)
+        @item_3.update!(status: 1)
+
+        visit  merchant_items_path(@merchant_1.id)
+
+        within "#enabled-items" do
+          expect(page).to have_content("book")
+          expect(page).to have_content("belt")
+          expect(page).to have_no_content("shoes")
+          expect(page).to have_no_content("paint")
+        end
+
+        within "#disabled-items" do
+          expect(page).to have_no_content("book")
+          expect(page).to have_no_content("belt")
+          expect(page).to have_content("shoes")
+          expect(page).to have_content("paint")
+        end
+      end
+    end
   end
 end
