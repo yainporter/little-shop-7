@@ -4,8 +4,8 @@
 <div id="enabled-merchants">
   <% @merchants.each do |merchant| %>
     <% if merchant.status == "enabled" %>
-      <p><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %>
-      <%= button_to "Disable", "/admin/merchants/#{merchant.id}", params:{status: "disabled"}, method: :patch %> </p>
+      <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
+      <%= button_to "Disable", admin_merchant_path(merchant), params:{merchant_status: "disabled"}, method: :patch %> </p>
     <% end %>
   <% end %>
 </div>
@@ -14,8 +14,8 @@
 <div id="disabled-merchants">
   <% @merchants.each do |merchant| %>
     <% if merchant.status == "disabled" %>
-      <p><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %>
-      <%= button_to "Enable", admin_merchant_path(merchant), params:{status: "enabled"}, method: :patch %></p>
+      <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
+      <%= button_to "Enable", admin_merchant_path(merchant), params:{merchant_status: "enabled", id: merchant.id}, method: :patch %></p>
     <% end %>
   <% end %>
 </div>
