@@ -114,7 +114,6 @@ RSpec.describe "Merchant Dashboard" do
 
   describe "5. Merchant Dashboard Invoices sorted by least recent" do
     it "displays the date an invoice was created for an item" do
-      save_and_open_page
       within "#item-#{@item_1.id}" do
         expect(page).to have_content("Item: book - Thursday, September 30, 2021 - #{@invoice_1.id}")
       end
@@ -126,8 +125,10 @@ RSpec.describe "Merchant Dashboard" do
       within "#item-#{@item_3.id}" do
         expect(page).to have_content("Item: shoes - Tuesday, January 11, 2022 - #{@invoice_3.id}")
       end
+      visit merchant_dashboard_index_path(@merchant_1.id)
 
-      expect(@item_2.date_invoice_created).to appear_before()
+      expect(@item_2.date_invoice_created).to appear_before(@item_1.date_invoice_created)
+      expect(@item_1.date_invoice_created).to appear_before(@item_3.date_invoice_created)
     end
   end
 end
