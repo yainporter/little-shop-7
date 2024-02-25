@@ -8,12 +8,12 @@ class Merchant < ApplicationRecord
   validates :name, presence: true
 
   def top_five_customers
-    Customer.select("customers.*, count(distinct transactions.id) as number_of_transactions")
+    Customer.select("customers.*, CONCAT(customers.first_name, ' ', customers.last_name) AS full_name, count(distinct transactions.id) as successful_transactions")
       .joins(invoices: [:transactions, invoice_items: {item: :merchant}])
       .where("merchants.id = ?", self.id)
       .where("transactions.result = ?", 0)
       .group(:id)
-      .order("number_of_transactions desc")
+      .order("successful_transactions desc")
       .limit(5)
   end
 
@@ -24,4 +24,4 @@ class Merchant < ApplicationRecord
         .select("items.*, invoice_items.invoice_id, invoices.created_at")
         .order("invoices.created_at ASC")
   end
-end        
+end
