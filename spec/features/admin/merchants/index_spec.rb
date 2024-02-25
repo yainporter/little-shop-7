@@ -49,5 +49,19 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         expect(page).to_not have_content("Beans")
       end
     end
+
+    describe "User Story 27 - Admin Merchant enable/disable" do 
+      it "Displays enable/disable button next to each merchant" do
+        visit admin_merchants_path
+
+        expect(page).to have_button("enable")
+        expect(page).to_not have_button("disable")
+
+        click_button "enable"
+
+        expect(current_path).to eq(admin_merchants_path)
+        expect(page).to have_content(@merchant_1.status)
+      end 
+    end
   end
 end
