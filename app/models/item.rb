@@ -10,8 +10,4 @@ class Item < ApplicationRecord
   def date_invoice_created
     invoices.exists? ? invoices.first.format_date_created : "No Invoice for this Item"
   end
-
-  def cents_to_dollars
-    unit_price/100
-  end
 end
