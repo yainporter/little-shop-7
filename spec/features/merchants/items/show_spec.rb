@@ -1,22 +1,9 @@
 require "rails_helper"
 
-RSpec.describe Item, type: :model do
-  describe "validations" do
-    it { should validate_presence_of :name}
-    it { should validate_presence_of :description}
-
-    it { should validate_presence_of :unit_price}
-    it { should validate_numericality_of :unit_price}
-  end
-
-  describe "relationships" do
-    it {should belong_to :merchant}
-    it {should have_many :invoice_items}
-    it {should have_many(:invoices).through(:invoice_items)}
-  end
-
+RSpec.describe "Merchant Item Show" do
   before do
     @merchant_1 = Merchant.create!(name: "Barry")
+
     @yain = Customer.create!(first_name: "Yain", last_name: "Porter")
     @joey = Customer.create!(first_name: "Joey", last_name: "R")
     @jess = Customer.create!(first_name: "Jess", last_name: "K")
@@ -35,8 +22,8 @@ RSpec.describe Item, type: :model do
     create_list(:transaction, 7, invoice_id: @invoice_3.id)
     create_list(:transaction, 5, invoice_id: @invoice_4.id)
 
-    @item_1 = create(:item, name: "book", merchant: @merchant_1, unit_price: 1500)
-    @item_2 = create(:item, name: "belt", merchant: @merchant_1, unit_price: 2000)
+    @item_1 = create(:item, name: "book", merchant: @merchant_1, description: "good book", unit_price: 1000)
+    @item_2 = create(:item, name: "belt", merchant: @merchant_1)
     @item_3 = create(:item, name: "shoes", merchant: @merchant_1)
     @item_4 = create(:item, name: "paint", merchant: @merchant_1)
 
@@ -45,26 +32,27 @@ RSpec.describe Item, type: :model do
     create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id) #packaged
     create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id) #pending
     create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id) #pending
+
+    visit merchant_item_path(@merchant_1, @item_1)
   end
 
+  describe "User Story 7 - Merchant Items Show" do
+    it "has a working link from the merchant items index page" do
+      visit merchant_items_path(@merchant_1)
 
-  describe "instance methods" do
-    describe "date_invoice_created" do
-      it "returns the created_at date for an item's invoice" do
-        expect(@item_1.date_invoice_created).to eq("Thursday, September 30, 2021")
-        expect(@item_2.date_invoice_created).to eq("Saturday, October 12, 2019")
+      expect(page).to have_link("book")
+      expect(page).to have_link("belt")
+      expect(page).to have_link("shoes")
+      expect(page).to have_link("paint")
 
-        item = create(:item)
-
-        expect(item.date_invoice_created).to eq("No Invoice for this Item")
-      end
+      click_on "book"
+      expect(page.current_path).to eq(merchant_item_path(@merchant_1, @item_1))
     end
-  end
-
-  describe "#cents to dollars" do
-    it "converts the unit_price to dollars" do
-      expect(@item_1.cents_to_dollars).to eq(15)
-      expect(@item_2.cents_to_dollars).to eq(20)
+    it "lists all of the item's attributes" do
+      expect(page).to have_content("Item: book")
+      expect(page).to have_content("Description: good book")
+      expect(page).to have_content("Current selling price: $10")
+      expect(page).to have_content("Merchant ID: #{@merchant_1.id}")
     end
   end
 end
