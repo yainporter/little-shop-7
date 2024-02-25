@@ -45,22 +45,56 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
     describe "User Story-6 Merchant Items Index Page" do
       it 'displays a list of the names of all of the merchants items' do
         expect(page).to have_content("#{@merchant_1.name} Items:")
-        
+
         within "#item-#{@item_1.id}" do
           expect(page).to have_content("book")
           expect(page).to_not have_content("soda")
         end
-      
+
         within "#item-#{@item_2.id}" do
           expect(page).to have_content("belt")
           expect(page).to_not have_content("soda")
         end
-    
+
         within "#item-#{@item_5.id}" do
           expect(page).to have_content("soda")
           expect(page).to_not have_content("book")
         end
-      end 
+      end
+    end
+
+    describe "User Story 9 - Merchant Item Disable/Enable" do
+      it "displays a button next to each Item to disable or enable the item" do
+        merchant_1_items = Item.where(merchant_id: 1)
+
+        merchant_1_items.each do |item|
+          within "#item-#{item.id}" do
+            expect(page).to have_content("Item Status: Enabled")
+            expect(page).to have_no_content("Item Status: Disabled")
+            expect(page).to have_button("Disable")
+            expect(page).to have_button("Enable")
+
+            click_button "Disable"
+            expect(page.current_path).to eq(merchant_items_path(@merchant_1.id))
+            expect(page).to have_content("Item Status: Disabled")
+            expect(page).to have_no_content("Item Status: Enabled")
+          end
+        end
+
+        cd = @merchant_2.items.create(name: "CD", status: "Disabled", description: "Holds great music", unit_price: "1400" )
+
+        visit merchant_items_path(@merchant_2)
+          within "#item-#{cd.id}" do
+            expect(page).to have_content("Item Status: Disabled")
+            expect(page).to have_no_content("Item Status: Enabled")
+            expect(page).to have_button("Disable")
+            expect(page).to have_button("Enable")
+
+            click_button "Enable"
+            save_and_open_page
+            expect(page).to have_content("Item Status: Enabled")
+          end
+      end
     end
   end
 end

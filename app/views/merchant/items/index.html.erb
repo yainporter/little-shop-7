@@ -2,7 +2,10 @@
 <section id="merchant-items-page">
   <% @items.each do |item| %>
     <div id="item-<%= item.id%>">
-      <p>Item: <%=item.name%></p>
+      <ul>
+        <li>Item: <%=item.name%></li>
+        <li>Item Status: <%= item.status %> <%= button_to "Enable", merchant_item_path(item.merchant_id, item.id, status: "Enabled"), method: :patch  %> <%= button_to "Disable", merchant_item_path(item.merchant_id, item.id, status: "Disabled"), method: :patch  %></li>
+      </ul>
     </div>
   <% end %>
 </section>

@@ -7,6 +7,8 @@ class Item < ApplicationRecord
   validates :description, presence: true
   validates :unit_price, presence: true, numericality: true
 
+  enum status: {"Enabled" => 0, "Disabled" => 1 }
+
   def date_invoice_created
     invoices.exists? ? invoices.first.format_date_created : "No Invoice for this Item"
   end
