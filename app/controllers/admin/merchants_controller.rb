@@ -7,6 +7,10 @@ class Admin::MerchantsController < ApplicationController
     @merchant = Merchant.find(params[:id])
   end
 
+  def new; end
+
+  def create; end
+
   def edit
     @merchant = Merchant.find(params[:id])
   end
@@ -24,6 +28,6 @@ class Admin::MerchantsController < ApplicationController
 
   private
   def merchant_params
-    params.require(:merchant).permit(:name, :status)
+    params.require(:merchant).permit(:name)
   end
 end
