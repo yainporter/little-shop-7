@@ -30,8 +30,8 @@ RSpec.describe InvoiceItem, type: :model do
 
   describe "instance methods" do
     it "formats unit_price sold at" do
-      expect(@invoice_item_1.format_price_sold).to eq("$5.00")
-      expect(@invoice_item_2.format_price_sold).to eq("$10.27")
+      expect(@invoice_item_1.format_unit_price).to eq("$5.00")
+      expect(@invoice_item_2.format_unit_price).to eq("$10.27")
     end
   end
 end

@@ -25,12 +25,12 @@ RSpec.describe "Admin Invoices Index", type: :feature do
 
       click_link "Invoice ##{@invoice_1.id}"
       
-      expect(current_path).to eq("/admin/invoices/#{@invoice_1.id}")
+      expect(current_path).to eq(admin_invoice_path(@invoice_1))
 
       visit admin_invoices_path
       click_link "Invoice ##{@invoice_2.id}"
 
-      expect(current_path).to eq("/admin/invoices/#{@invoice_2.id}")
+      expect(current_path).to eq(admin_invoice_path(@invoice_2))
     end
   end
 end

@@ -76,16 +76,16 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
     
         click_on "Barry"
     
-        expect(current_path).to eq("/admin/merchants/#{@merchant_1.id}")
-        expect(current_path).to_not eq("/admin/merchants/#{@merchant_2.id}")
+        expect(current_path).to eq(admin_merchant_path(@merchant_1))
+        expect(current_path).to_not eq(admin_merchant_path(@merchant_2))
         expect(page).to have_content("Barry")
         expect(page).to_not have_content("Sally")
 
         visit admin_merchants_path
         click_on "Sally"
 
-        expect(current_path).to eq("/admin/merchants/#{@merchant_2.id}")
-        expect(current_path).to_not eq("/admin/merchants/#{@merchant_3.id}")
+        expect(current_path).to eq(admin_merchant_path(@merchant_2))
+        expect(current_path).to_not eq(admin_merchant_path(@merchant_3))
         expect(page).to have_content("Sally")
         expect(page).to_not have_content("Rayla")
       end

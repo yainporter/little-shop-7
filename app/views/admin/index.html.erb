@@ -8,7 +8,7 @@
   <ol>
     <% @customers.top_customers.each do |customer| %>
         <div id="customer-<%= customer.id %>">
-          <li><%= customer.first_name %> <%= customer.last_name %> - <%= customer.transaction_count%> purchases</li>
+          <li><%= customer.full_name %> - <%= customer.transaction_count%> purchases</li>
         </div>
     <% end %>
   </ol>
@@ -16,6 +16,6 @@
 <h3>Incomplete Invoices</h3>
   <% @invoices.incomplete_invoices.each do |invoice| %>
     <div id="invoice-<%= invoice.id %>">
-      <p><%= link_to "Invoice ##{invoice.id}", "/admin/invoices/#{invoice.id}" %> - <%= invoice.format_date_created %></p>
+      <p><%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice) %> - <%= invoice.format_date_created %></p>
     </div>
   <% end %>

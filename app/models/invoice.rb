@@ -22,4 +22,12 @@ class Invoice < ApplicationRecord
   def format_date_created
     self.created_at.strftime("%A, %B %d, %Y")
   end
+
+  def total_revenue
+    revenue = 0
+    self.invoice_items.each do |invoice_item|
+      revenue += (invoice_item.quantity * invoice_item.unit_price)
+    end
+    revenue
+  end
 end
