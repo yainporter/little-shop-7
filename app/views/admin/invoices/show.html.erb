@@ -1,5 +1,5 @@
 <h1>Invoice #<%= @invoice.id %></h1>
-<p>Status <%= @invoice.status %></p>
+<p>Status: <%= @invoice.status %></p>
 <p>Created on: <%= @invoice.format_date_created %></p>
 <p>Total Revenue: <%= @invoice.format_total_revenue %></p>
 
@@ -18,7 +18,7 @@
     <tr>
       <td><%= invoice_item.item.name %></td>
       <td><%= invoice_item.quantity %></td>
-      <td><%= invoice_item.format_price_sold %></td>
+      <td><%= invoice_item.format_unit_price %></td>
       <td><%= invoice_item.status %></td>
     </tr>
     </div>
