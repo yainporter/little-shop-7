@@ -27,22 +27,14 @@ RSpec.describe 'Merchant Invoices Index Page', type: :feature do
       @invoice_6 = Invoice.create!(customer_id: @abdul.id, status: 1)
 
       # Barry's Invoices
-      create(:invoice_item, status: 1, invoice_id: @invoice_1.id, item_id: @item_1.id) #packaged
-      create(:invoice_item, status: 1, invoice_id: @invoice_2.id, item_id: @item_2.id) #packaged
-      create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id) #packaged
-      create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id) #pending
-      create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id) #pending
-      # Barry's Transactions
-      create_list(:transaction, 20, invoice_id: @invoice_5.id)
-      create_list(:transaction, 15, invoice_id: @invoice_2.id)
-      create_list(:transaction, 10, invoice_id: @invoice_1.id)
-      create_list(:transaction, 7, invoice_id: @invoice_3.id)
-      create_list(:transaction, 5, invoice_id: @invoice_4.id)
+      create(:invoice_item, status: 1, invoice_id: @invoice_1.id, item_id: @item_1.id)
+      create(:invoice_item, status: 1, invoice_id: @invoice_2.id, item_id: @item_2.id)
+      create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id)
+      create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id)
+      create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id)
 
-      # Jane's Invoices
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_5.id) #pending
-      # Jane's Transactions
-      create_list(:transaction, 5, invoice_id: @invoice_6.id)
+      # Jane's Invoice
+      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_5.id)
 
       visit  merchant_invoices_path(@merchant_1.id)
     end
@@ -55,11 +47,15 @@ RSpec.describe 'Merchant Invoices Index Page', type: :feature do
           expect(page).to have_content("Invoices for #{item.name}:")
         end
 
+        expect(page).to have_no_content("soda")
+
         @merchant_1.invoices.each do |invoice|
           within "#invoice-#{invoice.id}" do
             expect(page).to have_content("Invoice ##{invoice.id}")
           end
         end
+
+        expect(page).to have_no_content("Invoice ##{@invoice_6.id}")
       end
 
       it "displays the invoice id for each invoice listed as a link to it's show page" do
