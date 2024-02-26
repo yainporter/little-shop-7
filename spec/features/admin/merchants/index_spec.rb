@@ -12,7 +12,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       @merchant_7 = Merchant.create!(name: "Chicken", status: 1)
       @merchant_8 = Merchant.create!(name: "Lamb", status: 1)
       @merchant_9 = Merchant.create!(name: "You Name IT!!!!", status: 1)
-      
+
       @customer_1 = build(:customer)
 
       @item_4 = create(:item, merchant: @merchant_4)
@@ -56,7 +56,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       @invoice_item_10 = create(:invoice_item, item: @item_9, invoice: @invoice_10, quantity: 5, unit_price: 5500)
     end
 
-    describe "User Story 24 - Admin Merchants Index" do 
+    describe "User Story 24 - Admin Merchants Index" do
       it 'displays the names of all the merchants' do
         visit admin_merchants_path
 
@@ -65,7 +65,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         expect(page).to have_content("Rayla")
       end
     end
-    
+
     describe "User Story 25 - Links to Admin Merchant Show Page" do
       it "displays links on each merchants name to admin merchant show page" do
         visit admin_merchants_path
@@ -73,9 +73,9 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         expect(page).to have_link("Barry")
         expect(page).to have_link("Sally")
         expect(page).to have_link("Rayla")
-    
+
         click_on "Barry"
-    
+
         expect(current_path).to eq(admin_merchant_path(@merchant_1))
         expect(current_path).to_not eq(admin_merchant_path(@merchant_2))
         expect(page).to have_content("Barry")
@@ -91,49 +91,49 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       end
     end
 
-    describe "User Story 27/28 - Admin Merchant enable/disable" do 
+    describe "User Story 27/28 - Admin Merchant enable/disable" do
       it "Displays each merchant in 'Enabled Merchants' group w/a disable button" do
         visit admin_merchants_path
-        
+
         within "#enabled-merchants" do
           expect(page).to have_button("Disable")
           expect(page).to_not have_button("Enable")
           expect(page).to have_content("Sally")
-        
+
           click_button "Disable", match: :first
         end
         expect(current_path).to eq(admin_merchants_path)
-        
+
         within "#disabled-merchants" do
           expect(page).to have_content("Sally")
           expect(page).to have_button("Enable")
           expect(page).to_not have_button("Disable")
         end
-    
+
         within "#enabled-merchants" do
           expect(page).to_not have_content("Sally")
         end
       end
-      
+
       it "Displays each merchant in 'Disabled Merchants' group w/an enable button" do
         visit admin_merchants_path
-      
+
         within "#disabled-merchants" do
           expect(page).to have_button("Enable", count: 7)
           expect(page).to_not have_button("Disable")
           expect(page).to have_content("Barry")
-        
+
           click_button "Enable", match: :first
         end
-        
+
         expect(current_path).to eq(admin_merchants_path)
-      
+
         within "#enabled-merchants" do
           expect(page).to have_content("Barry")
           expect(page).to have_button("Disable")
           expect(page).to_not have_button("Enable")
         end
-      
+
         within "#disabled-merchants" do
           expect(page).to_not have_content("Barry")
         end
@@ -225,16 +225,17 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       end
     end
 
-    describe "User Story 31 - Admin Merchants Top Merchants Best Day" do
+    describe "User Story 31 - Admin Merchants Top Five Merchants Best Day" do
       it "displays top merchants best day and date" do
         visit admin_merchants_path
-
+        save_and_open_page
         within "#top-five-merchants" do
-          expect(page).to have_content("Top selling date for Chicken was 1/23/2024")
-          expect(page).to have_content("Top selling date for Potatoes was 05/19/2023")
-          expect(page).to have_content("Top selling date for You Name IT!!!! was 10/27/2184")
-          expect(page).to have_content("Top selling date for Greens was 3/8/2022")
-          expect(page).to have_content("Top selling date for Beans was 11/10/2013")
+
+          expect(page).to have_content("Top day for Chicken was 1/23/2024")
+          expect(page).to have_content("Top day for Potatoes was 05/19/2023")
+          expect(page).to have_content("Top day for You Name IT!!!! was 10/27/2184")
+          expect(page).to have_content("Top day for Greens was 3/8/2022")
+          expect(page).to have_content("Top day for Beans was 11/10/2013")
         end
       end
 
@@ -243,10 +244,10 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         invoice_item_11 = create(:invoice_item, item: @item_5, invoice: invoice_11, quantity: 3, unit_price: 2000)
 
         visit admin_merchants_path
-        
+
         within "#top-five-merchants" do
-          expect(page).to have_content("Top selling date for Greens was 3/8/2022")
-          expect(page).to_not have_content("Top selling date for Greens was 10/10/2010")
+          expect(page).to have_content("Top day for Greens was 3/8/2022")
+          expect(page).to_not have_content("Top day for Greens was 10/10/2010")
         end
       end
     end
