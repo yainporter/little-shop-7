@@ -65,9 +65,7 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
 
     describe "User Story 9 - Merchant Item Disable/Enable" do
       it "displays a button next to each Item to disable or enable the item" do
-        merchant_1_items = Item.where(merchant_id: 1)
-
-        merchant_1_items.each do |item|
+        @merchant_1.items.each do |item|
           within "#item-#{item.id}" do
             expect(page).to have_content("Item Status: Enabled")
             expect(page).to have_no_content("Item Status: Disabled")
@@ -81,7 +79,10 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
           end
         end
 
-        cd = @merchant_2.items.create(name: "CD", status: "Disabled", description: "Holds great music", unit_price: "1400" )
+        cd = @merchant_2.items.create(name: "CD",
+                                      status: "Disabled",
+                                      description: "Holds great music",
+                                      unit_price: "1400" )
 
         visit merchant_items_path(@merchant_2)
           within "#item-#{cd.id}" do
