@@ -6,7 +6,7 @@ class Merchant::ItemsController < ApplicationController
 
   def update
     item = Item.find(params[:id])
-    item.update!(item_params)
+    item.update(item_params)
 
     redirect_to merchant_items_path(params[:merchant_id])
   end
