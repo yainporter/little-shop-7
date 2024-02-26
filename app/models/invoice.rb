@@ -24,10 +24,6 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue
-    revenue = 0
-    self.invoice_items.each do |invoice_item|
-      revenue += (invoice_item.quantity * invoice_item.unit_price)
-    end
-    revenue
+    invoice_items.sum("invoice_items.quantity * invoice_items.unit_price")
   end
 end
