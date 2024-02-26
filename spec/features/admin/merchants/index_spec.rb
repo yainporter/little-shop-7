@@ -43,11 +43,33 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       end
     end
 
-    describe "User Story 27 - Admin Merchant enable/disable" do 
-      
-      it "Displays disable button next to each merchant" do
+    describe "User Story 27/28 - Admin Merchant enable/disable" do 
+      it "Displays each merchant in 'Enabled Merchants' group w/a disable button" do
         visit admin_merchants_path
-
+        
+        within "#enabled-merchants" do
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+          expect(page).to have_content("Sally")
+        
+          click_button "Disable"
+        end
+        expect(current_path).to eq(admin_merchants_path)
+        
+        within "#disabled-merchants" do
+          expect(page).to have_content("Sally")
+          expect(page).to have_button("Enable")
+          expect(page).to_not have_button("Disable")
+        end
+    
+        within "#enabled-merchants" do
+          expect(page).to_not have_content("Sally")
+        end
+      end
+      
+      it "Displays each merchant in 'Disabled Merchants' group w/an enable button" do
+        visit admin_merchants_path
+      
         within "#disabled-merchants" do
           expect(page).to have_button("Enable", count: 2)
           expect(page).to_not have_button("Disable")
@@ -57,41 +79,29 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         end
         
         expect(current_path).to eq(admin_merchants_path)
-
+      
         within "#enabled-merchants" do
           expect(page).to have_content("Barry")
           expect(page).to have_button("Disable")
           expect(page).to_not have_button("Enable")
         end
-
+      
         within "#disabled-merchants" do
           expect(page).to_not have_content("Barry")
         end
       end
+    end
 
-      it "Displays enable button next to each merchant" do
+    describe "User Story 29 - Admin Merchant Create" do
+      it "displays link to create a new merchant" do
         visit admin_merchants_path
 
-        within "#enabled-merchants" do
-          expect(page).to have_button("Disable")
-          expect(page).to_not have_button("Enable")
-          expect(page).to have_content("Sally")
-        
-          click_button "Disable"
-        end
-        
-        expect(current_path).to eq(admin_merchants_path)
+        expect(page).to have_link("New Merchant")
 
-        within "#disabled-merchants" do
-          expect(page).to have_content("Sally")
-          expect(page).to have_button("Enable")
-          expect(page).to_not have_button("Disable")
-        end
+        click_on "New Merchant"
 
-        within "#enabled-merchants" do
-          expect(page).to_not have_content("Sally")
-        end
-      end 
+        expect(current_path).to eq(new_admin_merchant_path)
+      end
     end
   end
 end
