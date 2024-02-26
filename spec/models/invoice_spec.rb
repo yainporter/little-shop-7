@@ -60,7 +60,7 @@ RSpec.describe Invoice, type: :model do
       @item_2 = create(:item)
       @item_3 = create(:item)
 
-      @customer_1 = build(:customer)
+      @customer_1 = create(:customer)
 
       @invoice_1 = @customer_1.invoices.create!(status: 1, created_at: "2015-12-09")
       @invoice_2 = @customer_1.invoices.create!(status: 2, created_at: "2013-11-10")
@@ -78,7 +78,7 @@ RSpec.describe Invoice, type: :model do
 
     describe "#total_revenue" do
       it "calculates an invoice's total revenue" do
-        expect(@invoice_1)
+        expect(@invoice_1.total_revenue).to eq(19500)
       end
     end
   end
