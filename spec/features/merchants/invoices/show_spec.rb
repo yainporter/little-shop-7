@@ -50,7 +50,6 @@ RSpec.describe 'Merchant Invoices Show Page', type: :feature do
         expect(page).to have_content("Unit Price")
         expect(page).to have_content("Status")
 
-        save_and_open_page
         within "#invoice_item-#{@invoice_item_1.id}" do
           expect(page).to have_content("book")
           expect(page).to have_content("1")
@@ -60,6 +59,15 @@ RSpec.describe 'Merchant Invoices Show Page', type: :feature do
 
         within "#invoice_item-#{@invoice_item_2.id}" do
           expect(page).to have_content("belt")
+          expect(page).to have_content("2")
+          expect(page).to have_content("$10.00")
+          expect(page).to have_content("Packaged")
+        end
+
+        visit merchant_invoice_path(@merchant_2, @invoice_2)
+
+        within "#invoice_item-#{@invoice_item_4.id}" do
+          expect(page).to have_content("soda")
           expect(page).to have_content("2")
           expect(page).to have_content("$10.00")
           expect(page).to have_content("Packaged")
