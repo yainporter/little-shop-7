@@ -64,7 +64,7 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
     end
 
     describe "User Story 9 - Merchant Item Disable/Enable" do
-      it "displays bera button next to each Item to disable or enable the item" do
+      it "displays a button next to each Item to disable or enable the item" do
         @merchant_1.items.each do |item|
           within "#item-#{item.id}" do
             expect(page).to have_content("Item Status: Enabled")
