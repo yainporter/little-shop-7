@@ -50,7 +50,7 @@ RSpec.describe 'Merchant Invoices Index Page', type: :feature do
     describe "User Story 14 - Merchant Invoices Index" do
       it "displays all invoices that include at least one of my merchant's items" do
         expect(page).to have_content("All of Barry's Invoices")
-        save_and_open_page
+
         @merchant_1.items.each do |item|
           expect(page).to have_content("Invoices for #{item.name}:")
         end
