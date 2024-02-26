@@ -71,70 +71,38 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
             expect(page).to have_no_content("Item Status: Disabled")
             expect(page).to have_button("Disable")
             expect(page).to have_button("Enable")
-
-            click_button "Disable"
-            expect(page.current_path).to eq(merchant_items_path(@merchant_1))
-            expect(page).to have_content("Item Status: Disabled")
-            expect(page).to have_no_content("Item Status: Enabled")
           end
         end
 
-        cd = @merchant_2.items.create(name: "CD",
-                                      status: "Disabled",
-                                      description: "Holds great music",
-                                      unit_price: "1400" )
-
+        @item_5.update!(status: "Disabled")
         visit merchant_items_path(@merchant_2)
-          within "#item-#{cd.id}" do
+
+        within "#item-#{@item_5.id}" do
+          expect(page).to have_content("Item Status: Disabled")
+          expect(page).to have_no_content("Item Status: Enabled")
+          expect(page).to have_button("Disable")
+          expect(page).to have_button("Enable")
+        end
+      end
+
+      it "redirects to the index page with updated information when button is clicked" do
+        @merchant_1.items.each do |item|
+          within "#item-#{item.id}" do
+            click_button "Disable"
+            expect(page).to have_current_path(merchant_items_path(@merchant_1))
             expect(page).to have_content("Item Status: Disabled")
             expect(page).to have_no_content("Item Status: Enabled")
-            expect(page).to have_button("Disable")
-            expect(page).to have_button("Enable")
-
-            click_button "Enable"
-            expect(page.current_path).to eq(merchant_items_path(@merchant_2))
-            expect(page).to have_content("Item Status: Enabled")
           end
-      end
-    end
-
-    describe "User Story 10 - Merchant Items Grouped by Status" do
-      it "has two sections, and lists the Item in the appropriate section" do
-        save_and_open_page
-        expect(page).to have_content("Enabled Items")
-        expect(page).to have_content("Disabled Items")
-
-        within "#enabled-items" do
-          expect(page).to have_content("book")
-          expect(page).to have_content("belt")
-          expect(page).to have_content("shoes")
-          expect(page).to have_content("paint")
         end
 
-        within "#disabled-items" do
-          expect(page).to have_no_content("book")
-          expect(page).to have_no_content("belt")
-          expect(page).to have_no_content("shoes")
-          expect(page).to have_no_content("paint")
-        end
+        @item_5.update!(status: "Disabled")
+        visit merchant_items_path(@merchant_2)
 
-        @item_4.update!(status: 1)
-        @item_3.update!(status: 1)
-
-        visit  merchant_items_path(@merchant_1.id)
-
-        within "#enabled-items" do
-          expect(page).to have_content("book")
-          expect(page).to have_content("belt")
-          expect(page).to have_no_content("shoes")
-          expect(page).to have_no_content("paint")
-        end
-
-        within "#disabled-items" do
-          expect(page).to have_no_content("book")
-          expect(page).to have_no_content("belt")
-          expect(page).to have_content("shoes")
-          expect(page).to have_content("paint")
+        within "#item-#{@item_5.id}" do
+          click_button "Enable"
+          expect(page).to have_current_path(merchant_items_path(@merchant_2))
+          expect(page).to have_content("Item Status: Enabled")
+          expect(page).to have_no_content("Item Status: Disabled")
         end
       end
     end

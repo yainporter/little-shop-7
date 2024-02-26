@@ -115,20 +115,24 @@ RSpec.describe "Merchant Dashboard" do
   describe "User Story 5 - Merchant Dashboard Invoices sorted by least recent" do
     it "displays the date an invoice was created for an item" do
       within "#item-#{@item_1.id}" do
-        expect(page).to have_content("Item: book - Thursday, September 30, 2021 - #{@invoice_1.id}")
+        expect(page).to have_content("book - Invoice ##{@invoice_1.id} - Thursday, September 30, 2021")
       end
 
       within "#item-#{@item_2.id}" do
-        expect(page).to have_content("Item: belt - Saturday, October 12, 2019 - #{@invoice_2.id}")
+        expect(page).to have_content("belt - Invoice ##{@invoice_2.id} - Saturday, October 12, 2019")
       end
 
       within "#item-#{@item_3.id}" do
-        expect(page).to have_content("Item: shoes - Tuesday, January 11, 2022 - #{@invoice_3.id}")
+        expect(page).to have_content("shoes - Invoice ##{@invoice_3.id} - Tuesday, January 11, 2022")
       end
       visit merchant_dashboard_index_path(@merchant_1.id)
 
-      expect(@item_2.date_invoice_created).to appear_before(@item_1.date_invoice_created)
-      expect(@item_1.date_invoice_created).to appear_before(@item_3.date_invoice_created)
+      expect(@item_2.date_an_invoice_was_created(@invoice_2.id)).to appear_before(@item_1.date_an_invoice_was_created(@invoice_1.id))
+      expect(@item_1.date_an_invoice_was_created(@invoice_1.id)).to appear_before(@item_3.date_an_invoice_was_created(@invoice_3.id))
     end
+
+    # it "orders the list of items from oldest to newest" do
+    #   expect("belt - Invoice ##{@invoice_2.id} - Saturday, October 12, 2019").to eq()
+    # end
   end
 end
