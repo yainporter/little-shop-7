@@ -26,4 +26,17 @@ class Merchant < ApplicationRecord
         .select("items.*, invoice_items.invoice_id, invoices.created_at")
         .order("invoices.created_at ASC")
   end
+
+  def self.top_five_merchants
+    Merchant.find_by_sql("SELECT merchants.*, sum(invoice_items.unit_price * invoice_items.quantity) AS total_revenue
+    FROM merchants
+    JOIN items ON merchants.id = items.merchant_id
+    JOIN invoice_items ON items.id = invoice_items.item_id
+    JOIN invoices ON invoices.id = invoice_items.invoice_id
+    JOIN transactions ON invoices.id = transactions.invoice_id
+    WHERE transactions.result = 0
+    GROUP BY merchants.id
+    ORDER BY sum(invoice_items.unit_price * invoice_items.quantity) DESC
+    LIMIT 5")
+  end
 end
