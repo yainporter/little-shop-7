@@ -138,8 +138,8 @@ RSpec.describe Merchant, type: :model do
 
     describe "#items_ready_to_ship" do
       it "Only selects items that have an invoice_item status as packaged" do
-        expect(@merchant_1.items_ready_to_ship).to eq([@item_2, @item_1, @item_3])
-        expect(@merchant_1.items_ready_to_ship).not_to eq([@item_4])
+        expect(@merchant_1.items_ready_to_ship).to eq([@item_2, @item_3])
+        expect(@merchant_1.items_ready_to_ship).not_to eq([@item_1, @item_4])
       end
     end
   end
