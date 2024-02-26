@@ -22,13 +22,13 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       @item_8 = create(:item, merchant: @merchant_8)
       @item_9 = create(:item, merchant: @merchant_9)
 
-      @invoice_1 = create(:invoice, customer: @customer_1)
-      @invoice_2 = create(:invoice, customer: @customer_1)
-      @invoice_3 = create(:invoice, customer: @customer_1)
-      @invoice_4 = create(:invoice, customer: @customer_1)
-      @invoice_5 = create(:invoice, customer: @customer_1)
-      @invoice_6 = create(:invoice, customer: @customer_1)
-      @invoice_7 = create(:invoice, customer: @customer_1)
+      @invoice_1 = create(:invoice, customer: @customer_1, created_at: "2015-12-09")
+      @invoice_2 = create(:invoice, customer: @customer_1, created_at: "2013-11-10")
+      @invoice_3 = create(:invoice, customer: @customer_1, created_at: "2022-03-08")
+      @invoice_4 = create(:invoice, customer: @customer_1, created_at: "2023-05-19")
+      @invoice_5 = create(:invoice, customer: @customer_1, created_at: "2024-01-23")
+      @invoice_6 = create(:invoice, customer: @customer_1, created_at: "2001-01-01")
+      @invoice_7 = create(:invoice, customer: @customer_1, created_at: "2184-10-27")
       @invoice_8 = create(:invoice, customer: @customer_1)
       @invoice_9 = create(:invoice, customer: @customer_1)
       @invoice_10 = create(:invoice, customer: @customer_1)
@@ -221,6 +221,32 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
           expect("Potatoes").to appear_before("You Name IT!!!!")
           expect("You Name IT!!!!").to appear_before("Greens")
           expect("Greens").to appear_before("Beans")
+        end
+      end
+    end
+
+    describe "User Story 31 - Admin Merchants Top Merchants Best Day" do
+      it "displays top merchants best day and date" do
+        visit admin_merchants_path
+
+        within "#top-five-merchants" do
+          expect(page).to have_content("Top selling date for Chicken was 1/23/2024")
+          expect(page).to have_content("Top selling date for Potatoes was 05/19/2023")
+          expect(page).to have_content("Top selling date for You Name IT!!!! was 10/27/2184")
+          expect(page).to have_content("Top selling date for Greens was 3/8/2022")
+          expect(page).to have_content("Top selling date for Beans was 11/10/2013")
+        end
+      end
+
+      it "returns most recent day if multiple days with equal top sales" do
+        invoice_11 = create(:invoice, customer: @customer_1, created_at: "2010-10-10")
+        invoice_item_11 = create(:invoice_item, item: @item_5, invoice: invoice_11, quantity: 3, unit_price: 2000)
+
+        visit admin_merchants_path
+        
+        within "#top-five-merchants" do
+          expect(page).to have_content("Top selling date for Greens was 3/8/2022")
+          expect(page).to_not have_content("Top selling date for Greens was 10/10/2010")
         end
       end
     end
