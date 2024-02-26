@@ -1,0 +1,4 @@
+<h1>Item: <%= @item.name %></h1>
+<p>Description: <%= @item.description %></p>
+<p>Current selling price: <%= number_to_currency(@item.unit_price/100) %></p>
+<p>Merchant ID: <%= @item.merchant_id %></p>

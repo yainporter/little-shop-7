@@ -2,7 +2,7 @@
 <section id="merchant-items-page">
   <% @items.each do |item| %>
     <div id="item-<%= item.id%>">
-      <p>Item: <%=item.name%></p>
+      <p>Item: <%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}", data: { turbo_method: :get } %> </p>
     </div>
   <% end %>
 </section>

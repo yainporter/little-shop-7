@@ -35,8 +35,8 @@ RSpec.describe Item, type: :model do
     create_list(:transaction, 7, invoice_id: @invoice_3.id)
     create_list(:transaction, 5, invoice_id: @invoice_4.id)
 
-    @item_1 = create(:item, name: "book", merchant: @merchant_1)
-    @item_2 = create(:item, name: "belt", merchant: @merchant_1)
+    @item_1 = create(:item, name: "book", merchant: @merchant_1, unit_price: 1500)
+    @item_2 = create(:item, name: "belt", merchant: @merchant_1, unit_price: 2000)
     @item_3 = create(:item, name: "shoes", merchant: @merchant_1)
     @item_4 = create(:item, name: "paint", merchant: @merchant_1)
 
