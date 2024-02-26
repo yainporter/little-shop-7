@@ -40,23 +40,26 @@ RSpec.describe Item, type: :model do
     @item_3 = create(:item, name: "shoes", merchant: @merchant_1)
     @item_4 = create(:item, name: "paint", merchant: @merchant_1)
 
-    create(:invoice_item, status: 1, invoice_id: @invoice_1.id, item_id: @item_1.id) #packaged
-    create(:invoice_item, status: 1, invoice_id: @invoice_2.id, item_id: @item_2.id) #packaged
-    create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id) #packaged
-    create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id) #pending
-    create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id) #pending
+    @invoice_item_1 = InvoiceItem.create!(quantity: 2, unit_price: 10000, status: 1, item_id: @item_1.id, invoice_id: @invoice_1.id)
+    @invoice_item_2 =InvoiceItem.create!(quantity: 2, unit_price: 10000, status: 1, item_id: @item_2.id, invoice_id: @invoice_2.id)
+    @invoice_item_3 =InvoiceItem.create!(quantity: 2, unit_price: 10000, status: 1, item_id: @item_3.id, invoice_id: @invoice_3.id)
+    @invoice_item_4 =InvoiceItem.create!(quantity: 2, unit_price: 10000, status: 0, item_id: @item_4.id, invoice_id: @invoice_4.id)
+    @invoice_item_5 =InvoiceItem.create!(quantity: 2, unit_price: 10000, status: 0, item_id: @item_1.id, invoice_id: @invoice_5.id)
+    @invoice_item_6 =InvoiceItem.create!(quantity: 2, unit_price: 10000, status: 1, item_id: @item_1.id, invoice_id: @invoice_5.id)
   end
 
 
   describe "instance methods" do
-    describe "date_invoice_created" do
-      it "returns the created_at date for an item's invoice" do
-        expect(@item_1.date_invoice_created).to eq("Thursday, September 30, 2021")
-        expect(@item_2.date_invoice_created).to eq("Saturday, October 12, 2019")
+    describe "date_an_invoice_was_created" do
+      it "returns the created_at date for a particular invoice of an item" do
+        expect(@item_1.date_an_invoice_was_created(@invoice_1.id)).to eq("Thursday, September 30, 2021")
+        expect(@item_2.date_an_invoice_was_created(@invoice_2.id)).to eq("Saturday, October 12, 2019")
 
         item = create(:item)
+        item_2 = create(:item)
 
-        expect(item.date_invoice_created).to eq("No Invoice for this Item")
+        expect(item.date_an_invoice_was_created(@invoice_2.id)).to eq("No Invoice for this Item")
+        expect(item_2.date_an_invoice_was_created(@invoice_2.id)).to eq("No Invoice for this Item")
       end
     end
   end

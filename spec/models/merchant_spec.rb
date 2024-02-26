@@ -83,7 +83,6 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
-  
   describe "instance methods" do
     before do
       @merchant_1 = create(:merchant)
@@ -132,15 +131,15 @@ RSpec.describe Merchant, type: :model do
         customers = [@customer_1, @customer_2, @customer_3, @customer_4, @customer_5]
         
         top_five_customers = @merchant_1.top_five_customers.map { |customer| Customer.find(customer.id) }
-        
+
         expect(top_five_customers).to eq(customers)
       end
     end
 
-    describe "#items_ready_to_ship" do 
-      it "Only selects item that are packaged" do 
-        expect(@merchant_1.items_ready_to_ship).to eq([@item_2, @item_3]) 
-        expect(@merchant_1.items_ready_to_ship).not_to eq([@item_1, @item_4]) 
+    describe "#items_ready_to_ship" do
+      it "Only selects items that have an invoice_item status as packaged" do
+        expect(@merchant_1.items_ready_to_ship).to eq([@item_2, @item_1, @item_3])
+        expect(@merchant_1.items_ready_to_ship).not_to eq([@item_4])
       end
     end
   end
