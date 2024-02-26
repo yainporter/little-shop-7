@@ -18,13 +18,13 @@ RSpec.describe "Admin Invoices Index", type: :feature do
 
     it "links invoice ids to admin invoice show page" do
       visit admin_invoices_path
-      
+
       expect(page).to have_link("Invoice ##{@invoice_1.id}")
       expect(page).to have_link("Invoice ##{@invoice_2.id}")
       expect(page).to have_link("Invoice ##{@invoice_3.id}")
 
       click_link "Invoice ##{@invoice_1.id}"
-      
+
       expect(current_path).to eq(admin_invoice_path(@invoice_1))
 
       visit admin_invoices_path
