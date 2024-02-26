@@ -1,5 +1,11 @@
 <h1>Invoice #<%= @invoice.id %></h1>
-<p>Status: <%= @invoice.status %></p>
+
+<%= form_with model: @invoice, url: admin_invoice_path, local: true, data: {turbo: false} do |form|%>
+  <%= form.label :status %>:
+  <%= form.select(:status, ["In Progress", "Completed", "Cancelled"]) %>
+  <%= form.submit "Update Invoice"%>
+<% end %>
+
 <p>Created on: <%= @invoice.format_date_created %></p>
 <p>Total Revenue: <%= @invoice.format_total_revenue %></p>
 
