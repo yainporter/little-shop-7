@@ -6,5 +6,10 @@ class InvoiceItem < ApplicationRecord
   validates :unit_price, presence: true, numericality: true
   validates :status, presence: true
   
-  enum status: {"pending" => 0, "packaged" => 1, "shipped" => 2}
+  enum status: {"Pending" => 0, "Packaged" => 1, "Shipped" => 2}
+
+  # add to application record for any unit_price as requested
+  def format_price_sold
+    (self.unit_price.to_f / 100).to_fs(:currency)
+  end
 end
