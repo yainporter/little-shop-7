@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Admin Merchants Index Page', type: :feature do
   describe 'As an Admin' do
-    before(:each) do
+    before do
       @merchant_1 = Merchant.create!(name: "Barry", status: 1)
       @merchant_2 = Merchant.create!(name: "Sally", status: 0)
       @merchant_3 = Merchant.create!(name: "Rayla", status: 1)
