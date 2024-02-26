@@ -25,10 +25,10 @@ RSpec.describe "Admin Invoices Show", type: :feature do
     describe "User Story 33 - Admin Invoice Show page" do
       it "list invoice attributes" do
         expect(page).to have_content(@invoice_1.id)
-        expect(page).to have_content("Completed")
+        expect(page.find_field("Status").value).to eq("Completed")
         expect(page).to have_content("Tuesday, September 13, 2011")
         expect(page).to_not have_content(@invoice_2.id)
-        expect(page).to_not have_content("Cancelled")
+        expect(page.find_field("Status").value).to_not eq("Cancelled")
         expect(page).to_not have_content("Tuesday, March 08, 2022")
       end
 
@@ -71,7 +71,7 @@ RSpec.describe "Admin Invoices Show", type: :feature do
 
     describe "User Story 36 - Update Invoice Status" do
       it "displays current status in a 'select' field" do
-        expect(page).to have_select("Status") with_options: ["In Progress", "Completed", "Cancelled"]
+        expect(page).to have_select("Status", with_options: ["In Progress", "Completed", "Cancelled"])
         expect(page.find_field("Status").value).to eq("Completed")
       end
 
