@@ -74,5 +74,15 @@ RSpec.describe 'Merchant Invoices Show Page', type: :feature do
         end
       end
     end
+
+    describe "User Story 17 - Total Revenue" do
+      it "displays the total revenue generated from all items" do
+        expect(page).to have_content("Total Revenue: $105")
+
+        visit merchant_invoice_path(@merchant_2, @invoice_2)
+
+        expect(page).to have_content("Total Revenue: $20")
+      end
+    end
   end
 end
