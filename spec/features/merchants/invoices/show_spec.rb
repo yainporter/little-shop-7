@@ -8,13 +8,21 @@ RSpec.describe 'Merchant Invoices Show Page', type: :feature do
 
       @merchant_1 = Merchant.create!(name: "Barry")
       @item_1 = create(:item, name: "book", merchant: @merchant_1)
+      @item_2 = create(:item, name: "belt", merchant: @merchant_1)
+
       @invoice_1 = Invoice.create!(customer_id: @yain.id, status: 1, created_at: "2011-09-13")
-      create(:invoice_item, status: 1, invoice_id: @invoice_1.id, item_id: @item_1.id)
+
+      @invoice_item_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 1, unit_price: 2500, status: 0) # pending
+      @invoice_item_2 = InvoiceItem.create!(item_id: @item_2.id, invoice_id: @invoice_1.id, quantity: 2, unit_price: 1000, status: 1) # packaged
+      @invoice_item_3 = InvoiceItem.create!(item_id: @item_2.id, invoice_id: @invoice_1.id, quantity: 6, unit_price: 1000, status: 1) # packaged
 
       @merchant_2 = Merchant.create!(name: "Jane")
-      @item_5 = create(:item, name: "soda", merchant: @merchant_2)
-      @invoice_6 = Invoice.create!(customer_id: @abdul.id, status: 0, created_at: "2011-09-14")
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_5.id)
+      @item_3 = create(:item, name: "soda", merchant: @merchant_2)
+      @item_4 = create(:item, name: "shoe", merchant: @merchant_2)
+
+      @invoice_2 = Invoice.create!(customer_id: @abdul.id, status: 0, created_at: "2011-09-14")
+
+      @invoice_item_4 = InvoiceItem.create!(item_id: @item_3.id, invoice_id: @invoice_2.id, quantity: 2, unit_price: 1000, status: 1) # packaged
 
       visit merchant_invoice_path(@merchant_1, @invoice_1)
     end
@@ -26,12 +34,36 @@ RSpec.describe 'Merchant Invoices Show Page', type: :feature do
         expect(page).to have_content("Created on: Tuesday, September 13, 2011")
         expect(page).to have_content("Customer: Yain Porter")
 
-        visit merchant_invoice_path(@merchant_2, @invoice_6)
+        visit merchant_invoice_path(@merchant_2, @invoice_2)
 
-        expect(page).to have_content("Invoice ##{@invoice_6.id}")
+        expect(page).to have_content("Invoice ##{@invoice_2.id}")
         expect(page).to have_content("Status: In Progress")
         expect(page).to have_content("Created on: Wednesday, September 14, 2011")
         expect(page).to have_content("Customer: Abdul R")
+      end
+    end
+
+    describe "User Story 16 - Invoice Item Information" do
+      it "lists all items on the invoice" do
+        expect(page).to have_content("Item Name")
+        expect(page).to have_content("Quantity")
+        expect(page).to have_content("Unit Price")
+        expect(page).to have_content("Status")
+
+        save_and_open_page
+        within "#invoice_item-#{@invoice_item_1.id}" do
+          expect(page).to have_content("book")
+          expect(page).to have_content("1")
+          expect(page).to have_content("$25.00")
+          expect(page).to have_content("Pending")
+        end
+
+        within "#invoice_item-#{@invoice_item_2.id}" do
+          expect(page).to have_content("belt")
+          expect(page).to have_content("2")
+          expect(page).to have_content("$10.00")
+          expect(page).to have_content("Packaged")
+        end
       end
     end
   end
