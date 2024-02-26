@@ -14,7 +14,11 @@ class Merchant::ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    if @item.update(item_params)
+    if params[:status]
+      @item.update(status: params[:status])
+
+      redirect_to merchant_items_path(params[:merchant_id])
+    elsif @item.update(item_params)
       flash[:notice] = "Congratulations! You've edited the item successfully!"
 
       redirect_to merchant_item_path(params[:merchant_id], params[:id])
@@ -28,6 +32,6 @@ class Merchant::ItemsController < ApplicationController
   private
 
   def item_params
-    params.permit(:id, :name, :description, :unit_price, :merchant_id)
+    params.permit(:id, :name, :description, :unit_price, :merchant_id, :status)
   end
 end

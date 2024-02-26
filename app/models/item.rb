@@ -6,6 +6,9 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true
   validates :unit_price, presence: true, numericality: true
+  validates :status, presence: true
+
+  enum status: {"Enabled" => 0, "Disabled" => 1 }
 
   def date_an_invoice_was_created(invoice_id)
     invoices.exists? ? invoices.find(invoice_id).format_date_created : "No Invoice for this Item"
