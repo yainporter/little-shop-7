@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # /merchants/:merchant_id/dashboard
   resources :merchants, only: [] do
     resources :dashboard, module: "merchant", only: [:index]
-    resources :items, module: "merchant", only: [:index, :show]
+    resources :items, module: "merchant", only: [:index, :show, :edit, :update]
     resources :invoices, module: "merchant", only: [:index, :show]
   end
 
