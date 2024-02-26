@@ -64,36 +64,46 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
     end
 
     describe "User Story 9 - Merchant Item Disable/Enable" do
-      it "displays a button next to each Item to disable or enable the item" do
-        merchant_1_items = Item.where(merchant_id: 1)
-
-        merchant_1_items.each do |item|
+      it "displays bera button next to each Item to disable or enable the item" do
+        @merchant_1.items.each do |item|
           within "#item-#{item.id}" do
             expect(page).to have_content("Item Status: Enabled")
             expect(page).to have_no_content("Item Status: Disabled")
             expect(page).to have_button("Disable")
             expect(page).to have_button("Enable")
+          end
+        end
 
+        @item_5.update!(status: "Disabled")
+        visit merchant_items_path(@merchant_2)
+
+        within "#item-#{@item_5.id}" do
+          expect(page).to have_content("Item Status: Disabled")
+          expect(page).to have_no_content("Item Status: Enabled")
+          expect(page).to have_button("Disable")
+          expect(page).to have_button("Enable")
+        end
+      end
+
+      it "redirects to the index page with updated information when button is clicked" do
+        @merchant_1.items.each do |item|
+          within "#item-#{item.id}" do
             click_button "Disable"
-            expect(page.current_path).to eq(merchant_items_path(@merchant_1))
+            expect(page).to have_current_path(merchant_items_path(@merchant_1))
             expect(page).to have_content("Item Status: Disabled")
             expect(page).to have_no_content("Item Status: Enabled")
           end
         end
 
-        cd = @merchant_2.items.create(name: "CD", status: "Disabled", description: "Holds great music", unit_price: "1400" )
-
+        @item_5.update!(status: "Disabled")
         visit merchant_items_path(@merchant_2)
-          within "#item-#{cd.id}" do
-            expect(page).to have_content("Item Status: Disabled")
-            expect(page).to have_no_content("Item Status: Enabled")
-            expect(page).to have_button("Disable")
-            expect(page).to have_button("Enable")
 
-            click_button "Enable"
-            expect(page.current_path).to eq(merchant_items_path(@merchant_2))
-            expect(page).to have_content("Item Status: Enabled")
-          end
+        within "#item-#{@item_5.id}" do
+          click_button "Enable"
+          expect(page).to have_current_path(merchant_items_path(@merchant_2))
+          expect(page).to have_content("Item Status: Enabled")
+          expect(page).to have_no_content("Item Status: Disabled")
+        end
       end
     end
   end

@@ -10,7 +10,7 @@ class Item < ApplicationRecord
 
   enum status: {"Enabled" => 0, "Disabled" => 1 }
 
-  def date_invoice_created
-    invoices.exists? ? invoices.first.format_date_created : "No Invoice for this Item"
+  def date_an_invoice_was_created(invoice_id)
+    invoices.exists? ? invoices.find(invoice_id).format_date_created : "No Invoice for this Item"
   end
 end
