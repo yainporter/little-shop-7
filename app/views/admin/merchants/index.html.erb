@@ -2,7 +2,9 @@
 
 <%= link_to "New Merchant", new_admin_merchant_path %>
 
+
 <h3>Enabled Merchants</h3>
+
 <div id="enabled-merchants">
   <% @merchants.each do |merchant| %>
     <% if merchant.status == "enabled" %>
@@ -12,7 +14,9 @@
   <% end %>
 </div>
 
+
 <h3>Disabled Merchants</h3>
+
 <div id="disabled-merchants">
   <% @merchants.each do |merchant| %>
     <% if merchant.status == "disabled" %>
@@ -20,4 +24,17 @@
       <%= button_to "Enable", admin_merchant_path(merchant), params:{merchant_status: "enabled", id: merchant.id}, method: :patch %></p>
     <% end %>
   <% end %>
+</div>
+
+
+<h3>Top Merchants</h3>
+
+<div id="top-five-merchants">
+  <ol>
+    <% @merchants.top_five_merchants.each do |merchant| %>
+      <div id="merchant-<%= merchant.id %>">
+        <li> <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %> - <%= merchant.format_total_revenue %> in sales </li>
+      </div>
+    <% end %>
+  </ol>
 </div>
