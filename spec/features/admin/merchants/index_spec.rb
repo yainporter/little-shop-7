@@ -232,7 +232,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         within "#top-five-merchants" do
 
           expect(page).to have_content("Top day for Chicken was 1/23/2024")
-          expect(page).to have_content("Top day for Potatoes was 05/19/2023")
+          expect(page).to have_content("Top day for Potatoes was 5/19/2023")
           expect(page).to have_content("Top day for You Name IT!!!! was 10/27/2184")
           expect(page).to have_content("Top day for Greens was 3/8/2022")
           expect(page).to have_content("Top day for Beans was 11/10/2013")
