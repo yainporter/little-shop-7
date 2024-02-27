@@ -67,10 +67,9 @@ RSpec.describe "Merchant Create Edit" do
       # And I see the item I just created displayed in the list of items.
       # And I see my item was created with a default status of disabled.
      
-      # within "#item-#{@item.id}" do
-      #   expect(page).to have_content("Shish Kebab")
-      #   #expect status to be disabled
-      # end
+      expect(page).to have_content("Shish Kebab")
+      expect(page).to have_content("Disabled")
+      
     end
   end
 end
