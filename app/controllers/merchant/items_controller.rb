@@ -14,14 +14,8 @@ class Merchant::ItemsController < ApplicationController
 
   def create
     @merchant = Merchant.find(params[:merchant_id])
-    item = Item.new(item_params)
-    item.status = 1
-    if item.save
-      redirect_to "/merchants/#{@merchant.id}/items"
-    else
-      redirect_to "/merchants/#{@merchant.id}/items/new"
-      flash[:alert] = "Notice: Item not created."
-    end
+    item = Item.create(item_params)
+    redirect_to "/merchants/#{@merchant.id}/items"
   end
 
   def edit

@@ -63,7 +63,7 @@ RSpec.describe "Merchant Create Edit" do
       # Then I am taken back to the items index page
       visit  merchant_items_path(@merchant_1.id)
 
-      save_and_open_page
+      
       # And I see the item I just created displayed in the list of items.
       # And I see my item was created with a default status of disabled.
      
