@@ -67,19 +67,19 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
       it "displays a button next to each Item to disable or enable the item" do
         @merchant_1.items.each do |item|
           within "#item-#{item.id}" do
-            expect(page).to have_content("Item Status: Enabled")
-            expect(page).to have_no_content("Item Status: Disabled")
+            expect(page).to have_content("Item Status: Disabled")
+            expect(page).to have_no_content("Item Status: Enabled")
             expect(page).to have_button("Disable")
             expect(page).to have_button("Enable")
           end
         end
 
-        @item_5.update!(status: "Disabled")
+        @item_5.update!(status: "Enabled")
         visit merchant_items_path(@merchant_2)
 
         within "#item-#{@item_5.id}" do
-          expect(page).to have_content("Item Status: Disabled")
-          expect(page).to have_no_content("Item Status: Enabled")
+          expect(page).to have_content("Item Status: Enabled")
+          expect(page).to have_no_content("Item Status: Disabled")
           expect(page).to have_button("Disable")
           expect(page).to have_button("Enable")
         end
@@ -95,7 +95,7 @@ RSpec.describe 'Merchant Items Index Page', type: :feature do
           end
         end
 
-        @item_5.update!(status: "Disabled")
+        @item_5.update!(status: "Enabled")
         visit merchant_items_path(@merchant_2)
 
         within "#item-#{@item_5.id}" do
