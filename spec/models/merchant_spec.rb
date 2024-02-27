@@ -26,7 +26,7 @@ RSpec.describe Merchant, type: :model do
       @merchant_8 = Merchant.create!(name: "Lamb", status: 1)
       @merchant_9 = Merchant.create!(name: "You Name IT!!!!", status: 1)
 
-      @customer_1 = build(:customer)
+      @customer_1 = create(:customer)
 
       @item_4 = create(:item, merchant: @merchant_4)
       @item_5 = create(:item, merchant: @merchant_5)
