@@ -18,6 +18,15 @@
       <td><%= invoice_item.quantity %></td>
       <td><%= invoice_item.format_unit_price %></td>
       <td><%= invoice_item.status %></td>
+      <td>
+        <%= form_with url: merchant_invoice_item_path(params[:merchant_id], invoice_item.id),
+                      method: :patch,
+                      data: { turbo: false } do |f| %>
+          <%= f.label :status %>
+          <%= f.select :status, ["Pending", "Packaged", "Shipped"], selected: invoice_item.status %>
+          <%= f.submit "Submit" %>
+        <% end %>
+      </td>
     </tr>
     </div>
   <% end %>
