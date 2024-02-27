@@ -144,12 +144,27 @@ RSpec.describe Merchant, type: :model do
     end
 
     describe "#top_sales_day" do
-      it "Populates the top day date" do
+      it "returns day of highest sales revenue" do
+        merchant_2 = create(:merchant)
+        item_5 = create(:item, merchant: merchant_2)
+        invoice_7 = create(:invoice, created_at: "2024-01-23")
+        invoice_8 = create(:invoice, created_at: "2013-11-10")
+        create(:transaction, invoice: invoice_7)
+        create(:transaction, invoice: invoice_8)
+        invoice_item_1 = create(:invoice_item, item: item_5, invoice: invoice_7, quantity: 1, unit_price: 1000)
+        invoice_item_2 = create(:invoice_item, item: item_5, invoice: invoice_8, quantity: 2, unit_price: 1500)
 
-        top_sales_day = @merchant_7.new.top_sales_day
+        merchant_3 = create(:merchant)
+        item_6 = create(:item, merchant: merchant_3)
+        invoice_9 = create(:invoice, created_at: "2022-03-08")
+        invoice_10 = create(:invoice, created_at: "2023-05-19")
+        create(:transaction, invoice: invoice_9)
+        create(:transaction, invoice: invoice_10)
+        invoice_item_3 = create(:invoice_item, item: item_6, invoice: invoice_9, quantity: 3, unit_price: 2000)
+        invoice_item_4 = create(:invoice_item, item: item_6, invoice: invoice_10, quantity: 4, unit_price: 2500)
 
-        expect(top_sales_day).to eq("1/23/2024")
-        #expect(@merchant_7.top_sales_day).to_not eq()
+        expect(merchant_2.top_sales_day).to eq("11/10/2013")
+        expect(merchant_3.top_sales_day).to eq("5/19/2023")
       end
     end
   end
