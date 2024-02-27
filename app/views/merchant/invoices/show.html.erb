@@ -2,3 +2,22 @@
 <p>Status: <%= @invoice.status %></p>
 <p>Created on: <%= @invoice.format_date_created %></p>
 <h2>Customer: <%= @invoice.customer.full_name  %></h2>
+<h3>Items on this Invoice:</h3>
+<table>
+  <tr>
+    <th>Item Name</th>
+    <th>Quantity</th>
+    <th>Unit Price</th>
+    <th>Status</th>
+  </tr>
+<% @invoice.invoice_items.each do |invoice_item| %>
+  <div id="invoice_item-<%= invoice_item.id %>">
+    <tr>
+      <td><%= invoice_item.item.name %></td>
+      <td><%= invoice_item.quantity %></td>
+      <td><%= invoice_item.format_unit_price %></td>
+      <td><%= invoice_item.status %></td>
+    </tr>
+    </div>
+  <% end %>
+</table>
