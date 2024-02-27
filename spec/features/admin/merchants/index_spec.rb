@@ -228,7 +228,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
     describe "User Story 31 - Admin Merchants Top Five Merchants Best Day" do
       it "displays top merchants best day and date" do
         visit admin_merchants_path
-        save_and_open_page
+       
         within "#top-five-merchants" do
 
           expect(page).to have_content("Top day for Chicken was 1/23/2024")

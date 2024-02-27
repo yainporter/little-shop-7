@@ -41,7 +41,7 @@ class Merchant < ApplicationRecord
   end
 
   def top_sales_day  
-    invoices.joins(:transactions, :invoice_items)
+    self.invoices.joins(:transactions, :invoice_items)
       .where("transactions.result = 0")
       .select("invoices.created_at, sum(invoice_items.quantity * invoice_items.unit_price) AS invoice_revenue")
       .group("invoices.id")

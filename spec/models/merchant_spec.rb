@@ -142,5 +142,15 @@ RSpec.describe Merchant, type: :model do
         expect(@merchant_1.items_ready_to_ship).not_to eq([@item_1, @item_4])
       end
     end
+
+    describe "#top_sales_day" do
+      it "Populates the top day date" do
+
+        top_sales_day = @merchant_7.new.top_sales_day
+
+        expect(top_sales_day).to eq("1/23/2024")
+        #expect(@merchant_7.top_sales_day).to_not eq()
+      end
+    end
   end
 end
