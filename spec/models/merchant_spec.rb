@@ -144,12 +144,3 @@ RSpec.describe Merchant, type: :model do
     end
   end
 end
-
-def date_with_most_sales
-  Invoice.joins(:transactions, [items: :merchant])
-  .select("invoices.created_at", "(invoice_items.quantity * invoice_items.unit_price) as sales")
-  .where("transactions.result = ?", "1")
-  .where("merchants.id = ?", self.id)
-  .order("sales desc")
-  .first.created_at.strftime("%Y-%m-%d")
-end
