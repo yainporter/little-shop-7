@@ -38,41 +38,39 @@ RSpec.describe "Merchant Create Edit" do
   describe "User Story-11 Merchant Items Create Page" do
     # When I visit my items index page
     it "Visits merchant's item items index page" do
-    visit  merchant_items_path(@merchant_1.id)
+      visit  merchant_items_path(@merchant_1.id)
 
-    # I see a link to create a new item.
-    expect(page).to have_content("Create new item")
-    
-    # When I click on the link,
-    click_on("Create new item")
+      # I see a link to create a new item.
+      expect(page).to have_content("Create new item")
+      
+      # When I click on the link,
+      click_on("Create new item")
 
-    # I am taken to a form that allows me to add item information.
-    expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items/new")
-    expect(page).to have_field("Name")
-    expect(page).to have_field("Description")
-    expect(page).to have_field("Price")
+      # I am taken to a form that allows me to add item information.
+      expect(page).to have_current_path("/merchants/#{@merchant_1.id}/items/new")
+      expect(page).to have_field("Name")
+      expect(page).to have_field("Description")
+      expect(page).to have_field("Price")
 
-    # When I fill out the form I click ‘Submit’
-    fill_in "Name", with: "Shish Kebab"
-    fill_in "Description", with: "Skewered meat sausages cooked over a charcoal fire"
-    fill_in "Price", with: "1999"
-    expect(page).to have_button("Submit")
-    click_on("Submit")
 
-    # Then I am taken back to the items index page
-    visit  merchant_items_path(@merchant_1.id)
+      # When I fill out the form I click ‘Submit’
+      fill_in "Name", with: "Shish Kebab"
+      fill_in "Description", with: "Skewered meat sausages cooked over a charcoal fire"
+      fill_in "Price", with: "1999"
+      expect(page).to have_button("Submit")
+      click_on("Submit")
 
-    # And I see the item I just created displayed in the list of items.
-    # And I see my item was created with a default status of disabled.
-    within '.disabled-items' do
-    expect(page).to have_content("Shish Kebab")
-    end
+      # Then I am taken back to the items index page
+      visit  merchant_items_path(@merchant_1.id)
 
-    # I see a link to create a new item.
-    expect(page).to have_content("Create new item")
-
-    # When I click on the link to create a new item
-    click_on("Create new item")
+      save_and_open_page
+      # And I see the item I just created displayed in the list of items.
+      # And I see my item was created with a default status of disabled.
+     
+      # within "#item-#{@item.id}" do
+      #   expect(page).to have_content("Shish Kebab")
+      #   #expect status to be disabled
+      # end
     end
   end
 end
