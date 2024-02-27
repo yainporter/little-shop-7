@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :dashboard, module: "merchant", only: [:index]
     resources :items, module: "merchant", only: [:index, :show, :edit, :update]
     resources :invoices, module: "merchant", only: [:index, :show]
-    resources :invoice_items, module: "merchant", only: :update
+    resources :invoice_items, module: "merchant", only: [:update]
   end
 
   resources :admin, only: [:index]
