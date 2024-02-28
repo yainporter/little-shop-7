@@ -84,5 +84,41 @@ RSpec.describe 'Merchant Invoices Show Page', type: :feature do
         expect(page).to have_content("Total Revenue: $20.00")
       end
     end
+
+    describe "User Story 18 - Update Item Status" do
+      it "displays a select field with current status selected for Items" do
+        within "#invoice_item-#{@invoice_item_1.id}" do
+          expect(page).to have_select("Status", with_options: ["Pending", "Packaged", "Shipped"])
+          expect(page.find_field("Status").value).to eq("Pending")
+        end
+
+        within "#invoice_item-#{@invoice_item_2.id}" do
+          expect(page).to have_select("Status", with_options: ["Pending", "Packaged", "Shipped"])
+          expect(page.find_field("Status").value).to eq("Packaged")
+        end
+      end
+
+      it "updates each Item's status when I click Submit" do
+        within "#invoice_item-#{@invoice_item_1.id}" do
+          expect(page.find_field("Status").value).to_not eq("Shipped")
+
+          select "Shipped", from: "Status"
+          click_button
+
+          expect(page.current_path).to eq(merchant_invoice_path(@merchant_1.id, @invoice_1))
+          expect(page.find_field("Status").value).to eq("Shipped")
+        end
+
+        within "#invoice_item-#{@invoice_item_2.id}" do
+          expect(page.find_field("Status").value).to_not eq("Pending")
+
+          select "Pending", from: "Status"
+          click_button
+
+          expect(page.current_path).to eq(merchant_invoice_path(@merchant_1.id, @invoice_1))
+          expect(page.find_field("Status").value).to eq("Pending")
+        end
+      end
+    end
   end
 end

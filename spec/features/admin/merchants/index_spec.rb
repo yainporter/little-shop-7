@@ -12,7 +12,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       @merchant_7 = Merchant.create!(name: "Chicken", status: 1)
       @merchant_8 = Merchant.create!(name: "Lamb", status: 1)
       @merchant_9 = Merchant.create!(name: "You Name IT!!!!", status: 1)
-      
+
       @customer_1 = build(:customer)
 
       @item_4 = create(:item, merchant: @merchant_4)
@@ -22,13 +22,13 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       @item_8 = create(:item, merchant: @merchant_8)
       @item_9 = create(:item, merchant: @merchant_9)
 
-      @invoice_1 = create(:invoice, customer: @customer_1)
-      @invoice_2 = create(:invoice, customer: @customer_1)
-      @invoice_3 = create(:invoice, customer: @customer_1)
-      @invoice_4 = create(:invoice, customer: @customer_1)
-      @invoice_5 = create(:invoice, customer: @customer_1)
-      @invoice_6 = create(:invoice, customer: @customer_1)
-      @invoice_7 = create(:invoice, customer: @customer_1)
+      @invoice_1 = create(:invoice, customer: @customer_1, created_at: "2015-12-09")
+      @invoice_2 = create(:invoice, customer: @customer_1, created_at: "2013-11-10")
+      @invoice_3 = create(:invoice, customer: @customer_1, created_at: "2022-03-08")
+      @invoice_4 = create(:invoice, customer: @customer_1, created_at: "2023-05-19")
+      @invoice_5 = create(:invoice, customer: @customer_1, created_at: "2024-01-23")
+      @invoice_6 = create(:invoice, customer: @customer_1, created_at: "2001-01-01")
+      @invoice_7 = create(:invoice, customer: @customer_1, created_at: "2184-10-27")
       @invoice_8 = create(:invoice, customer: @customer_1)
       @invoice_9 = create(:invoice, customer: @customer_1)
       @invoice_10 = create(:invoice, customer: @customer_1)
@@ -56,7 +56,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       @invoice_item_10 = create(:invoice_item, item: @item_9, invoice: @invoice_10, quantity: 5, unit_price: 5500)
     end
 
-    describe "User Story 24 - Admin Merchants Index" do 
+    describe "User Story 24 - Admin Merchants Index" do
       it 'displays the names of all the merchants' do
         visit admin_merchants_path
 
@@ -65,7 +65,7 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         expect(page).to have_content("Rayla")
       end
     end
-    
+
     describe "User Story 25 - Links to Admin Merchant Show Page" do
       it "displays links on each merchants name to admin merchant show page" do
         visit admin_merchants_path
@@ -73,9 +73,9 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
         expect(page).to have_link("Barry")
         expect(page).to have_link("Sally")
         expect(page).to have_link("Rayla")
-    
+
         click_on "Barry"
-    
+
         expect(current_path).to eq(admin_merchant_path(@merchant_1))
         expect(current_path).to_not eq(admin_merchant_path(@merchant_2))
         expect(page).to have_content("Barry")
@@ -91,49 +91,49 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
       end
     end
 
-    describe "User Story 27/28 - Admin Merchant enable/disable" do 
+    describe "User Story 27/28 - Admin Merchant enable/disable" do
       it "Displays each merchant in 'Enabled Merchants' group w/a disable button" do
         visit admin_merchants_path
-        
+
         within "#enabled-merchants" do
           expect(page).to have_button("Disable")
           expect(page).to_not have_button("Enable")
           expect(page).to have_content("Sally")
-        
+
           click_button "Disable", match: :first
         end
         expect(current_path).to eq(admin_merchants_path)
-        
+
         within "#disabled-merchants" do
           expect(page).to have_content("Sally")
           expect(page).to have_button("Enable")
           expect(page).to_not have_button("Disable")
         end
-    
+
         within "#enabled-merchants" do
           expect(page).to_not have_content("Sally")
         end
       end
-      
+
       it "Displays each merchant in 'Disabled Merchants' group w/an enable button" do
         visit admin_merchants_path
-      
+
         within "#disabled-merchants" do
           expect(page).to have_button("Enable", count: 7)
           expect(page).to_not have_button("Disable")
           expect(page).to have_content("Barry")
-        
+
           click_button "Enable", match: :first
         end
-        
+
         expect(current_path).to eq(admin_merchants_path)
-      
+
         within "#enabled-merchants" do
           expect(page).to have_content("Barry")
           expect(page).to have_button("Disable")
           expect(page).to_not have_button("Enable")
         end
-      
+
         within "#disabled-merchants" do
           expect(page).to_not have_content("Barry")
         end
@@ -221,6 +221,33 @@ RSpec.describe 'Admin Merchants Index Page', type: :feature do
           expect("Potatoes").to appear_before("You Name IT!!!!")
           expect("You Name IT!!!!").to appear_before("Greens")
           expect("Greens").to appear_before("Beans")
+        end
+      end
+    end
+
+    describe "User Story 31 - Admin Merchants Top Five Merchants Best Day" do
+      it "displays top merchants best day and date" do
+        visit admin_merchants_path
+       
+        within "#top-five-merchants" do
+
+          expect(page).to have_content("Top day for Chicken was 1/23/2024")
+          expect(page).to have_content("Top day for Potatoes was 5/19/2023")
+          expect(page).to have_content("Top day for You Name IT!!!! was 10/27/2184")
+          expect(page).to have_content("Top day for Greens was 3/8/2022")
+          expect(page).to have_content("Top day for Beans was 11/10/2013")
+        end
+      end
+
+      it "returns most recent day if multiple days with equal top sales" do
+        invoice_11 = create(:invoice, customer: @customer_1, created_at: "2010-10-10")
+        invoice_item_11 = create(:invoice_item, item: @item_5, invoice: invoice_11, quantity: 3, unit_price: 2000)
+
+        visit admin_merchants_path
+
+        within "#top-five-merchants" do
+          expect(page).to have_content("Top day for Greens was 3/8/2022")
+          expect(page).to_not have_content("Top day for Greens was 10/10/2010")
         end
       end
     end
