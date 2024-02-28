@@ -9,14 +9,10 @@ class Invoice < ApplicationRecord
   enum status: {"In Progress" => 0, "Completed" => 1, "Cancelled" => 2}
 
   def self.incomplete_invoices
-    Invoice.find_by_sql(
-      "SELECT invoices.*
-      FROM invoices
-      JOIN invoice_items ON invoice_items.invoice_id = invoices.id
-      WHERE invoice_items.status = 0 OR invoice_items.status = 1
-      GROUP BY invoices.id
-      ORDER BY invoices.created_at"
-    )
+    Invoice.joins(:invoice_items)
+      .where("invoice_items.status != 2")
+      .group(:id)
+      .order(:created_at)
   end
 
   def format_date_created
