@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :merchants, only: [] do
     resources :dashboard, module: "merchant", only: [:index]
-    resources :items, module: "merchant", except: [:destroy]
+    resources :items, module: "merchant", except: [:destroy], via: [:patch]
     resources :invoices, module: "merchant", only: [:index, :show]
     resources :invoice_items, module: "merchant", only: [:update], via: [:patch]
   end
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :merchants, except: [:destroy]
-    resources :invoices, only: [:index, :show, :update]
+    resources :invoices, only: [:index, :show, :update], via: [:patch]
   end
 end
 #           merchant_items GET   /merchants/:merchant_id/items(.:format)                                                           merchant/items#index
