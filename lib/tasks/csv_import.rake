@@ -49,13 +49,12 @@ task transactions: :environment do
     when "failed"
       row["result"] = 1
     end
-
-
   end
 end
 
 task merchants: :environment do
   file = "db/data/merchants.csv"
+
   CSV.foreach(file, headers: true) do |row|
     Merchant.create!(row.to_hash)
   end
@@ -63,6 +62,7 @@ end
 
 task items: :environment do
   file = "db/data/items.csv"
+
   CSV.foreach(file, headers: true) do |row|
     Item.create!(row.to_hash)
   end
