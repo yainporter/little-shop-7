@@ -9,7 +9,10 @@ class Invoice < ApplicationRecord
   enum status: {"In Progress" => 0, "Completed" => 1, "Cancelled" => 2}
 
   def self.incomplete_invoices
-    Invoice.joins(:invoice_items).where("invoice_items.status != 2").group(:id).order(:created_at)
+    Invoice.joins(:invoice_items)
+      .where("invoice_items.status != 2")
+      .group(:id)
+      .order(:created_at)
   end
 
   def format_date_created
