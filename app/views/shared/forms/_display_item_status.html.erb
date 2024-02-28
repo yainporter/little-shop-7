@@ -1,6 +1,8 @@
 <div id="item-<%= item.id%>">
   <ul>
-    <li>Item: <%=item.name%> <%= button_to "Enable", merchant_item_path(item.merchant_id, item.id, status: "Enabled"), method: :patch  %> <%= button_to "Disable", merchant_item_path(item.merchant_id, item.id, status: "Disabled"), method: :patch  %></li>
+    <li><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}", data: { turbo_method: :get } %>
+      <%= button_to "Enable", merchant_item_path(item.merchant_id, item.id, status: "Enabled"), method: :patch  %> <%= button_to "Disable", merchant_item_path(item.merchant_id, item.id, status: "Disabled"), method: :patch  %>
+    </li>
     <li>Item Status: <%= item.status %></li>
   </ul>
 </div>
