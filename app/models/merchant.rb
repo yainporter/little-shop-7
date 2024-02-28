@@ -15,7 +15,7 @@ class Merchant < ApplicationRecord
       .where("merchants.id = ?", self.id)
       .where("transactions.result = ?", 0)
       .group(:id)
-      .order("successful_transactions desc")
+      .order(successful_transactions: :DESC)
       .limit(5)
   end
 
