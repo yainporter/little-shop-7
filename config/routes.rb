@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :invoice_items, module: "merchant", only: [:update], via: [:patch]
   end
 
-  resources :admin, only: [:index]
+  resources :admin, only: [:index], controller: "admin_dashboard"
 
   namespace :admin do
     resources :merchants, except: [:destroy], via: [:patch]
