@@ -1,9 +1,3 @@
-header {
-  text-align: center;
-  font-size: 500;
-  font-weight: 100;
-}
-
 .merchant-dashboard {
   border: 3px solid blueviolet;
 }
@@ -14,27 +8,27 @@ header {
   padding-top: 5em;
 }
 
-#items-ready-to-ship h3 {
-  margin-right: 70em;
-  margin-left: 11em;
-  border: 3px solid blueviolet;
-  border-bottom: transparent;
-  border-left: transparent;
-  border-right: transparent;
-  background-color: grey;
-}
 
 #links-merchant {
   text-align: right;
   margin-right: 5em;
 }
 
+
+#items-ready-to-ship,
+#top-five-customers {
+  float: left; /* Float sections to the left */
+  width: 50%; /* Each section takes up 50% of the width */
+  box-sizing: border-box; /* Include border and padding in width */
+  padding: 10px; /* Add some padding for spacing */
+}
+
+#items-ready-to-ship h3,
 #top-five-customers h3 {
-  margin-right: 11em;
-  margin-left: 64em;
+  background-color: grey;
   border: 3px solid blueviolet;
   border-bottom: transparent;
   border-left: transparent;
   border-right: transparent;
-  background-color: grey;
+  margin-top: 0; /* Remove default margin */
 }
