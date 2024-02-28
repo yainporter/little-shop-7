@@ -40,7 +40,7 @@ class Merchant < ApplicationRecord
       LIMIT 5")
   end
 
-  def top_sales_day  
+  def top_sales_day
     self.invoices.joins(:transactions, :invoice_items)
       .where("transactions.result = 0")
       .select("invoices.created_at, sum(invoice_items.quantity * invoice_items.unit_price) AS invoice_revenue")
@@ -49,5 +49,25 @@ class Merchant < ApplicationRecord
       .first
       .created_at
       .strftime("%-m/%-e/%Y")
+  end
+
+  def top_5_popular_items
+    items.select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_item_revenue")
+    .joins(:merchant, invoices: :transactions)
+    .where("transactions.result = ?", 0)
+    .group("items.id")
+    .order("total_item_revenue DESC")
+    .limit(5)
+  end
+
+  def top_sales_date_for_item(item_id)
+    items.select("invoices.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_item_price")
+    .joins(:merchant, invoices: :transactions)
+    .where("transactions.result = ? AND items.id = ?", 0, item_id)
+    .group("invoices.id")
+    .order("total_item_price DESC, invoices.created_at DESC")
+    .first
+    .created_at
+    .strftime("%-m/%-d/%y")
   end
 end
