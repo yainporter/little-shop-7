@@ -39,4 +39,15 @@ class Merchant < ApplicationRecord
       ORDER BY sum(invoice_items.unit_price * invoice_items.quantity) DESC
       LIMIT 5")
   end
+
+  def top_sales_day  
+    self.invoices.joins(:transactions, :invoice_items)
+      .where("transactions.result = 0")
+      .select("invoices.created_at, sum(invoice_items.quantity * invoice_items.unit_price) AS invoice_revenue")
+      .group("invoices.id")
+      .order("invoice_revenue DESC, invoices.created_at DESC")
+      .first
+      .created_at
+      .strftime("%-m/%-e/%Y")
+  end
 end
