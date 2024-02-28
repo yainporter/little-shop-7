@@ -1,15 +1,30 @@
 <h1><%= @merchant.name %> Items:</h1>
 <section id="merchant-items-page">
-  <% @items.each do |item| %>
-    <div id="item-<%= item.id%>">
-      <ul>
-        <li><%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}", data: { turbo_method: :get } %>
-          <%= button_to "Enable", merchant_item_path(item.merchant_id, item.id, status: "Enabled"), method: :patch  %> <%= button_to "Disable", merchant_item_path(item.merchant_id, item.id, status: "Disabled"), method: :patch  %>
-        </li>
-        <li>Item Status: <%= item.status %></li>
-      </ul>
-    </div>
-  <% end %>
-
   <p><%= link_to "Create new item", "/merchants/#{@merchant.id}/items/new" %></p>
+  <section id="enabled-items">
+    <h2>Enabled Items</h2>
+      <% @items.each do |item| %>
+        <% if item.status == "Enabled" %>
+          <%= render partial: "/shared/forms/display_item_status", locals: { item: item } %>
+        <% end %>
+      <% end %>
+  </section>
+  <section id="disabled-items">
+    <h2>Disabled Items</h2>
+    <% @items.each do |item| %>
+      <% if item.status == "Disabled" %>
+        <%= render partial: "/shared/forms/display_item_status", locals: { item: item } %>
+      <% end %>
+    <% end %>
+  </section>
+  <section id="top-5-items">
+    <ol>
+      <% @merchant.top_5_popular_items.each do |item| %>
+      <li> <%= item.name %> - <%= item.format_unit_price %> in sales</li>
+      <p id="top-item-<%= item.id %>">Top day for <%= item.name %> was <%= @merchant.top_sales_date_for_item(item.id) %></p>
+    <% end %>
+
+    </ol>
+  </section>
 </section>
+
