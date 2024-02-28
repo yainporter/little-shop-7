@@ -20,7 +20,7 @@
   <section id="top-5-items">
     <ol>
       <% @merchant.top_5_popular_items.each do |item| %>
-      <li> <%= item.name %> - <%= number_to_currency(item.total_item_revenue/100) %> in sales</li>
+      <li> <%= item.name %> - <%= number_to_currency(item.total_item_revenue) %> in sales</li>
       <p id="top-item-<%= item.id %>">Top day for <%= item.name %> was <%= @merchant.top_sales_date_for_item(item.id) %></p>
     <% end %>
 
