@@ -1,4 +1,4 @@
-class AdminController < ApplicationController
+class AdminDashboardController < ApplicationController
   def index
     @customers = Customer.all
     @invoices = Invoice.all
