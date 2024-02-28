@@ -4,12 +4,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  # /merchants/:merchant_id/dashboard
   resources :merchants, only: [] do
     resources :dashboard, module: "merchant", only: [:index]
     resources :items, module: "merchant", except: [:destroy]
     resources :invoices, module: "merchant", only: [:index, :show]
-    resources :invoice_items, module: "merchant", only: [:update]
+    resources :invoice_items, module: "merchant", only: [:update], via: [:patch]
   end
 
   resources :admin, only: [:index]
@@ -19,14 +18,14 @@ Rails.application.routes.draw do
     resources :invoices, only: [:index, :show, :update]
   end
 end
-
-# Prefix Verb  URI Pattern                                                                                       Controller#Action
 #           merchant_items GET   /merchants/:merchant_id/items(.:format)                                                           merchant/items#index
-#                          POST  /merchants/:merchant_id/items(.:format)                                                           merchant/items#create
-#        new_merchant_item GET   /merchants/:merchant_id/items/new(.:format)                                                       merchant/items#new
 #       edit_merchant_item GET   /merchants/:merchant_id/items/:id/edit(.:format)                                                  merchant/items#edit
 #            merchant_item GET   /merchants/:merchant_id/items/:id(.:format)                                                       merchant/items#show
 #                          PATCH /merchants/:merchant_id/items/:id(.:format)                                                       merchant/items#update
+
+# Prefix Verb  URI Pattern                                                                                       Controller#Action
+#                          POST  /merchants/:merchant_id/items(.:format)                                                           merchant/items#create
+#        new_merchant_item GET   /merchants/:merchant_id/items/new(.:format)                                                       merchant/items#new
 #                          PUT   /merchants/:merchant_id/items/:id(.:format)                                                       merchant/items#update
 #        merchant_invoices GET   /merchants/:merchant_id/invoices(.:format)                                                        merchant/invoices#index
 #         merchant_invoice GET   /merchants/:merchant_id/invoices/:id(.:format)                                                    merchant/invoices#show
