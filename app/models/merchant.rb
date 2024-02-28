@@ -52,9 +52,9 @@ class Merchant < ApplicationRecord
   end
 
   def top_5_popular_items
-    items.joins(:merchant, invoices: :transactions)
+    items.select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_item_revenue")
+    .joins(:merchant, invoices: :transactions)
     .where("transactions.result = ?", 0)
-    .select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_item_revenue")
     .group("items.id")
     .order("total_item_revenue DESC")
     .limit(5)
