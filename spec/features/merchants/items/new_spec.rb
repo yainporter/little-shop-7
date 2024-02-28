@@ -52,7 +52,6 @@ RSpec.describe "Merchant Create Edit" do
       expect(page).to have_field("Description")
       expect(page).to have_field("Price")
 
-
       # When I fill out the form I click ‘Submit’
       fill_in "Name", with: "Shish Kebab"
       fill_in "Description", with: "Skewered meat sausages cooked over a charcoal fire"
@@ -70,6 +69,18 @@ RSpec.describe "Merchant Create Edit" do
       expect(page).to have_content("Shish Kebab")
       expect(page).to have_content("Disabled")
       
+    end
+  end
+
+  describe "error message" do 
+    it "displays error message if not all inputs are filled in" do 
+      visit new_merchant_item_path(@merchant_1)
+      fill_in "Description", with: "Skewered meat sausages cooked over a charcoal fire"
+      fill_in "Price", with: ""
+      click_on("Submit")
+
+      expect(current_path).to eq(new_merchant_item_path(@merchant_1))
+      expect(page).to have_content("Error Please fill in all required fields")
     end
   end
 end
