@@ -248,9 +248,8 @@ RSpec.describe Merchant, type: :model do
       # Total shirts = 65000
       # Total books = 36000
       #Invoices must have at least one succfessful transaction to be counted
-
-
     end
+    
     describe "#top_5_popular_items" do
       it "only counts invoices with at least 1 successful transaction" do
         expect(@barry.top_5_popular_items).to eq([@shoes, @belt, @sunglasses, @shirt, @book])
