@@ -22,14 +22,21 @@ class Admin::MerchantsController < ApplicationController
 
   def update
     merchant = Merchant.find(params[:id])
+  
     if params[:merchant_status]
       merchant.update(status: params[:merchant_status])
       redirect_to admin_merchants_path
     else
-      merchant.update(merchant_params)
-      redirect_to admin_merchant_path(merchant), notice: "#{merchant.name} Successfully Updated!"
+      if merchant.update(merchant_params)
+        redirect_to admin_merchant_path(merchant), notice: "#{merchant.name} Successfully Updated!"
+      else
+        redirect_to edit_admin_merchant_path(merchant)
+        flash[:alert] = "Error Name can't be blank"
+      end
     end
   end
+  
+  
 
   private
   def merchant_params
