@@ -10,6 +10,9 @@
     <!-- <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> -->
     <%= javascript_importmap_tags %>
     <header>Little Esty Shop</header>
+  </head>
+
+  <body>
       <nav>
         <% if request.path.starts_with?("/admin") %>
           <%= render "layouts/admin_layout" %>
@@ -20,10 +23,6 @@
           <!-- don't have a nav bar on welcome -->
         <% end %>
       </nav>
-  </head>
-
-
-  <body>
     <% flash.each do |type, msg| %>
     <div>
       <%= msg %>
