@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>LittleEstyShop7</title>
+    <title>Little Esty Shop</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <!-- <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> -->
     <%= javascript_importmap_tags %>
+    <header>Little Esty Shop</header>
   </head>
+
 
   <body>
     <% flash.each do |type, msg| %>
@@ -16,6 +19,18 @@
       <%= msg %>
     </div>
   <% end %>
+
+    <nav>
+      <% if request.path.starts_with?("/admin") %>
+        <%= render "layouts/admin_layout" %>
+      <% elsif request.path.starts_with?("/merchant")%>
+        <% @merchant = Merchant.find(params[:merchant_id]) %>
+        <%= render "layouts/merchant_layout", locals: {model: @merchant} %>
+      <%else%>
+        
+      <% end %>
+    </nav>
+
     <%= yield %>
   </body>
 </html>

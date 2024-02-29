@@ -1,0 +1,24 @@
+.top-five-customers {
+  float: right;
+  font-size: large;
+  width: 50%;
+  align-self: center;
+}
+
+.top-five-customers h3, .incomplete-invoices h3 {
+  background-color: rgb(101, 155, 155);
+  text-align: center;
+  font-size: xx-large;
+}
+
+.incomplete-invoices {
+  float: left;
+  font-size: large;
+  width: 50%;
+  text-align: center;
+}
+
+/* .top-five-merchants {
+  margin-top: 0;
+  float: right;
+} */

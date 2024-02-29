@@ -1,0 +1,34 @@
+.merchant-dashboard {
+  border: 3px solid blueviolet;
+}
+
+.merchant-dashboard h1 {
+  text-align: left;
+  padding-left: 5em;
+  padding-top: 5em;
+}
+
+
+#links-merchant {
+  text-align: right;
+  margin-right: 5em;
+}
+
+
+#items-ready-to-ship,
+#top-five-customers {
+  float: left; /* Float sections to the left */
+  width: 50%; /* Each section takes up 50% of the width */
+  box-sizing: border-box; /* Include border and padding in width */
+  padding: 10px; /* Add some padding for spacing */
+}
+
+#items-ready-to-ship h3,
+#top-five-customers h3 {
+  background-color: grey;
+  border: 3px solid blueviolet;
+  border-bottom: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  margin-top: 0; /* Remove default margin */
+}

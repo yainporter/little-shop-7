@@ -67,7 +67,7 @@ RSpec.describe "Merchant Dashboard" do
         expect("Jess").to appear_before("Lance")
       end
     end
-
+    
     it "displays the number of successful transactions next to each customer" do
       expect(page).to have_content("Customer Name: Abdul R Successful Transactions: 20")
       expect(page).to have_content("Customer Name: Joey R Successful Transactions: 15")
