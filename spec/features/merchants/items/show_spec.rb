@@ -55,5 +55,14 @@ RSpec.describe "Merchant Item Show" do
       expect(page).to have_content("Merchant ID: #{@merchant_1.id}")
     end
   end
+
+  describe "User Story 8 - Merchant Item Update Link" do
+    it "has link to update item's information" do
+      expect(page).to have_link("Update Item")
+
+      click_on "Update Item"
+      expect(page.current_path).to eq(edit_merchant_item_path(@merchant_1, @item_1))
+    end
+  end
 end
 
