@@ -46,14 +46,14 @@ RSpec.describe "Admin Dashboard", type: :feature do
 
     describe "User Story 20 - Admin Dashboard Links" do
       it "displays a merchant link"  do
-        expect(page).to have_link("merchants")
-        click_on "merchants"
+        expect(page).to have_link("Merchants")
+        click_on "Merchants"
         expect(current_path).to eq(admin_merchants_path)
       end
 
       it "displays a invoice link" do
-        expect(page).to have_link("invoices")
-        click_on "invoices"
+        expect(page).to have_link("Invoices")
+        click_on "Invoices"
         expect(current_path).to eq(admin_invoices_path)
       end
     end
