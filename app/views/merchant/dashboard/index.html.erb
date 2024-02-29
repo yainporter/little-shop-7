@@ -5,23 +5,28 @@
   <%= link_to "#{@merchant.name}'s Invoices", merchant_invoices_path, data: { turbo_method: :get } %>
   </div>
 
-  <section id="top-five-customers" class="merchant-top-five-customers">
-    <h3>Top 5 Customers</h3>
-    <% @merchant.top_five_customers.each do |customer|%>
-      <div id="customers-<%= customer.id%>" class id="five-customers">
-        <ol>
-          <h4>Customer Name: <%= customer.full_name %> Successful Transactions: <%= customer.successful_transactions%></h4>
-        </ol>
-      </div>
-    <% end %>
-  </section>
+<div class="columns">
+  <div class="column">
+    <section id="top-five-customers" class="merchant-top-five-customers">
+      <h3>Top 5 Customers</h3>
+      <% @merchant.top_five_customers.each do |customer|%>
+        <div id="customers-<%= customer.id%>" class id="five-customers">
+          <ol>
+            <b>Customer Name: </b><%= customer.full_name %> Successful Transactions: <%= customer.successful_transactions%>
+          </ol>
+        </div>
+      <% end %>
+    </section>
+  </div>
 
-  <section id="items-ready-to-ship">
-    <h3>Items Ready to Ship:</h3>
-    <% @merchant.items_ready_to_ship.each do |item| %>
-      <div id="item-<%= item.id%>">
-        <p><%= item.name %> - Invoice #<%= link_to "#{item.invoice_id}", merchant_invoice_path(@merchant, item.invoice_id) %> - <%= item.date_an_invoice_was_created(item.invoice_id) %>
-      </div>
-    <% end %>
-  </section>
-</section>
+  <div class="column">
+    <section id="items-ready-to-ship">
+      <h3>Items Ready to Ship:</h3>
+      <% @merchant.items_ready_to_ship.each do |item| %>
+        <div id="item-<%= item.id%>">
+          <p><%= item.name %> - Invoice #<%= link_to "#{item.invoice_id}", merchant_invoice_path(@merchant, item.invoice_id) %> - <%= item.date_an_invoice_was_created(item.invoice_id) %>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</div>
