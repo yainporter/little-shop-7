@@ -37,14 +37,29 @@ a {
   color:lavenderblush;
 }
 
-/* Top Navigation Bars */
-/* .top-nav-bar {
-  display: ;
-} */
+/* Top Navigation Bar */
+nav {
+  /* Links */
+  a:link, a:visited {
+    background-color: whitesmoke;
+    color: black;
+    border: 2px solid rgb(158, 81, 102);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
 
-/* .top-nav-bar-heading {
-  text-align: left;
-} */
+  a:hover {
+    background-color: rgb(158, 81, 102);
+    color: white;
+  }
+  a:active {
+    background-color: rgb(169, 119, 133);
+    color: white;
+  }
+}
+
 
 .top-nav-bar-links {
   float: right;

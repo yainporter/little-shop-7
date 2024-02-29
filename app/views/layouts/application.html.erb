@@ -10,6 +10,16 @@
     <!-- <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> -->
     <%= javascript_importmap_tags %>
     <header>Little Esty Shop</header>
+      <nav>
+        <% if request.path.starts_with?("/admin") %>
+          <%= render "layouts/admin_layout" %>
+        <% elsif request.path.starts_with?("/merchant")%>
+          <% @merchant = Merchant.find(params[:merchant_id]) %>
+          <%= render "layouts/merchant_layout", locals: {model: @merchant} %>
+        <%else%>
+          <!-- don't have a nav bar on welcome -->
+        <% end %>
+      </nav>
   </head>
 
 
@@ -19,17 +29,6 @@
       <%= msg %>
     </div>
   <% end %>
-
-    <nav>
-      <% if request.path.starts_with?("/admin") %>
-        <%= render "layouts/admin_layout" %>
-      <% elsif request.path.starts_with?("/merchant")%>
-        <% @merchant = Merchant.find(params[:merchant_id]) %>
-        <%= render "layouts/merchant_layout", locals: {model: @merchant} %>
-      <%else%>
-        
-      <% end %>
-    </nav>
 
     <%= yield %>
   </body>
