@@ -1,45 +1,51 @@
-<h2>Merchants</h2>
+<h1>Merchants</h1>
 
 <%= link_to "New Merchant", new_admin_merchant_path %>
 
+<div class="columns">
+  <div class="column">
+    <h3>Enabled Merchants</h3>
 
-<h3>Enabled Merchants</h3>
-
-<div id="enabled-merchants">
-  <% @merchants.each do |merchant| %>
-    <% if merchant.status == "enabled" %>
-      <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
-      <%= button_to "Disable", admin_merchant_path(merchant), params:{merchant_status: "disabled"}, method: :patch %> </p>
-    <% end %>
-  <% end %>
-</div>
-
-
-<h3>Disabled Merchants</h3>
-
-<div id="disabled-merchants">
-  <% @merchants.each do |merchant| %>
-    <% if merchant.status == "disabled" %>
-      <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
-      <%= button_to "Enable", admin_merchant_path(merchant), params:{merchant_status: "enabled"}, method: :patch %></p>
-    <% end %>
-  <% end %>
-</div>
-
-
-<div class="top-five-merchants">
-  <h3>Top Merchants</h3>
-
-  <div id="top-five-merchants">
-    <ol>
-      <% @merchants.top_five_merchants.each do |merchant| %>
-        <div id="merchant-<%= merchant.id %>">
-          <li> 
-            <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %> - <%= merchant.format_total_revenue %> in sales<br>
-            Top day for <%= merchant.name %> was <%= merchant.top_sales_day %>
-          </li>
-        </div>
+    <div id="enabled-merchants", class="enabled-merchants">
+      <% @merchants.each do |merchant| %>
+        <% if merchant.status == "enabled" %>
+          <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
+          <%= button_to "Disable", admin_merchant_path(merchant), params:{merchant_status: "disabled"}, method: :patch %> </p>
+        <% end %>
       <% end %>
-    </ol>
+    </div>
+  </div>
+
+  <div class="column">
+
+    <h3>Disabled Merchants</h3>
+
+    <div id="disabled-merchants", class="disabled-merchants">
+      <% @merchants.each do |merchant| %>
+        <% if merchant.status == "disabled" %>
+          <p><%= link_to "#{merchant.name}", admin_merchant_path(merchant) %>
+          <%= button_to "Enable", admin_merchant_path(merchant), params:{merchant_status: "enabled"}, method: :patch %></p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="top-five-merchants">
+
+    <h3>Top Merchants</h3>
+
+    <div id="top-five-merchants">
+      <ol>
+        <% @merchants.top_five_merchants.each do |merchant| %>
+          <div id="merchant-<%= merchant.id %>">
+            <li> 
+              <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %> - <%= merchant.format_total_revenue %> in sales<br>
+              Top day for <%= merchant.name %> was <%= merchant.top_sales_day %>
+            </li><br>
+          </div>
+        <% end %>
+      </ol>
+    </div>
   </div>
 </div>

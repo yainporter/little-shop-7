@@ -2,7 +2,7 @@
   float: right;
   font-size: large;
   width: 50%;
-  align-self: center;
+  text-align: center;
 }
 
 .top-five-customers h3, .incomplete-invoices h3 {
@@ -18,7 +18,6 @@
   text-align: center;
 }
 
-/* .top-five-merchants {
-  margin-top: 0;
-  float: right;
-} */
+.link-button {
+  display: inline-block;
+}
