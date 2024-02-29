@@ -32,6 +32,11 @@ body {
   color: ghostwhite;
 }
 
+/* Link colors */
+a {
+  color:lavenderblush;
+}
+
 /* Top Navigation Bars */
 /* .top-nav-bar {
   display: ;
