@@ -12,6 +12,9 @@
  *= require_tree 
  *= require_self
  */
+
+ /* Default site colors and page title */
+ 
 header {
   text-align: center;
   font-size: 50px;
@@ -24,6 +27,7 @@ body {
   color: ghostwhite;
 }
 
+/* Table Styling */
 table {
   width: 75%;
   border-collapse: collapse;
