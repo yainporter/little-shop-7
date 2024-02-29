@@ -74,7 +74,6 @@ RSpec.describe "Merchant Dashboard" do
       expect(page).to have_content("Customer Name: Yain Porter Successful Transactions: 10")
       expect(page).to have_content("Customer Name: Jess K Successful Transactions: 7")
       expect(page).to have_content("Customer Name: Lance B Successful Transactions: 5")
-      save_and_open_page
     end
   end
 
