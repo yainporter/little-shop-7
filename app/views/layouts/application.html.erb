@@ -24,7 +24,8 @@
       <% if request.path.starts_with?("/admin") %>
         <%= render "layouts/admin_layout" %>
       <% elsif request.path.starts_with?("/merchant")%>
-        <%= render "layouts/merchant_layout" %>
+        <% @merchant = Merchant.find(params[:merchant_id]) %>
+        <%= render "layouts/merchant_layout", locals: {model: @merchant} %>
       <%else%>
         
       <% end %>
