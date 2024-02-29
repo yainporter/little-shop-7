@@ -61,7 +61,7 @@ This project mimics an e-commerce web application with basic CRUD operations, mi
   - Most of us thought that we would run into a lot more difficulty with deploying our database and maintaining it, but we surprisingly didn't run into any issues here
 
 ## Database Schema
-![alt text](https://github.com/kohljd/little-shop-7/blob/main/doc/database.png?raw=true)
+![alt text](https://github.com/kohljd/little-shop-7/blob/main/doc/little_esty_shop_db_diagram.png?raw=true)
 
 ## Server Application & Database
 - Rails 7.1.x, Ruby 3.2.2
