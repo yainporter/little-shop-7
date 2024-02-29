@@ -1,41 +1,68 @@
 # Little Esty Shop
+Link to original repo's [README](https://github.com/turingschool-examples/little-shop-7/blob/main/README.md)
+## Project Description
+This project mimics an e-commerce web application with basic CRUD operations, mimicking the functionalities of a Merchant user, and an Admin user. We were able to implement all of the required User Stories with 100% test coverage using `simplecov` on models and features separately.
 
-## Background and Description
+#### Tasks completed besides User Stories:
+- Implement a CSV task to generate our `seeds.rb`
+- Implement `Faker` and `Factory Bot` gems to populate test data
+- Convert SQL queries to Active Record
+- Create a landing page
+- Sad path & edge case testing
+- Refactoring advanced routing
+- CSS styling
 
-"Little Esty Shop" is a group project that requires students to build a fictitious e-commerce platform where merchants and admins can manage inventory and fulfill customer invoices.
+#### Tasks that we would work on if we had more time:
+- More use of refactoring views to use partials where possible
+- Possibly more edge case scenarios
+- More CSS styling
 
-## Learning Goals
-- Practice designing a normalized database schema and defining model relationships
-- Utilize advanced routing techniques including namespacing to organize and group like functionality together.
-- Utilize advanced active record techniques to perform complex database queries
-- [Optional] Practice consuming a public API while utilizing POROs as a way to apply OOP principles to organize code
+## Group Members:
+- [Barry's Github](https://github.com/BarryA)
+- [Jess's Github](https://github.com/kohljd)
+- [Joey's Github](https://github.com/JRIV-10)
+- [Lance's Github](https://github.com/LJ9332)
+- [Yain's Github](https://github.com/yainporter)
 
-## Requirements
-- Must use Rails 7.1.x, Ruby 3.2.2
-- Must use PostgreSQL
-- All code must be tested via feature tests and model tests, respectively
-- Must use GitHub branching, team code reviews via GitHub PR comments, and either GitHub Projects or a project management tool of your group's choice (Trello, Notion, etc.)
-- Must include a thorough README to describe the project
-   - README should include a basic description of the project, a summary of the work completed, and some ideas for a potential contributor to work on/refactor next. Also include the names and GitHub links of all student contributors on your project. 
-- Must deploy completed code to the internet (using Heroku or Render)
-- Continuous Integration / Continuous Deployment is not allowed
-- Use of scaffolding is not allowed
-- Any gems added to the project must be approved by an instructor
-  - Pre-approved gems are `capybara, pry, faker, factory_bot_rails, orderly, simplecov, shoulda-matchers, launchy`
+## Tools Used
+- [GitHub Projects](https://github.com/users/kohljd/projects/5)
+  - We chose to use GitHub Projects to carry out the implementation of practicing agile methodologies because we enjoyed the convenience of having our PRs easily linked by issues, allowing for automation of checking off tasks when a PR is approved.
+- GitHub Template
+  - We made use of a GitHub PR template that [Jess](https://github.com/kohljd/little-shop-7/pull/97) made based off [Turing's Mod 3 template](https://backend.turing.edu/module3/projects/pr_template) that helped us to make more meaningful PR requests and comments. Prior to using a PR template in previous projects, we were just going through the motions. However having the guidance of a template directed us to focus on taking time to reflect on our work. Also having a section to add a fun fact in the template helped to strengthen the team cohesion.
+- Active Record ORM - PostgreSQL
+  - While most of us prefer having a visual image of our queries using SQL, we also wanted to be proficient in making advanced database queries and calculations. We used SQL as a stepping stone to help us understand and create more accurate ActiveRecord queries.
+- Heroku
+  - We chose Heroku for deployment since we had student credits from our school, and it was a fairly seamless transition to get our repo up and running.
+- [dbdiagram.io](https://dbdiagram.io/home)
+  - Some of us are visual learners, and using dbdiagram to help us envision the database and see the relationships between tables was also another great stepping stone to understanding our ActiveRecord queries.
 
-## Setup
 
-* Fork this repository
-* Clone your fork
-* From the command line, install gems and set up your DB:
-    * `bundle`
-    * `rails db:create`
-* Run the test suite with `bundle exec rspec`.
-* Run your development server with `rails s` to see the app in action.
+## Reflections On Learning Goals:
 
-## Phases
+#### &#x2714; Remote teamwork and communication with meaningful PR reviews and comments
+- Reviewing code that was written by different team members with their own unique styles was a great learning opportunity for us. Taking the time to stop to make sense of another developer's logic helped to expand our own individual knowledge.
 
-1. [Database Setup](./doc/db_setup.md)
-1. [User Stories](./doc/user_stories.md)
-1. [Extensions](./doc/extensions.md)
-1. [Evaluation](./doc/evaluation.md)
+#### &#x2714; Implementing agile methodologies using GitHub Projects
+- We were able to stay on top of tracking our progress, and having our GitHub Project tied to our GitHub Repo was extremely beneficial in helping to move our tasks to done on approval of a PR.
+
+#### &#x2714; RESTful routing with nested resources and namespacing
+  - We are particularly happy with our routes, since we discovered that a way to get rid of the automatic `puts verb` created along side the `patch verb` with `resources ... :update` by using the `via: [:patch]` syntax
+
+#### &#x2714; Adhering to the model-view-controller architecture
+  - We had differing opinions on MVC gray areas like whether or not some view logic should be encapsulated together in a model, or stay strictly in the view, but it was a great opportunity to practice solving team disagreements by discussing and presenting each side's logic
+
+#### &#x2714; Designing a normalized database with defined model relationships
+  - This one was fairly simple since we already had the database designed from the csv files, and implementing our schema into dbdiagram just really nailed this concept home for us
+
+#### &#x2714; Utilizing the ActiveRecord ORM to perform complex queries to the database
+  - This was honestly the most time consuming and difficult part of the entire project, but it leaves us with a great sense of accomplishment to know that we were able to transform our original SQL queries into working AR queries.
+
+#### &#x2714; Deploying repo to Heroku
+  - Most of us thought that we would run into a lot more difficulty with deploying our database and maintaining it, but we surprisingly didn't run into any issues here
+
+## Database Schema
+![alt text](https://github.com/kohljd/little-shop-7/blob/main/doc/database.png?raw=true)
+
+## Server Application & Database
+- Rails 7.1.x, Ruby 3.2.2
+- PostgreSQL
