@@ -27,17 +27,19 @@
 </div>
 
 
-<h3>Top Merchants</h3>
+<div class="top-five-merchants">
+  <h3>Top Merchants</h3>
 
-<div id="top-five-merchants">
-  <ol>
-    <% @merchants.top_five_merchants.each do |merchant| %>
-      <div id="merchant-<%= merchant.id %>">
-        <li> 
-          <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %> - <%= merchant.format_total_revenue %> in sales<br>
-          Top day for <%= merchant.name %> was <%= merchant.top_sales_day %>
-        </li>
-      </div>
-    <% end %>
-  </ol>
+  <div id="top-five-merchants">
+    <ol>
+      <% @merchants.top_five_merchants.each do |merchant| %>
+        <div id="merchant-<%= merchant.id %>">
+          <li> 
+            <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %> - <%= merchant.format_total_revenue %> in sales<br>
+            Top day for <%= merchant.name %> was <%= merchant.top_sales_day %>
+          </li>
+        </div>
+      <% end %>
+    </ol>
+  </div>
 </div>

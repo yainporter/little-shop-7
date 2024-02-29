@@ -23,8 +23,10 @@
     <nav>
       <% if request.path.starts_with?("/admin") %>
         <%= render "layouts/admin_layout" %>
-      <% else %>
+      <% elsif request.path.starts_with?("/merchant")%>
         <%= render "layouts/merchant_layout" %>
+      <%else%>
+        
       <% end %>
     </nav>
 

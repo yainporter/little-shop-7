@@ -14,17 +14,38 @@
  */
 
  /* Default site colors and page title */
- 
+
 header {
   text-align: center;
   font-size: 50px;
   font-weight: 800;
 }
 
+h1 {
+  background-color: rgb(101, 155, 155);
+  text-align: center;
+}
+
 body {
   background-color: rgb(48,48,48);
   text-overflow: inherit;
   color: ghostwhite;
+}
+
+/* Top Navigation Bars */
+.top-nav-bar {
+  display: ;
+}
+
+.top-nav-bar-heading {
+  text-align: left;
+}
+
+.top-nav-bar-links {
+  float: right;
+  text-align: center;
+  text-decoration: none;
+  font-size: medium;
 }
 
 /* Table Styling */
@@ -51,7 +72,4 @@ td {
 
 }
 
-h1 {
-  background-color: rgb(101, 155, 155);
-  text-align: center;
-}
+
