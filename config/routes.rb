@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  get "/", to: "application#welcome"
+
   resources :merchants, only: [] do
     resources :dashboard, module: "merchant", only: [:index]
     resources :items, module: "merchant", except: [:destroy], via: [:patch]
@@ -11,7 +13,7 @@ Rails.application.routes.draw do
     resources :invoice_items, module: "merchant", only: [:update], via: [:patch]
   end
 
-  resources :admin, only: [:index]
+  resources :admin, only: [:index], controller: "admin_dashboard"
 
   namespace :admin do
     resources :merchants, except: [:destroy], via: [:patch]

@@ -23,6 +23,16 @@ RSpec.describe "Admin Merchant Edit", type: :feature do
         expect(page).to_not have_content("The Best Merchant")
         expect(page).to have_content("The Very Best Merchant Successfully Updated!")
       end
+
+      it "has an error message if not all required inputs are filled in" do 
+        visit edit_admin_merchant_path(@merchant_1)
+    
+        fill_in "Name", with: ""
+        click_on "Submit"
+
+        expect(current_path).to eq(edit_admin_merchant_path(@merchant_1))
+        expect(page).to have_content("Error Name can't be blank")
+      end
     end
   end
 end
