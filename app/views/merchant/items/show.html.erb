@@ -2,3 +2,5 @@
 <p>Description: <%= @item.description %></p>
 <p>Current selling price: <%= @item.format_unit_price %></p>
 <p>Merchant ID: <%= @item.merchant_id %></p>
+
+<%= link_to "Update Item", edit_merchant_item_path(@merchant, @item) %>
