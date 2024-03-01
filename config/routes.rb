@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get "/", to: "application#welcome"
 
   resources :merchants, only: [] do
-    resources :dashboard, module: "merchant", only: [:index]
+    get "/dashboard", to: "dashboard#show"
     resources :items, module: "merchant", except: [:destroy], via: [:patch]
     resources :invoices, module: "merchant", only: [:index, :show]
     resources :invoice_items, module: "merchant", only: [:update], via: [:patch]

@@ -84,62 +84,142 @@ RSpec.describe Merchant, type: :model do
   end
 
   describe "instance methods" do
-    before do
-      @merchant_1 = create(:merchant)
-
-      @customer_1 = create(:customer)
-      @customer_2 = create(:customer)
-      @customer_3 = create(:customer)
-      @customer_4 = create(:customer)
-      @customer_5 = create(:customer)
-      @customer_6 = create(:customer)
-
-      @invoice_1 = create(:invoice, customer: @customer_1)
-      @invoice_2 = create(:invoice, customer: @customer_2)
-      @invoice_3 = create(:invoice, customer: @customer_3)
-      @invoice_4 = create(:invoice, customer: @customer_4)
-      @invoice_5 = create(:invoice, customer: @customer_5)
-      @invoice_6 = create(:invoice, customer: @customer_6)
-
-      @transactions_1 = create(:transaction, invoice: @invoice_1)
-      @transactions_2 = create(:transaction, invoice: @invoice_2)
-      @transactions_3 = create(:transaction, invoice: @invoice_3)
-      @transactions_4 = create(:transaction, invoice: @invoice_4)
-      @transactions_5 = create(:transaction, invoice: @invoice_5)
-      @transactions_6 = create(:transaction, invoice: @invoice_6)
-
-      @item_1 = create(:item, merchant: @merchant_1)
-      @item_2 = create(:item, name: "belt", merchant: @merchant_1)
-      @item_3 = create(:item, name: "shoes", merchant: @merchant_1)
-      @item_4 = create(:item, name: "paint", merchant: @merchant_1)
-
-      create(:invoice_item, status: 0, invoice_id: @invoice_1.id, item_id: @item_1.id)
-      create(:invoice_item, status: 1, invoice_id: @invoice_2.id, item_id: @item_2.id)
-      create(:invoice_item, status: 1, invoice_id: @invoice_3.id, item_id: @item_3.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_4.id, item_id: @item_4.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
-      create(:invoice_item, status: 0, invoice_id: @invoice_6.id, item_id: @item_1.id)
-    end
-
     describe "#top_five_customers" do
       it "should return the top five customers with the most successful transactions" do
-        customers = [@customer_1, @customer_2, @customer_3, @customer_4, @customer_5]
+        barry = Merchant.create!(name: "Barry")
 
-        top_five_customers = @merchant_1.top_five_customers.map { |customer| Customer.find(customer.id) }
+        lance = Customer.create!(first_name: "Lance", last_name: "Butler")
+        abdul = Customer.create!(first_name: "Abdul", last_name: "R")
+        jess = Customer.create!(first_name: "Jess", last_name: "K")
+        joey = Customer.create!(first_name: "joey", last_name: "R")
+        yain = Customer.create!(first_name: "Yain", last_name: "P")
 
-        expect(top_five_customers).to eq(customers)
+        book = barry.items.create!(name: "Book", description: "Good book", unit_price: 1500)
+        shoes = barry.items.create!(name: "Shoes", description: "Good shoes", unit_price: 5000)
+        belt = barry.items.create!(name: "Belt", description: "Good belt", unit_price: 5000)
+        hat = barry.items.create!(name: "Hat", description: "Good hat", unit_price: 5000)
+        sunglasses = barry.items.create!(name: "Sunglasses", description: "Good sunglasses", unit_price: 5000)
+        shirt = barry.items.create!(name: "Shirt", description: "Good shirt", unit_price: 5000)
+        pants = barry.items.create!(name: "Pants", description: "Good pants", unit_price: 5000)
+
+        lance_invoice_1 = Invoice.create!(customer_id: lance.id, status: 0, created_at: "2015-05-05")
+        abdul_invoice_1 = Invoice.create!(customer_id: abdul.id, status: 0, created_at: "2014-04-04")
+        jess_invoice_1 = Invoice.create!(customer_id: jess.id, status: 0, created_at: "2013-03-03")
+        joey_invoice_1 = Invoice.create!(customer_id: joey.id, status: 0, created_at: "2012-02-02")
+        yain_invoice_1 = Invoice.create!(customer_id: yain.id, status: 0, created_at: "2011-01-01")
+
+        #Invoice 1
+        InvoiceItem.create!(item_id: book.id, invoice_id: lance_invoice_1.id, quantity: 4, status: 1, unit_price: 1000)
+        InvoiceItem.create!(item_id: shoes.id, invoice_id: lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: hat.id, invoice_id: lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: belt.id, invoice_id: lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: shoes.id, invoice_id: lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: pants.id, invoice_id: lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: sunglasses.id, invoice_id: lance_invoice_1.id, quantity: 1, status: 1, unit_price: 25000)
+
+        create(:transaction, invoice: lance_invoice_1, result: "success")
+        create(:transaction, invoice: lance_invoice_1, result: "success")
+        create(:transaction, invoice: lance_invoice_1, result: "success")
+
+        #Invoice 2
+        InvoiceItem.create!(item_id: book.id, invoice_id: abdul_invoice_1.id, quantity: 3, status: 1, unit_price: 1000)
+        InvoiceItem.create!(item_id: shoes.id, invoice_id: abdul_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: shirt.id, invoice_id: abdul_invoice_1.id, quantity: 1, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: sunglasses.id, invoice_id: abdul_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        InvoiceItem.create!(item_id: belt.id, invoice_id: abdul_invoice_1.id, quantity: 2, status: 1, unit_price: 2500)
+        create(:transaction, invoice: abdul_invoice_1, result: "success")
+        create(:transaction, invoice: abdul_invoice_1, result: "success")
+        create(:transaction, invoice: abdul_invoice_1, result: "success")
+        create(:transaction, invoice: abdul_invoice_1, result: "success")
+        create(:transaction, invoice: abdul_invoice_1, result: "success")
+        create(:transaction, invoice: abdul_invoice_1, result: "success")
+
+        #Invoice 3
+        InvoiceItem.create!(item_id: book.id, invoice_id: jess_invoice_1.id, quantity: 1, status: 1, unit_price: 10000)
+        InvoiceItem.create!(item_id: belt.id, invoice_id: jess_invoice_1.id, quantity: 2, status: 1, unit_price: 25000)
+        InvoiceItem.create!(item_id: shirt.id, invoice_id: jess_invoice_1.id, quantity: 2, status: 1, unit_price: 25000)
+        InvoiceItem.create!(item_id: shoes.id, invoice_id: jess_invoice_1.id, quantity: 2, status: 1, unit_price: 25000)
+        create(:transaction, invoice: jess_invoice_1, result: "success")
+        create(:transaction, invoice: jess_invoice_1, result: "success")
+
+        #Invoice 4
+        InvoiceItem.create!(item_id: book.id, invoice_id: joey_invoice_1.id, quantity: 4, status: 1, unit_price: 100000000)
+        InvoiceItem.create!(item_id: shoes.id, invoice_id: joey_invoice_1.id, quantity: 2, status: 1, unit_price: 25000000)
+        create(:transaction, invoice: joey_invoice_1, result: "success")
+        create(:transaction, invoice: joey_invoice_1, result: "success")
+        create(:transaction, invoice: joey_invoice_1, result: "success")
+        create(:transaction, invoice: joey_invoice_1, result: "success")
+
+        #Invoice 5
+        InvoiceItem.create!(item_id: pants.id, invoice_id: yain_invoice_1.id, quantity: 4, status: 1, unit_price: 25000)
+        InvoiceItem.create!(item_id: belt.id, invoice_id: yain_invoice_1.id, quantity: 2, status: 1, unit_price: 5000)
+        InvoiceItem.create!(item_id: hat.id, invoice_id: yain_invoice_1.id, quantity: 3, status: 1, unit_price: 25000)
+        create(:transaction, invoice: yain_invoice_1, result: "success")
+
+        #Transactions:
+        # Abdul - 6
+        # Joey - 4
+        # Lance - 3
+        # Jess - 2
+        # Yain - 1
+
+        expect(barry.top_five_customers).to eq([abdul, joey, lance, jess, yain])
+
+        abdul = barry.top_five_customers.first
+        expect(abdul.full_name).to eq("Abdul R")
+        expect(abdul.successful_transactions).to eq(6)
+
+        yain = barry.top_five_customers.last
+        expect(yain.full_name).to eq("Yain P")
+        expect(yain.successful_transactions).to eq(1)
       end
     end
 
     describe "#items_ready_to_ship" do
       it "Only selects items that have an invoice_item status as packaged" do
-        expect(@merchant_1.items_ready_to_ship).to eq([@item_2, @item_3])
-        expect(@merchant_1.items_ready_to_ship).not_to eq([@item_1, @item_4])
+        merchant_1 = create(:merchant)
+
+        customer_1 = create(:customer)
+        customer_2 = create(:customer)
+        customer_3 = create(:customer)
+        customer_4 = create(:customer)
+        customer_5 = create(:customer)
+        customer_6 = create(:customer)
+
+        invoice_1 = create(:invoice, customer: customer_1)
+        invoice_2 = create(:invoice, customer: customer_2)
+        invoice_3 = create(:invoice, customer: customer_3)
+        invoice_4 = create(:invoice, customer: customer_4)
+        invoice_5 = create(:invoice, customer: customer_5)
+        invoice_6 = create(:invoice, customer: customer_6)
+
+        transactions_1 = create(:transaction, invoice: invoice_1)
+        transactions_2 = create(:transaction, invoice: invoice_2)
+        transactions_3 = create(:transaction, invoice: invoice_3)
+        transactions_4 = create(:transaction, invoice: invoice_4)
+        transactions_5 = create(:transaction, invoice: invoice_5)
+        transactions_6 = create(:transaction, invoice: invoice_6)
+
+        item_1 = create(:item, merchant: merchant_1)
+        item_2 = create(:item, name: "belt", merchant: merchant_1)
+        item_3 = create(:item, name: "shoes", merchant: merchant_1)
+        item_4 = create(:item, name: "paint", merchant: merchant_1)
+
+        create(:invoice_item, status: 0, invoice_id: invoice_1.id, item_id: item_1.id)
+        create(:invoice_item, status: 1, invoice_id: invoice_2.id, item_id: item_2.id)
+        create(:invoice_item, status: 1, invoice_id: invoice_3.id, item_id: item_3.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_4.id, item_id: item_4.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_5.id, item_id: item_1.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_6.id, item_id: item_1.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_6.id, item_id: item_1.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_6.id, item_id: item_1.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_6.id, item_id: item_1.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_6.id, item_id: item_1.id)
+        create(:invoice_item, status: 0, invoice_id: invoice_6.id, item_id: item_1.id)
+
+
+        expect(merchant_1.items_ready_to_ship).to eq([item_2, item_3])
+        expect(merchant_1.items_ready_to_ship).not_to eq([item_1, item_4])
       end
     end
 
@@ -249,7 +329,7 @@ RSpec.describe Merchant, type: :model do
       # Total books = 36000
       #Invoices must have at least one succfessful transaction to be counted
     end
-    
+
     describe "#top_5_popular_items" do
       it "only counts invoices with at least 1 successful transaction" do
         expect(@barry.top_5_popular_items).to eq([@shoes, @belt, @sunglasses, @shirt, @book])

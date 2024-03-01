@@ -34,7 +34,7 @@ RSpec.describe "Merchant Dashboard" do
     create(:invoice_item, status: 0, invoice_id: @invoice_5.id, item_id: @item_1.id) #pending
 
     # visit "/merchants/#{@merchant_1.id}/dashboard"
-    visit merchant_dashboard_index_path(@merchant_1.id)
+    visit merchant_dashboard_path(@merchant_1.id)
   end
 
   describe "User Story 1 - Merchant Dashboard" do
@@ -67,7 +67,7 @@ RSpec.describe "Merchant Dashboard" do
         expect("Jess").to appear_before("Lance")
       end
     end
-    
+
     it "displays the number of successful transactions next to each customer" do
       expect(page).to have_content("Customer Name: Abdul R Successful Transactions: 20")
       expect(page).to have_content("Customer Name: Joey R Successful Transactions: 15")
@@ -102,11 +102,11 @@ RSpec.describe "Merchant Dashboard" do
       click_on "#{@invoice_1.id}"
       expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_1.id))
 
-      visit merchant_dashboard_index_path(@merchant_1.id)
+      visit merchant_dashboard_path(@merchant_1.id)
       click_on "#{@invoice_2.id}"
       expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_2.id))
 
-      visit merchant_dashboard_index_path(@merchant_1.id)
+      visit merchant_dashboard_path(@merchant_1.id)
       click_on "#{@invoice_3.id}"
       expect(current_path).to eq(merchant_invoice_path(@merchant_1, @invoice_3.id))
     end
@@ -125,7 +125,7 @@ RSpec.describe "Merchant Dashboard" do
       within "#item-#{@item_3.id}" do
         expect(page).to have_content("shoes - Invoice ##{@invoice_3.id} - Tuesday, January 11, 2022")
       end
-      visit merchant_dashboard_index_path(@merchant_1.id)
+      visit merchant_dashboard_path(@merchant_1.id)
 
       expect(@item_2.date_an_invoice_was_created(@invoice_2.id)).to appear_before(@item_1.date_an_invoice_was_created(@invoice_1.id))
       expect(@item_1.date_an_invoice_was_created(@invoice_1.id)).to appear_before(@item_3.date_an_invoice_was_created(@invoice_3.id))
