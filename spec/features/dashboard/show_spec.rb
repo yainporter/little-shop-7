@@ -60,7 +60,6 @@ RSpec.describe "Merchant Dashboard" do
 
   describe "User Story 3 - Top 5 Customers" do
     it "displays names of the top five customers with successful transactions" do
-      save_and_open_page
       within "#top-five-customers" do
         expect("Abdul").to appear_before("Joey")
         expect("Joey").to appear_before("Yain")
@@ -135,8 +134,8 @@ RSpec.describe "Merchant Dashboard" do
     describe "User Story 1 - Merchant Bulk Discounts Index" do
       it "has a link from to the Bulk Discount Index page" do
         expect(page).to have_link("Barry's Bulk Discounts")
-        click_link
-        expect(page.current_path).to eq(bulk_discounts_path(@merchant_1))
+        click_link("Barry's Bulk Discounts")
+        expect(page.current_path).to eq(merchant_bulk_discounts_path(@merchant_1.id))
       end
     end
   end
