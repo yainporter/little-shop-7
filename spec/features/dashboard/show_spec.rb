@@ -131,8 +131,12 @@ RSpec.describe "Merchant Dashboard" do
       expect(@item_1.date_an_invoice_was_created(@invoice_1.id)).to appear_before(@item_3.date_an_invoice_was_created(@invoice_3.id))
     end
 
-    # it "orders the list of items from oldest to newest" do
-    #   expect("belt - Invoice ##{@invoice_2.id} - Saturday, October 12, 2019").to eq()
-    # end
+    describe "User Story 1 - Merchant Bulk Discounts Index" do
+      it "has a link from to the Bulk Discount Index page" do
+        expect(page).to have_link("Barry's Bulk Discounts")
+        click_link("Barry's Bulk Discounts")
+        expect(page.current_path).to eq(merchant_bulk_discounts_path(@merchant_1.id))
+      end
+    end
   end
 end
