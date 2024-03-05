@@ -9,4 +9,12 @@ RSpec.describe 'Merchant Bulk Discount Show Page', type: :feature do
 
     visit merchant_bulk_discount_path(@barry, @ten_percent)
   end
+
+  describe "User Story 4 - Merchant Bulk Discount Show" do
+    it "displays the Bulk Discount's quantity threshold and percentage discount" do
+      expect(page).to have_content("10% Off Stats")
+      expect(page).to have_content("Discount: 10%")
+      expect(page).to have_content("Quantity Threshold: 3")
+    end
+  end
 end
