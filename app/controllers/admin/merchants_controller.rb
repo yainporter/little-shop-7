@@ -22,7 +22,7 @@ class Admin::MerchantsController < ApplicationController
 
   def update
     merchant = Merchant.find(params[:id])
-  
+
     if params[:merchant_status]
       merchant.update(status: params[:merchant_status])
       redirect_to admin_merchants_path
@@ -35,7 +35,7 @@ class Admin::MerchantsController < ApplicationController
       end
     end
   end
-  
+
   private
   def merchant_params
     params.require(:merchant).permit(:name)

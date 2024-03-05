@@ -1,9 +1,10 @@
 <h1>All of <%= @merchant.name %>'s Bulk Discounts</h1>
+<%= link_to 'Create New Discount', new_merchant_bulk_discount_path(@merchant.id), data: { turbo_method: :get } %>
   <% @merchant.bulk_discounts.each do |discount| %>
     <ul id="discount-<%= discount.id %>">
       <li><%= discount.name %></li>
       <li>Discount: <%= number_to_percentage(discount.percentage, precision: 0) %></li>
       <li>Quantity Threshold: <%= discount.quantity_threshold %></li>
     </ul>
-    <% end %>
+  <% end %>
 
