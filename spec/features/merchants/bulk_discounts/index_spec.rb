@@ -41,4 +41,26 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
       expect(page.current_path).to eq(new_merchant_bulk_discount_path(@barry.id))
     end
   end
+
+  describe "User Story 3 - Merchant Bulk Discount Delete" do
+    it "has a button next to each discount to delete it" do
+      @barry.bulk_discounts.each do |bulk_discount|
+        within "#discount-#{bulk_discount.id}" do
+          expect(page).to have_button("Delete Discount")
+        end
+      end
+    end
+
+    it "deletes the discount when clicked" do
+      within "#discount-#{@thirty_percent.id}" do
+        click_button
+      end
+
+      expect(page.current_path).to eq(merchant_bulk_discounts_path(@barry.id))
+      expect(page).to have_no_css("ul#discount-#{@thirty_percent.id}")
+      expect(page).to have_no_content("30% Off")
+      expect(page).to have_no_content("Discount: 30% Off")
+      expect(page).to have_no_content("Quantity Threshold: 8")
+    end
+  end
 end
