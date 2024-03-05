@@ -1,3 +1,5 @@
 <h1><%= @bulk_discount.name %> Stats</h1>
 <p>Discount: <%= number_to_percentage(@bulk_discount.percentage, precision: 0) %></p>
 <p>Quantity Threshold: <%= @bulk_discount.quantity_threshold %></p>
+
+<%= link_to 'Edit Bulk Discount', edit_merchant_bulk_discount_path(@merchant.id, @bulk_discount.id), data: { turbo_method: :get } %>

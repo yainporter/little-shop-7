@@ -1,10 +1,10 @@
-<h1>Create A New Discount For <%= @merchant.name %></h1>
-<%= form_with model: [@merchant, @bulk_discount], data: { turbo: false } do |f| %>
+<h1>Edit <%= @bulk_discount.name %></h1>
+<%= form_with model: [@merchant, @bulk_discount], url: merchant_update_bulk_discount_path, data: { turbo: false } do |f| %>
   <%= f.label :name, 'Discount Name:' %>
   <%= f.text_field :name %><br>
   <%= f.label :percentage, 'Percentage:' %>
   <%= f.number_field :percentage %><br>
   <%= f.label :quantity_threshold, 'Quantity Threshold:' %>
   <%= f.number_field :quantity_threshold %><br>
-  <%= f.submit "Create" %>
+  <%= f.submit "Update" %>
 <% end %>

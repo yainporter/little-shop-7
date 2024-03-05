@@ -13,7 +13,7 @@ RSpec.describe 'New Merchant Bulk Discounts Page', type: :feature do
       expect(page).to have_field(:bulk_discount_name)
       expect(page).to have_field(:bulk_discount_percentage)
       expect(page).to have_field(:bulk_discount_quantity_threshold)
-      expect(page).to have_button("Submit")
+      expect(page).to have_button("Create")
     end
 
     it "redirects to index after submitting" do

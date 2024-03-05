@@ -11,7 +11,8 @@ Rails.application.routes.draw do
     resources :items, module: "merchant", except: [:destroy], via: [:patch]
     resources :invoices, module: "merchant", only: [:index, :show]
     resources :invoice_items, module: "merchant", only: [:update], via: [:patch]
-    resources :bulk_discounts, module: "merchant", except: [:edit, :update]
+    resources :bulk_discounts, module: "merchant", except: [:update]
+    patch "/bulk_discounts/:id", to: "merchant/bulk_discounts#update", as: :update_bulk_discount
   end
 
   resources :admin, only: [:index], controller: "admin_dashboard"
