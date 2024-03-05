@@ -16,15 +16,15 @@ RSpec.describe Invoice, type: :model do
   describe "class methods" do
     before do
       @customer_1 = create(:customer)
-  
+
       @merchant_1 = create(:merchant)
       @items = create_list(:item, 5, merchant: @merchant_1)
-  
+
       @invoice_1 = create(:invoice, customer: @customer_1, created_at: "2015-12-09")
       @invoice_2 = create(:invoice, customer: @customer_1, created_at: "2013-11-10")
       @invoice_3 = create(:invoice, customer: @customer_1, created_at: "2011-09-17")
       @invoice_4 = create(:invoice, customer: @customer_1, created_at: "2010-12-31")
-  
+
       @invoice_items_1 = create(:invoice_item, invoice: @invoice_1)
       @invoice_items_2 = create(:invoice_item, invoice: @invoice_2)
       @invoice_items_3 = create(:invoice_item, status: 1, invoice: @invoice_3)
@@ -79,6 +79,41 @@ RSpec.describe Invoice, type: :model do
     describe "#total_revenue" do
       it "calculates an invoice's total revenue" do
         expect(@invoice_1.total_revenue).to eq(19500)
+      end
+    end
+
+    describe "#total_discounted_revenue" do
+      before do
+        @barry = Merchant.create!(name: "Barry")
+
+        @ten_percent = BulkDiscount.create!(name: "10% Off", percentage: 10, quantity_threshold: 3, merchant_id: @barry.id)
+        @twenty_percent = BulkDiscount.create!(name: "20% Off", percentage: 20, quantity_threshold: 5, merchant_id: @barry.id)
+        @thirty_percent = BulkDiscount.create!(name: "30% Off", percentage: 30, quantity_threshold: 8, merchant_id: @barry.id)
+
+        @lance = Customer.create!(first_name: "Lance", last_name: "Butler")
+
+        @book = @barry.items.create!(name: "Book", description: "Good book", unit_price: 1500)
+        @shoes = @barry.items.create!(name: "Shoes", description: "Good shoes", unit_price: 5000)
+        @belt = @barry.items.create!(name: "Belt", description: "Good belt", unit_price: 5000)
+        @hat = @barry.items.create!(name: "Hat", description: "Good hat", unit_price: 5000)
+        @sunglasses = @barry.items.create!(name: "Sunglasses", description: "Good sunglasses", unit_price: 5000)
+        @shirt = @barry.items.create!(name: "Shirt", description: "Good shirt", unit_price: 5000)
+        @pants = @barry.items.create!(name: "Pants", description: "Good pants", unit_price: 5000)
+
+        @lance_invoice_1 = Invoice.create!(customer_id: @lance.id, status: 0, created_at: "2015-05-05")
+
+        #Invoice 1
+        InvoiceItem.create!(item_id: @book.id, invoice_id: @lance_invoice_1.id, quantity: 4, status: 1, unit_price: 1000) #1000*4*0.9 = 3600 - 4000
+        InvoiceItem.create!(item_id: @shoes.id, invoice_id: @lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500) # 2500*2 = 5000
+        InvoiceItem.create!(item_id: @hat.id, invoice_id: @lance_invoice_1.id, quantity: 6, status: 1, unit_price: 2500) # 2500*6*0.8 = 12000 - 15000
+        InvoiceItem.create!(item_id: @belt.id, invoice_id: @lance_invoice_1.id, quantity: 3, status: 1, unit_price: 2500) # 2500*3*0.9 = 6750 - 7500
+        InvoiceItem.create!(item_id: @shoes.id, invoice_id: @lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500) # 2500*2 = 5000
+        InvoiceItem.create!(item_id: @pants.id, invoice_id: @lance_invoice_1.id, quantity: 9, status: 1, unit_price: 2500) # 2500*9*0.7 = 15750 - 22500
+        InvoiceItem.create!(item_id: @sunglasses.id, invoice_id: @lance_invoice_1.id, quantity: 1, status: 1, unit_price: 25000) # 25000
+      end
+
+      it "calculates an invoice's total revenue with discounts" do
+        expect(@lance_invoice_1.total_discounted_revenue).to eq(19150)
       end
     end
   end
