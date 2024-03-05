@@ -6,7 +6,8 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
     @ten_percent = BulkDiscount.create!(name: "10% Off", percentage: 10, quantity_threshold: 3, merchant_id: @barry.id)
     @twenty_percent = BulkDiscount.create!(name: "20% Off", percentage: 20, quantity_threshold: 5, merchant_id: @barry.id)
     @thirty_percent = BulkDiscount.create!(name: "30% Off", percentage: 30, quantity_threshold: 8, merchant_id: @barry.id)
-    visit merchant_bulk_discounts_path(@barry.id)
+
+    visit merchant_bulk_discounts_path(@barry)
   end
 
   describe "User Story 1 - Index Setup" do
@@ -38,7 +39,7 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
 
       click_link("Create New Discount")
 
-      expect(page.current_path).to eq(new_merchant_bulk_discount_path(@barry.id))
+      expect(page.current_path).to eq(new_merchant_bulk_discount_path(@barry))
     end
   end
 
@@ -56,7 +57,7 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
         click_button
       end
 
-      expect(page.current_path).to eq(merchant_bulk_discounts_path(@barry.id))
+      expect(page.current_path).to eq(merchant_bulk_discounts_path(@barry))
       expect(page).to have_no_css("ul#discount-#{@thirty_percent.id}")
       expect(page).to have_no_content("30% Off")
       expect(page).to have_no_content("Discount: 30% Off")
