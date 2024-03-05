@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
+RSpec.describe 'New Merchant Bulk Discounts Page', type: :feature do
   before do
     @barry = Merchant.create!(name: "Barry")
   end
