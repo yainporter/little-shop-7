@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_01_043534) do
   create_table "bulk_discounts", force: :cascade do |t|
     t.bigint "merchant_id", null: false
     t.string "name"
-    t.float "percentage"
+    t.integer "percentage"
     t.integer "quantity_threshold"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
