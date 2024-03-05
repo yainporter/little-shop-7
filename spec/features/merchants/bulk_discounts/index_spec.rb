@@ -12,11 +12,13 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
   describe "User Story 1 - Index Setup" do
     it "lists all bulk discounts with their discount and quantity threshold along with link to the show page" do
       expect(page).to have_content("All of Barry's Bulk Discounts")
+
       within "#discount-#{@ten_percent.id}" do
         expect(page).to have_content("10% Off")
         expect(page).to have_content("Discount: 10%")
         expect(page).to have_content("Quantity Threshold: 3")
       end
+
       within "#discount-#{@twenty_percent.id}" do
         expect(page).to have_content("20% Off")
         expect(page).to have_content("Discount: 20%")
@@ -26,8 +28,17 @@ RSpec.describe 'Merchant Bulk Discounts Index', type: :feature do
         expect(page).to have_content("30% Off")
         expect(page).to have_content("Discount: 30%")
         expect(page).to have_content("Quantity Threshold: 8")
-
       end
+    end
+  end
+
+  describe "User Story 2 - Merchant Bulk Discount Create" do
+    it "displays a link to create a new discount" do
+      expect(page).to have_link("Create New Discount")
+
+      click_link("Create New Discount")
+
+      expect(page.current_path).to eq(new_merchant_bulk_discount_path(@barry.id))
     end
   end
 end
