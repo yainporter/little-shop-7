@@ -9,16 +9,18 @@ class InvoiceItem < ApplicationRecord
 
   enum status: {"Pending" => 0, "Packaged" => 1, "Shipped" => 2}
 
-  def discount_and_revenue_for_invoice_item
-    InvoiceItem.select("sum(invoice_items.quantity * invoice_items.unit_price * bulk_discounts.percentage/100) as total_discount, sum(distinct invoice_items.quantity * invoice_items.unit_price) as total_revenue_without_discount")
+  def self.discounts_applied_and_revenue
+    InvoiceItem.select("sum(distinct invoice_items.quantity * invoice_items.unit_price) as revenue_without_discount, sum(invoice_items.quantity * invoice_items.unit_price * (100 - bulk_discounts.percentage)/100) as revenue_with_discount, invoice_items.*")
                   .joins(merchants: :bulk_discounts)
-                  .where("invoice_items.quantity >= bulk_discounts.quantity_threshold AND invoice_items.id = ?", self.id)
-                  .group("bulk_discounts.id")
-                  .order(total_discount: :desc)
-                  .first
+                  .where("invoice_items.quantity >= bulk_discounts.quantity_threshold")
+                  .group("invoice_items.id, bulk_discounts.id")
   end
 
-  def has_discount?
-    discount_and_revenue_for_invoice_item == nil ? false : true
+  def self.hash_of_invoice_item_discount
+    hash_of_invoice_item_discount = Hash.new(0)
+    discounts_applied_and_revenue.map do |invoice_item|
+      hash_of_invoice_item_discount[invoice_item] = invoice_item.revenue_without_discount - invoice_item.revenue_with_discount
+    end
+    hash_of_invoice_item_discount
   end
 end

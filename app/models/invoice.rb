@@ -26,14 +26,6 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue_with_discounts
-    total_revenue - total_discounts_for_an_invoice
-  end
-
-  def total_discounts_for_an_invoice
-    total_discount = 0
-    invoice_items.each do |invoice_item|
-      invoice_item.has_discount? ? total_discount += invoice_item.discount_and_revenue_for_invoice_item.total_discount : 0
-    end
-    total_discount
+    total_revenue - invoice_items.hash_of_invoice_item_discount.values.sum
   end
 end
