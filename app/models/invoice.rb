@@ -3,6 +3,8 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :transactions
   has_many :items, through: :invoice_items
+  has_many :merchants, through: :items
+  has_many :bulk_discounts, through: :merchants
 
   validates :status, presence: true
 
@@ -23,23 +25,15 @@ class Invoice < ApplicationRecord
     invoice_items.sum("invoice_items.quantity * invoice_items.unit_price")
   end
 
-  def invoice_item_discounted_revenue
-    invoice_items.select("sum(invoice_items.quantity * invoice_items.unit_price * bulk_discounts.percentage/100) as discount")
-                  .joins(merchants: :bulk_discounts)
-                  .where("invoice_items.quantity >= bulk_discounts.quantity_threshold")
-                  .group(:id)
-
-    # SELECT sum(invoice_items.quantity * invoice_items.unit_price * bulk_discounts.percentage/100) as discount
-    # FROM "invoice_items"
-    # INNER JOIN "items" ON "items"."id" = "invoice_items"."item_id"
-    # INNER JOIN "merchants" ON "merchants"."id" = "items"."merchant_id"
-    # INNER JOIN "bulk_discounts" ON "bulk_discounts"."merchant_id" = "merchants"."id"
-    # where invoice_items.quantity >= bulk_discounts.quantity_threshold
+  def total_revenue_with_discounts
+    total_revenue - total_discounts_for_an_invoice
   end
 
-  def total_discounted_revenue
-    invoice_item_discounted_revenue.sum do |invoice_item|
-      invoice_item.discount
+  def total_discounts_for_an_invoice
+    total_discount = 0
+    invoice_items.each do |invoice_item|
+      invoice_item.has_discount? ? total_discount += invoice_item.discount_and_revenue_for_invoice_item.total_discount : 0
     end
+    total_discount
   end
 end

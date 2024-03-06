@@ -9,13 +9,16 @@ class InvoiceItem < ApplicationRecord
 
   enum status: {"Pending" => 0, "Packaged" => 1, "Shipped" => 2}
 
+  def discount_and_revenue_for_invoice_item
+    InvoiceItem.select("sum(invoice_items.quantity * invoice_items.unit_price * bulk_discounts.percentage/100) as total_discount, sum(distinct invoice_items.quantity * invoice_items.unit_price) as total_revenue_without_discount")
+                  .joins(merchants: :bulk_discounts)
+                  .where("invoice_items.quantity >= bulk_discounts.quantity_threshold AND invoice_items.id = ?", self.id)
+                  .group("bulk_discounts.id")
+                  .order(total_discount: :desc)
+                  .first
+  end
+
+  def has_discount?
+    discount_and_revenue_for_invoice_item == nil ? false : true
+  end
 end
-# SELECT invoice_items.quantity,
-#        invoice_items.unit_price,
-#        invoice_items.id,
-#        bulk_discounts.quantity_threshold,
-#        bulk_discounts.percentage
-#     FROM "invoice_items"
-#     INNER JOIN "items" ON "items"."id" = "invoice_items"."item_id"
-#     INNER JOIN "merchants" ON "merchants"."id" = "items"."merchant_id"
-#     INNER JOIN "bulk_discounts" ON "bulk_discounts"."merchant_id" = "merchants"."id" WHERE (invoice_items.quantity >= bulk_discounts.quantity_threshold) ORDER BY invoice_items.id, percentage desc

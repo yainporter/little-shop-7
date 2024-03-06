@@ -31,3 +31,18 @@ InvoiceItem.create!(item_id: @belt.id, invoice_id: @lance_invoice_1.id, quantity
 InvoiceItem.create!(item_id: @shoes.id, invoice_id: @lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500) # 2500*2 = 5000
 InvoiceItem.create!(item_id: @pants.id, invoice_id: @lance_invoice_1.id, quantity: 9, status: 1, unit_price: 2500) # 2500*9*0.7 = 15750 - 22500
 InvoiceItem.create!(item_id: @sunglasses.id, invoice_id: @lance_invoice_1.id, quantity: 1, status: 1, unit_price: 25000) # 25000
+
+@jane = Merchant.create!(name: "Jane")
+
+@twenty_percent = BulkDiscount.create!(name: "20% Off", percentage: 20, quantity_threshold: 5, merchant_id: @jane.id)
+@fifty_percent = BulkDiscount.create!(name: "50% Off", percentage: 50, quantity_threshold: 10, merchant_id: @jane.id)
+
+@item_1 = @jane.items.create!(name: "Book", description: "Good book", unit_price: 1500)
+@item_2 = @jane.items.create!(name: "Shoes", description: "Good shoes", unit_price: 5000)
+@item_3 = @jane.items.create!(name: "Belt", description: "Good belt", unit_price: 5000)
+
+@invoice_1 = @lance.invoices.create!(status: 1, created_at: "2015-12-09")
+
+InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 10, unit_price: 2500, status: 0) # 12500 => 25000
+InvoiceItem.create!(item_id: @item_2.id, invoice_id: @invoice_1.id, quantity: 7, unit_price: 1000, status: 1) # 5600 => 7000
+InvoiceItem.create!(item_id: @item_3.id, invoice_id: @invoice_1.id, quantity: 2, unit_price: 5000, status: 2) # 10000
