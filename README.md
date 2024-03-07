@@ -1,64 +1,105 @@
 # Little Esty Shop
-Link to original repo's [README](https://github.com/turingschool-examples/little-shop-7/blob/main/README.md)
+
 ## Project Description
-This project mimics an e-commerce web application with basic CRUD operations, mimicking the functionalities of a Merchant user, and an Admin user. We were able to implement all of the required User Stories with 100% test coverage using `simplecov` on models and features separately.
+This a brownfield solo project for Mod 2 of Turing School of Software & Design's backend program that focuses on Ruby and Ruby on Rails forked from my group project. This final focuses on creating a Bulk Discount table in our PostgreSQL database that applies discounts to an e-commerce store, and making Active Record queries.
 
-#### Tasks completed besides User Stories:
-- Implement a CSV task to generate our `seeds.rb`
-- Implement `Faker` and `Factory Bot` gems to populate test data
-- Convert SQL queries to Active Record
-- Create a landing page
-- Sad path & edge case testing
-- Refactoring advanced routing
-- CSS styling
+## Other README's
+Original repo's [README](https://github.com/turingschool-examples/little-shop-7/blob/main/README.md)
 
-#### Tasks that we would work on if we had more time:
-- More use of refactoring views to use partials where possible
-- Possibly more edge case scenarios
-- More CSS styling
+Group project repo's [README](https://github.com/kohljd/little-shop-7/blob/main/README.md)
 
-## Group Members:
-- [Barry's Github](https://github.com/BarryA)
-- [Jess's Github](https://github.com/kohljd)
-- [Joey's Github](https://github.com/JRIV-10)
-- [Lance's Github](https://github.com/LJ9332)
-- [Yain's Github](https://github.com/yainporter)
+## User Stories
+```
+1: Merchant Bulk Discounts Index
 
-## Tools Used
-- [GitHub Projects](https://github.com/users/kohljd/projects/5)
-  - We chose to use GitHub Projects to carry out the implementation of practicing agile methodologies because we enjoyed the convenience of having our PRs easily linked by issues, allowing for automation of checking off tasks when a PR is approved.
-- GitHub Template
-  - We made use of a GitHub PR template that [Jess](https://github.com/kohljd/little-shop-7/pull/97) made based off [Turing's Mod 3 template](https://backend.turing.edu/module3/projects/pr_template) that helped us to make more meaningful PR requests and comments. Prior to using a PR template in previous projects, we were just going through the motions. However having the guidance of a template directed us to focus on taking time to reflect on our work. Also having a section to add a fun fact in the template helped to strengthen the team cohesion.
-- Active Record ORM - PostgreSQL
-  - While most of us prefer having a visual image of our queries using SQL, we also wanted to be proficient in making advanced database queries and calculations. We used SQL as a stepping stone to help us understand and create more accurate ActiveRecord queries.
-- Heroku
-  - We chose Heroku for deployment since we had student credits from our school, and it was a fairly seamless transition to get our repo up and running.
-- [dbdiagram.io](https://dbdiagram.io/home)
-  - Some of us are visual learners, and using dbdiagram to help us envision the database and see the relationships between tables was also another great stepping stone to understanding our ActiveRecord queries.
+As a merchant
+When I visit my merchant dashboard
+Then I see a link to view all my discounts
+When I click this link
+Then I am taken to my bulk discounts index page
+Where I see all of my bulk discounts including their
+percentage discount and quantity thresholds
+And each bulk discount listed includes a link to its show page
+```
 
+```
+2: Merchant Bulk Discount Create
+
+As a merchant
+When I visit my bulk discounts index
+Then I see a link to create a new discount
+When I click this link
+Then I am taken to a new page where I see a form to add a new bulk discount
+When I fill in the form with valid data
+Then I am redirected back to the bulk discount index
+And I see my new bulk discount listed
+```
+
+```
+3: Merchant Bulk Discount Delete
+
+As a merchant
+When I visit my bulk discounts index
+Then next to each bulk discount I see a button to delete it
+When I click this button
+Then I am redirected back to the bulk discounts index page
+And I no longer see the discount listed
+```
+
+```
+4: Merchant Bulk Discount Show
+
+As a merchant
+When I visit my bulk discount show page
+Then I see the bulk discount's quantity threshold and percentage discount
+```
+
+```
+5: Merchant Bulk Discount Edit
+
+As a merchant
+When I visit my bulk discount show page
+Then I see a link to edit the bulk discount
+When I click this link
+Then I am taken to a new page with a form to edit the discount
+And I see that the discounts current attributes are pre-poluated in the form
+When I change any/all of the information and click submit
+Then I am redirected to the bulk discount's show page
+And I see that the discount's attributes have been updated
+```
+
+```
+6: Merchant Invoice Show Page: Total Revenue and Discounted Revenue
+
+As a merchant
+When I visit my merchant invoice show page
+Then I see the total revenue for my merchant from this invoice (not including discounts)
+And I see the total discounted revenue for my merchant from this invoice which includes bulk discounts in the calculation
+
+Note: We encourage you to use as much ActiveRecord as you can, but some Ruby is okay. Instead of a single query that sums the revenue of discounted items and the revenue of non-discounted items, we recommend creating a query to find the total discount amount, and then using Ruby to subtract that discount from the total revenue.
+
+For an extra spicy challenge: try to find the total revenue of discounted and non-discounted items in one query!
+```
+
+```
+7: Merchant Invoice Show Page: Link to applied discounts
+
+As a merchant
+When I visit my merchant invoice show page
+Next to each invoice item I see a link to the show page for the bulk discount that was applied (if any)
+```
+
+```
+8: Admin Invoice Show Page: Total Revenue and Discounted Revenue
+
+As an admin
+When I visit an admin invoice show page
+Then I see the total revenue from this invoice (not including discounts)
+And I see the total discounted revenue from this invoice which includes bulk discounts in the calculation
+```
 
 ## Reflections On Learning Goals:
 
-#### &#x2714; Remote teamwork and communication with meaningful PR reviews and comments
-- Reviewing code that was written by different team members with their own unique styles was a great learning opportunity for us. Taking the time to stop to make sense of another developer's logic helped to expand our own individual knowledge.
-
-#### &#x2714; Implementing agile methodologies using GitHub Projects
-- We were able to stay on top of tracking our progress, and having our GitHub Project tied to our GitHub Repo was extremely beneficial in helping to move our tasks to done on approval of a PR.
-
-#### &#x2714; RESTful routing with nested resources and namespacing
-  - We are particularly happy with our routes, since we discovered that a way to get rid of the automatic `puts verb` created along side the `patch verb` with `resources ... :update` by using the `via: [:patch]` syntax
-
-#### &#x2714; Adhering to the model-view-controller architecture
-  - We had differing opinions on MVC gray areas like whether or not some view logic should be encapsulated together in a model, or stay strictly in the view, but it was a great opportunity to practice solving team disagreements by discussing and presenting each side's logic
-
-#### &#x2714; Designing a normalized database with defined model relationships
-  - This one was fairly simple since we already had the database designed from the csv files, and implementing our schema into dbdiagram just really nailed this concept home for us
-
-#### &#x2714; Utilizing the ActiveRecord ORM to perform complex queries to the database
-  - This was honestly the most time consuming and difficult part of the entire project, but it leaves us with a great sense of accomplishment to know that we were able to transform our original SQL queries into working AR queries.
-
-#### &#x2714; Deploying repo to Heroku
-  - Most of us thought that we would run into a lot more difficulty with deploying our database and maintaining it, but we surprisingly didn't run into any issues here
 
 ## Database Schema
 ![alt text](https://github.com/kohljd/little-shop-7/blob/main/doc/little_esty_shop_db_diagram.png?raw=true)
