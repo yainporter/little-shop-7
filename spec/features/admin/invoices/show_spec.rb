@@ -83,5 +83,33 @@ RSpec.describe "Admin Invoices Show", type: :feature do
         expect(page.find_field("Status").value).to eq("In Progress")
       end
     end
+
+    describe "Solo User Story 8 - Total Revenue and Discounted Revenue" do
+      it "displays the total discounted revenue from this invoice" do
+        barry = Merchant.create!(name: "Barry")
+
+        ten_percent = BulkDiscount.create!(name: "10% Off", percentage: 10, quantity_threshold: 3, merchant_id: barry.id)
+        twenty_percent = BulkDiscount.create!(name: "20% Off", percentage: 20, quantity_threshold: 5, merchant_id: barry.id)
+
+        lance = Customer.create!(first_name: "Lance", last_name: "Butler")
+
+        book = barry.items.create!(name: "Book", description: "Good book", unit_price: 1500)
+        shoes = barry.items.create!(name: "Shoes", description: "Good shoes", unit_price: 5000)
+        belt = barry.items.create!(name: "Belt", description: "Good belt", unit_price: 5000)
+        hat = barry.items.create!(name: "Hat", description: "Good hat", unit_price: 5000)
+
+        lance_invoice_1 = Invoice.create!(customer_id: lance.id, status: 0, created_at: "2015-05-05")
+
+        invoice_item_1 = InvoiceItem.create!(item_id: book.id, invoice_id: lance_invoice_1.id, quantity: 4, status: 1, unit_price: 1000) #3600
+        invoice_item_2 = InvoiceItem.create!(item_id: shoes.id, invoice_id: lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500) # 5000
+        invoice_item_3 = InvoiceItem.create!(item_id: hat.id, invoice_id: lance_invoice_1.id, quantity: 6, status: 1, unit_price: 2500) # 12000
+        invoice_item_4 = InvoiceItem.create!(item_id: belt.id, invoice_id: lance_invoice_1.id, quantity: 3, status: 1, unit_price: 2500) #6750
+        invoice_item_5 = InvoiceItem.create!(item_id: shoes.id, invoice_id: lance_invoice_1.id, quantity: 2, status: 1, unit_price: 2500) #5000
+
+        visit admin_invoice_path(lance_invoice_1)
+
+        expect(page).to have_content("Total Discounted Revenue: $323.50")
+      end
+    end
   end
 end

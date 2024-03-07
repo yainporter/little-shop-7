@@ -192,9 +192,8 @@ RSpec.describe 'Merchant Invoices Show Page', type: :feature do
 
         visit merchant_invoice_path(@barry, lance_invoice_1)
     end
-      it "displays a link next to each invoice_item that has a discount applied" do
-      save_and_open_page
 
+      it "displays a link next to each invoice_item that has a discount applied" do
         within "#invoice_item-#{@invoice_item_1.id}" do
           expect(page).to have_link("Yes")
           expect(page).to have_no_content("No")
