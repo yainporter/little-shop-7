@@ -20,18 +20,60 @@ RSpec.describe InvoiceItem, type: :model do
   describe "instance methods" do
     before do
       @merchant_1 = create(:merchant)
+      @bulk_discount_1 = @merchant_1.bulk_discounts.create!(name: "20% Off", percentage: 20, quantity_threshold: 5)
+      @bulk_discount_2 = @merchant_1.bulk_discounts.create!(name: "20% Off", percentage: 20, quantity_threshold: 10)
       @item_1 = create(:item, merchant: @merchant_1)
       @item_2 = create(:item, merchant: @merchant_1)
       @customer_1 = create(:customer)
       @invoice_1 = create(:invoice, customer: @customer_1)
       @invoice_2 = create(:invoice, customer: @customer_1)
-      @invoice_item_1 = create(:invoice_item, item: @item_1, invoice: @invoice_1, unit_price: 500)
-      @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_2, unit_price: 1027)
+      @invoice_item_1 = create(:invoice_item, item: @item_1, invoice: @invoice_1, unit_price: 500, quantity: 17)
+      @invoice_item_2 = create(:invoice_item, item: @item_2, invoice: @invoice_2, unit_price: 1027, quantity: 10)
+      @invoice_item_3 = create(:invoice_item, item: @item_2, invoice: @invoice_2, unit_price: 1027, quantity: 4)
+      @invoice_item_4 = create(:invoice_item, item: @item_2, invoice: @invoice_2, unit_price: 1027, quantity: 1)
+      @invoice_item_5 = create(:invoice_item, item: @item_2, invoice: @invoice_2, unit_price: 1027, quantity: 6)
     end
 
     it "formats unit_price sold at" do
       expect(@invoice_item_1.format_unit_price).to eq("$5.00")
       expect(@invoice_item_2.format_unit_price).to eq("$10.27")
+    end
+
+    describe "#has_discount?" do
+      context "an invoice_item has a discount applied" do
+        it "returns true" do
+          expect(@invoice_item_1.has_discount?).to eq(true)
+          expect(@invoice_item_2.has_discount?).to eq(true)
+        end
+      end
+
+      context "an invoice_item does not have a discount applied" do
+        it "returns false" do
+          expect(@invoice_item_3.has_discount?).to eq(false)
+          expect(@invoice_item_4.has_discount?).to eq(false)
+        end
+      end
+    end
+
+    describe "#bulk_discount_id" do
+      context "an invoice_item has a bulk discount that applies" do
+        it "returns the first bulk_discount applicable" do
+          expect(@invoice_item_5.bulk_discount_id).to eq(@bulk_discount_1.id)
+        end
+      end
+      context "an invoice_item has more than one bulk discount that applies" do
+        it "returns the bulk_discount_id of the highest applied discount" do
+          expect(@invoice_item_2.bulk_discount_id).to eq(@bulk_discount_2.id)
+          expect(@invoice_item_1.bulk_discount_id).to eq(@bulk_discount_2.id)
+        end
+      end
+
+      context "an invoice_item does not have a bulk discount" do
+        it "returns nil" do
+          expect(@invoice_item_3.bulk_discount_id).to eq(nil)
+          expect(@invoice_item_4.bulk_discount_id).to eq(nil)
+        end
+      end
     end
   end
 
