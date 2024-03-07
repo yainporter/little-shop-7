@@ -33,7 +33,7 @@ class InvoiceItem < ApplicationRecord
     if !self.has_discount?
       return nil
     else
-      self.merchants.joins(:bulk_discounts).where("bulk_discounts.quantity_threshold <= ?", self.quantity).order("bulk_discounts.id desc").pluck("bulk_discounts.id").first
+      self.merchants.joins(:bulk_discounts).where("bulk_discounts.quantity_threshold <= ?", self.quantity).order("bulk_discounts.percentage desc").pluck("bulk_discounts.id").first
     end
   end
 end

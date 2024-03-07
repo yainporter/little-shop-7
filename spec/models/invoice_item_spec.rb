@@ -22,7 +22,7 @@ RSpec.describe InvoiceItem, type: :model do
     before do
       @merchant_1 = create(:merchant)
       @bulk_discount_1 = @merchant_1.bulk_discounts.create!(name: "20% Off", percentage: 20, quantity_threshold: 5)
-      @bulk_discount_2 = @merchant_1.bulk_discounts.create!(name: "20% Off", percentage: 20, quantity_threshold: 10)
+      @bulk_discount_2 = @merchant_1.bulk_discounts.create!(name: "20% Off", percentage: 30, quantity_threshold: 10)
       @item_1 = create(:item, merchant: @merchant_1)
       @item_2 = create(:item, merchant: @merchant_1)
       @customer_1 = create(:customer)
